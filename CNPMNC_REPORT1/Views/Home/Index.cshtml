@@ -1,0 +1,408 @@
+﻿@{
+    int countNowShowing = 1;
+    Layout = "~/Views/Shared/_IndexLayout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Applight Template By W3 Template</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+    <link rel="stylesheet" href="~/css/animate.css">
+    @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">*@
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    
+    
+
+    <!-- Font Google -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .button_booking:hover {
+            color: black !important;
+            background-color: white;
+            font-weight: bold;
+        }
+
+        .gtco-section {
+            background: #b46868; /* changed from #dde */
+            position: relative;
+        }
+
+        .gtco-section {
+            background: rgba(0,0,0,0.2); /* changed from #bbd */
+            position: relative;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-------Banner Start------->
+    <section class="banner" data-scroll-index='0' style="height: fit-content; display: flex; justify-content: center; align-items: center; flex-direction: column; color: white; background-color: #331D2C;">
+        <img src="/images/banner.png" alt="" style="width: 100%; height: 100%; object-fit: contain;">
+
+
+    </section>
+    <!-------Banner End------->
+    <!-------About End------->
+
+    <section class="about section-padding prelative"
+             data-scroll-index='1'
+             style="background-color: #331D2C;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="sectioner-header text-center" style="color: wheat;">
+                        <h3>NOW SHOWING</h3>
+                    </div>
+                    <div class="gtco-section" style="height: 500px; overflow: scroll; padding: 15px;">
+                        <div class="gtco-container">
+                            <div class="row">
+                                @foreach (var item in ViewBag.NowShowing)
+                                {
+                                    <div class="col-lg-4 col-md-4 col-sm-6 cardfilm" style="margin-bottom: 25px;">
+                                        <a href="@Url.Action("FilmDetail", "Home", new { IDPhim = item[0]})" class="fh5co-card-item image-popup">
+                                            <figure>
+                                                <img src="~/img_phim/@item[7]" alt="Image" class="img-responsive">
+                                            </figure>
+                                            <div class="fh5co-text">
+                                                <h2>@item[1]</h2>
+                                                <p>@item[2]</p>
+                                            </div>
+                                            <div class="fh5co-text" style="width: fit-content; background-color: #2C3333; padding: 10px 10px; color: white; ">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                                </svg>
+                                                <span style=" font-size: 18px; margin-left: 10px"> @CNPMNC_REPORT1.Models.ConvertNumber.ConvertNumberToAbbreviation(item[6]) lượt thích</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; width: 100%">
+                    <a class="button_booking"
+                       style="border: 2px white solid; padding: 10px 20px; margin-top: 20px; cursor: pointer; box-sizing: border-box; color: white">
+                        XEM THÊM
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-------About End------->
+    <!-------Video Start------->
+    <section class="video-section prelative text-center white">
+        <div class="section-padding video-overlay">
+            <div class="container">
+                <h3>Hottest Movies</h3>
+                <i class="fa fa-play" id="video-icon" aria-hidden="true"></i>
+                <div class="video-popup">
+                    <div class="video-src">
+                        <div class="iframe-src">
+                            <iframe src="https://www.youtube.com/embed/oHY7D7K58BM?si=hH2vdK4NsOhZ-7Ob" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-------Video End------->
+    <!-- COMING SOON START -->
+
+    <section class="feature section-padding prelative"
+             data-scroll-index='2'
+             style="background-color: #331D2C;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="sectioner-header text-center" style="color: wheat;">
+                        <h3>COMING SOON</h3>
+                    </div>
+                    <div class="gtco-section" style="height: 500px; overflow: scroll; padding: 15px;">
+                        <div class="gtco-container">
+                            <div class="row">
+                                @foreach (var item in ViewBag.ComingSoon)
+                                {
+                                    <div class="col-lg-4 col-md-4 col-sm-6 cardfilm" style="margin-bottom: 25px;">
+                                        <a href="@Url.Action("FilmDetail", "Home", new { IDPhim = item[0]})" class="fh5co-card-item image-popup">
+                                            <figure>
+                                                <img src="~/img_phim/@item[7]" alt="Image" class="img-responsive">
+                                            </figure>
+                                            <div class="fh5co-text">
+                                                <h2>@item[1]</h2>
+                                                <p>@item[2]</p>
+                                            </div>
+                                            <div class="fh5co-text" style="width: fit-content; background-color: #2C3333; padding: 10px 10px; color: white; ">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                                </svg>
+                                                <span style=" font-size: 18px; margin-left: 10px"> @CNPMNC_REPORT1.Models.ConvertNumber.ConvertNumberToAbbreviation(item[6]) lượt thích</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; width: 100%">
+                    <a class="button_booking"
+                       style="border: 2px white solid; padding: 10px 20px; margin-top: 20px; cursor: pointer; box-sizing: border-box; color: white">
+                        XEM THÊM
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- COMING SOON END -->
+    <!-------Features Start------->
+    <section class="feature section-padding" data-scroll-index='2'>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="sectioner-header text-center" style="border: 0px solid black; width: 100%; display: flex; flex-direction: column; justify-content: center;">
+                        <h3>WHY WE SHOULD USE M.O.C?</h3>
+                        <p>Tại sao lại nên dùng M.O.C để đặt vé xem phim?</p>
+                    </div>
+                    <div class="section-content text-center" style="align-content: center; border: 0px solid black; padding: 10px; margin-right: 25px;">
+                        <div class="row">
+
+                            <div class="col-md-6 col-sm-12">
+
+                                <div class="media single-feature wow fadeInUp" data-wow-delay="0.2s">
+                                    <div class="media-body text-right media-right-margin">
+                                        <h5>Nhanh chóng</h5>
+                                        <p>Dù ở bất kì đâu, bạn cũng có thể đặt vé trên M.O.C một cách nhanh chóng.</p>
+                                    </div>
+                                    <div class="media-right icon-border"> <span class="fa fa-bolt" aria-hidden="true"></span> </div>
+                                </div>
+
+                                <div class="media single-feature wow fadeInUp" data-wow-delay="0.4s">
+                                    <div class="media-body text-right media-right-margin">
+                                        <h5>Nguồn năng lượng không thể thiếu</h5>
+                                        <p>Giải trí sau những giờ làm việc hay học tập căng thẳng là một điều cần thiết để cân bằng cuộc sống. Hãy để M.O.C giúp bạn.</p>
+                                    </div>
+                                    <div class="media-right icon-border"> <span class="fa fa-battery-full" aria-hidden="true"></span> </div>
+                                </div>
+
+                                <div class="media single-feature wow fadeInUp" data-wow-delay="0.6s">
+                                    <div class="media-body text-right media-right-margin">
+                                        <h5>Tính ổn định của M.O.C</h5>
+                                        <p>M.O.C được tạo ra với chất lượng tốt nhất để đem lại cảm giác sử dụng mượt mà cho khách hàng.</p>
+                                    </div>
+                                    <div class="media-right icon-border"> <span class="fa fa-wifi" aria-hidden="true"></span> </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6 col-sm-12">
+
+                                <div class="media single-feature wow fadeInUp" data-wow-delay="0.2s">
+                                    <div class="media-left icon-border media-right-margin"> <span class="fa fa-check-double" aria-hidden="true"></span> </div>
+                                    <div class="media-body text-left">
+                                        <h5>Cập Nhật Thường Xuyên</h5>
+                                        <p>M.O.C luôn cập nhật những phim hot mới nhất cho quý khách mọi lứa tuổi</p>
+                                    </div>
+                                </div>
+
+                                <div class="media single-feature wow fadeInUp" data-wow-delay="0.4s">
+                                    <div class="media-left icon-border media-right-margin"> <span class="fa fa-dollar-sign" aria-hidden="true"></span> </div>
+                                    <div class="media-body text-left">
+                                        <h5>Giải pháp tiết kiệm</h5>
+                                        <p>Tiết kiệm hơn khi sử dụng M.O.C để đặt vé với những ưu đãi cùng nhiều quyền lợi.</p>
+                                    </div>
+                                </div>
+
+                                <div class="media single-feature wow fadeInUp" data-wow-delay="0.6s">
+                                    <div class="media-left icon-border media-right-margin"> <span class="fa fa-hdd" aria-hidden="true"></span> </div>
+                                    <div class="media-body text-left">
+                                        <h5>Không giới hạn</h5>
+                                        <p>M.O.C không giới hạn chức năng khi bạn đăng kí thành viên của M.O.C.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-------Features End------->
+    <!-- MOST WATCHING START -->
+    <section class="team section-padding prelative"
+             data-scroll-index='2'
+             style="background-color: #331D2C;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="sectioner-header text-center" style="color: wheat;">
+                        <h3>MOST WATCHING</h3>
+                    </div>
+                    <div class="gtco-section" style="height: 500px; overflow: scroll; padding: 15px;">
+                        <div class="gtco-container">
+                            <div class="row">
+                                @foreach (var item in ViewBag.MostWatching)
+                                {
+                                    <div class="col-lg-4 col-md-4 col-sm-6 cardfilm" style="margin-bottom: 25px;">
+                                        <a href="@Url.Action("FilmDetail", "Home", new { IDPhim = item[0]})" class="fh5co-card-item image-popup">
+                                            <figure>
+                                                <img src="~/img_phim/@item[7]" alt="Image" class="img-responsive">
+                                            </figure>
+                                            <div class="fh5co-text">
+                                                <h2>@item[1]</h2>
+                                                <p>@item[2]</p>
+                                            </div>
+                                            <div class="fh5co-text" style="width: fit-content; background-color: #2C3333; padding: 10px 10px; color: white; ">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                                </svg>
+                                                <span style=" font-size: 18px; margin-left: 10px"> @CNPMNC_REPORT1.Models.ConvertNumber.ConvertNumberToAbbreviation(item[6]) lượt thích</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; width: 100%">
+                        <a class="button_booking"
+                           style="border: 2px white solid; padding: 10px 20px; margin-top: 20px; cursor: pointer; box-sizing: border-box; color: white">
+                            XEM THÊM
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- MOST WATCHING END -->
+    <!-------FAQ Start------->
+    <section class="faq section-padding prelative" data-scroll-index='4'>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="sectioner-header text-center">
+                        <h3>RULES OF M.O.C</h3>
+                        <p>For your best experience at M.O.C, please read and follow these rules so we can service you better.</p>
+                    </div>
+                    <div class="section-content">
+                        <div class="row">
+                            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.2s">
+                                <h4>About cancelling tickets.</h4>
+                                <p>
+                                    Customers can cancel your ticket 24 hours before the film is started. After that time, we will not resolve any issues related to ticket cancellation.
+                                </p>
+                            </div>
+                            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.2s">
+                                <h4>About buying ticket.</h4>
+                                <p>
+                                    Customers can use cash or internet banking to buy tickets. After paying completely, please bring bill to the reception for changing into tickets.
+                                </p>
+                            </div>
+                            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.4s">
+                                <h4>While watching movie.</h4>
+                                <p>Customers can bring M.O.C's food and drinks into the room, orthers are not allowed.</p>
+                                <p>Do not bring weapons, drugs and prohibited substances into the theater.</p>
+                            </div>
+                            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.4s">
+                                <h4>During the movie</h4>
+                                <p>Respect others is respect myself, please don't smoke, make noise during the movie. </p>
+                            </div>
+                            <div class="col-md-6 faq-content wow fadeInUp" data-wow-delay="0.6s">
+                                <h4>About M.O.C's decision.</h4>
+                                <p>
+                                    If any violation is detected, the decision of M.O.C is final.
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-------FAQ End------->
+    <!-------Contact Start------->
+    <!--<section class="contact section-padding" data-scroll-index='5'>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="sectioner-header text-center">
+                        <h3>Contact us</h3>
+                        <span class="line"></span>
+                        <p>Sed quis nisi nisi. Proin consectetur porttitor dui sit amet viverra. Fusce sit amet lorem faucibus, vestibulum ante in, pharetra ante.</p>
+                    </div>
+                    <div class="section-content">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-8">
+                                <form id="contact_form" action="">
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="text" id="your_name" class="form-input w-100" name="full-name" placeholder="Full Name" required>
+                                        </div>
+                                        <div class="col">
+                                            <input type="email" id="email" class="form-input w-100" name="email" placeholder="Email" required>
+                                        </div>
+                                    </div>
+                                    <input type="text" id="subject" class="form-input w-100" name="subject" placeholder="Subject">
+                                    <textarea class="form-input w-100" id="message" placeholder="Message" name="message"></textarea>
+                                    <button class="btn-grad w-100 text-uppercase" type="submit" name="button">submit</button>
+                                </form>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-4">
+                                <div class="contact-info white">
+                                    <div class="contact-item media">
+                                        <i class="fa fa-map-marker-alt media-left media-right-margin"></i>
+                                        <div class="media-body">
+                                            <p class="text-uppercase">Address</p>
+                                            <p class="text-uppercase">
+                                                <a class="text-white" href="https://maps.app.goo.gl/K8MjW2eXXKgcBQVM8">
+                                                    10 Highway 22, Tan Xuan, Hoc Mon, Ho Chi Minh City, Viet Nam
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="contact-item media">
+                                        <i class="fa fa-mobile media-left media-right-margin"></i>
+                                        <div class="media-body">
+                                            <p class="text-uppercase">Phone</p>
+                                            <p class="text-uppercase"><a class="text-white" href="tel:+15173977100">009900990099</a> </p>
+                                        </div>
+                                    </div>
+                                    <div class="contact-item media">
+                                        <i class="fa fa-envelope media-left media-right-margin"></i>
+                                        <div class="media-body">
+                                            <p class="text-uppercase">E-mail</p>
+                                            <p class="text-uppercase"><a class="text-white" href="mailto:abcdefg@gmail.com">moc.cinema@gmail.com</a> </p>
+                                        </div>
+                                    </div>
+                                    <div class="contact-item media">
+                                        <i class="fa fa-clock media-left media-right-margin"></i>
+                                        <div class="media-body">
+                                            <p class="text-uppercase">Working Hours</p>
+                                            <p class="text-uppercase">Mon-Fri 9.00 AM to 10.00PM.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>-->
+    <!-------Contact End------->
+    <!-- JS -->
+
+</body>
+</html>

@@ -1,0 +1,273 @@
+﻿
+@{
+    ViewBag.Title = "FilmDetail";
+    Layout = "~/Views/Shared/_IndexLayout.cshtml";
+    //Get Date
+    string dateString = ViewBag.getFilmById123[0][3];
+    string result = "";
+    if (dateString.Length != 0)
+    {
+        DateTime dateTime = DateTime.Parse(dateString);
+
+        // Chuyển đổi thành ngày chỉ (bỏ qua phần giờ, phút, giây)
+        DateTime dateOnly = dateTime.Date;
+
+        // Định dạng lại thành chuỗi
+        result = dateOnly.ToString("dd/MM/yyyy");
+    }
+
+
+
+}
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
+</head>
+<style>
+
+    body {
+        background-color: #2C3333;
+    }
+    /* #REGION FILM DETAIL */
+
+    .film_info {
+        width: 100%;
+        display: flex;
+    }
+
+        .film_info .film_img_container {
+            flex-basis: 40%;
+            max-width: 40%;
+            overflow: hidden;
+            min-height: 300px;
+            border: 5px solid white;
+            box-sizing: border-box;
+        }
+
+            .film_info .film_img_container > img {
+                object-fit: fill;
+                height: 100%;
+                width: 100%;
+            }
+
+        .film_info .film_info_container {
+            flex-basis: 60%;
+            border: 2px solid white;
+            padding: 20px;
+            
+        }
+
+            .film_info .film_info_container > h2 {
+                font-family: 'Roboto', sans-serif;
+                text-transform: uppercase;
+                font-size: 32px;
+                color: #fff;
+                text-align: left;
+                letter-spacing: 2px;
+            }
+
+    .film-overview {
+        max-height: inherit;
+        overflow: inherit;
+        display: table;
+        margin-bottom: 10px;
+    }
+
+    .l-title {
+        display: table-cell;
+        width: 150px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: lighter;
+        font-size: 22px;
+        vertical-align: middle;
+        color: #fff;
+        vertical-align: text-top;
+    }
+
+    .l-value {
+        display: table-cell;
+        line-height: 18px;
+        background-color: #fff;
+        font-family: 'Arial';
+        font-size: 20px;
+        color: #000;
+        border-radius: 20px 0 20px 0;
+        -webkit-border-radius: 20px 0 20px 0;
+        padding: 12px 30px;
+        vertical-align: middle;
+        line-height: 22px;
+    }
+
+    .cart-btn {
+        background-color: #e00d7a;
+        font-weight: normal;
+        font-size: 24px;
+        text-transform: uppercase;
+        line-height: 30px;
+        color: #fff;
+        border-radius: 30px 0 30px 30px;
+        -webkit-border-radius: 30px 0 30px 30px;
+        line-height: 52px;
+        padding: 0 20px;
+        height: 52px;
+        display: inline-block;
+        vertical-align: middle;
+        width: 146px;
+        transition: all 0.3s ease-in-out;
+        -webkit-transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        margin: 5px 2px;
+        box-shadow: 5px 5px 0 rgba(0,0,0,0.1);
+        text-decoration: none;
+    }
+
+        .cart-btn:hover {
+            text-decoration: none;
+            background-color: #fecf06;
+            color: #000;
+        }
+
+    .film_info .film_info_container > .btn_trailer {
+        color: #fff;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 10px 20px;
+        border-radius: 30px;
+        text-decoration: none;
+        vertical-align: middle;
+        background-color: black;
+    }
+
+    .film_info .film_info_container .btn_trailer :hover {
+        background-color: white;
+        color: black;
+    }
+
+    .section_filmdetail {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+    }
+    /* #ENDREGION FILM DETAIL*/
+
+
+
+    .footer-copy {
+        display: none;
+    }
+
+    .download {
+        display: none;
+    }
+</style>
+
+<div class="container section_filmdetail" style="background-color: #2C3333; min-height: 100vh; display: flex; align-items: center; ">
+    @if (ViewBag.getFilmById123 != null)
+    {
+        foreach (var a in ViewBag.getFilmById123)
+        {
+            <div class="film_info" style="display: flex; flex-direction: row; margin: 0; padding-top: 100px;">
+                <div class="film_img_container">
+                    <img src="~/img_phim/@a[7]" alt="Alternate Text" />
+                </div>
+
+                <div class="film_info_container">
+                    <h2>@a[1]</h2>
+                    <div class="film-overview">
+                        <span class="l-title">Khởi chiếu:</span>
+                        <span class="l-value">@result</span>
+                    </div>
+                    <div class="film-overview">
+                        <span class="l-title">Thời lượng:</span>
+                        <span class="l-value">@a[4] Phút</span>
+                    </div>
+                    @*<div class="film-overview">
+            <span class="l-title">Lượt mua:</span>
+            <span class="l-value">@a[5]</span>
+        </div>
+        <div class="film-overview">
+            <span class="l-title">Lượt thích:</span>
+            <span class="l-value">@a[6]</span>
+        </div>*@
+                    <div class="film-overview">
+                        <span class="l-title">Độ tuổi: </span>
+                        <span class="l-value">@a[13]</span>
+                    </div>
+                    <div class="film-overview">
+                        <span class="l-title">Mô tả:</span>
+                        <span class="l-value">@a[2]</span>
+                    </div>
+                    <p style="color: #fff; font-size: 16px"></p>
+
+                    <a class="cart-btn fontsize14" style="width: 100%; text-align: center;" href="">Mua vé</a>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<div class="empty_box"></div>
+
+
+<div id="targetElement" class="container section_filmdetail">
+    <!-- 4:3 aspect ratio -->
+    <h1 style="color: white; text-align:center">TRAILER</h1>
+    <div style="padding: 15px; border: 5px solid black; border-radius: 50px; ">
+        <div class="embed-responsive embed-responsive-4by3" style="width: 1300px; height: 500px; border-radius: 30px; box-shadow: 0 0 0 15px;">
+            <iframe class="embed-responsive-item" width="500" height="500" src="@ViewBag.GetEmbedLink" title="@ViewBag.getFilmById123[0][1]" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        const scrollButton = document.getElementById('scrollButton');
+        const targetElement = document.getElementById('targetElement'); // Đổi thành phần bạn muốn cuộn đến
+
+        scrollButton.addEventListener('click', function () {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+    (function () {
+        var delay = false;
+
+        $(document).on('mousewheel DOMMouseScroll', function (event) {
+            event.preventDefault();
+            if (delay) return;
+
+            delay = true;
+            setTimeout(function () { delay = false }, 200)
+
+            var wd = event.originalEvent.wheelDelta || -event.originalEvent.detail;
+
+            var a = document.getElementsByClassName('section_filmdetail');
+            if (wd < 0) {
+                for (var i = 0; i < a.length; i++) {
+                    var t = a[i].getClientRects()[0].top;
+                    if (t >= 40) break;
+                }
+            }
+            else {
+                for (var i = a.length - 1; i >= 0; i--) {
+                    var t = a[i].getClientRects()[0].top;
+                    if (t < -20) break;
+                }
+            }
+
+            if (i >= 0 && i < a.length) {
+                $('html,body').animate({
+                    scrollTop: a[i].offsetTop
+                });
+            }
+        });
+    })();
+</script>
+
+
+

@@ -1,0 +1,30 @@
+﻿body {
+    width: 100%;
+    margin: 0px;
+}
+
+.header_nav {
+    display: flex;justify-content: space-between;
+    border-bottom: 1px solid #2E4F4F;
+    width: 100%;
+    padding: 20px 10px;
+}
+    .header_nav .top_content {
+        font-weight: bolder;
+        font-size: 20px;
+        color: #2C3333;
+        box-sizing: border-box;
+        margin-right: 0;
+        font-size: 20px;
+        text-decoration: none;
+        font-weight: bolder;
+    }
+        .header_nav .dropdown{
+            align-self: end;
+        }
+
+.smaller_content {
+    font-weight: bold;
+    color: #2C3333;
+    font-size: 20px;
+}

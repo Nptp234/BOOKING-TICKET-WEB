@@ -1,0 +1,125 @@
+﻿body {
+
+}
+/* #REGION FILM DETAIL */
+
+.film_info {
+    width: 100%;
+    display: flex;
+}
+
+    .film_info .film_img_container {
+        flex-basis: 40%;
+        max-width: 40%;
+        overflow: hidden;
+        min-height: 300px;
+        border: 5px solid white;
+        box-sizing: border-box;
+    }
+
+        .film_info .film_img_container > img {
+            object-fit: fill;
+            height: 100%;
+            width: 100%;
+        }
+
+    .film_info .film_info_container {
+        flex-basis: 60%;
+        border: 2px solid white;
+        padding: 20px;
+    }
+
+        .film_info .film_info_container > h2 {
+            font-family: 'Roboto', sans-serif;
+            text-transform: uppercase;
+            font-size: 32px;
+            color: #fff;
+            text-align: left;
+            letter-spacing: 2px;
+        }
+
+.film-overview {
+    max-height: inherit;
+    overflow: inherit;
+    display: table;
+    margin-bottom: 10px;
+}
+
+.l-title {
+    display: table-cell;
+    width: 150px;
+    font-family: 'MyriadLight';
+    font-weight: normal;
+    font-size: 22px;
+    vertical-align: middle;
+    color: #fff;
+}
+
+.l-value {
+    display: table-cell;
+    line-height: 18px;
+    background-color: #fff;
+    font-family: 'MyriadBold';
+    font-weight: normal;
+    font-size: 20px;
+    color: #000;
+    border-radius: 20px 0 20px 0;
+    -webkit-border-radius: 20px 0 20px 0;
+    padding: 12px 30px;
+    vertical-align: middle;
+}
+
+.cart-btn {
+    background-color: #e00d7a;
+    font-weight: normal;
+    font-size: 24px;
+    text-transform: uppercase;
+    line-height: 30px;
+    color: #fff;
+    border-radius: 30px 0 30px 30px;
+    -webkit-border-radius: 30px 0 30px 30px;
+    line-height: 52px;
+    padding: 0 20px;
+    height: 52px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 146px;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    margin: 5px 2px;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.1);
+    text-decoration: none;
+}
+
+    .cart-btn:hover {
+        text-decoration: none;
+        background-color: #fecf06;
+        color: #000;
+    }
+
+.film_info .film_info_container > .btn_trailer {
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    vertical-align: middle;
+    background-color: black;
+}
+
+.film_info .film_info_container .btn_trailer :hover {
+    background-color: white;
+    color: black;
+}
+
+.section_filmdetail {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+/* #ENDREGION FILM DETAIL*/
+
