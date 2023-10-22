@@ -13,15 +13,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
     {
 
         // GET: AdminArea/Admin
-        public ActionResult CustomerManager()
-        {
-            return View();
-        }
-
-        public ActionResult StaffManager()
-        {
-            return View();
-        }
+        
 
         public ActionResult Film()
         {
@@ -443,5 +435,266 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             return View();
         }
 
+        public ActionResult KHType()
+        {
+            SQLData data = new SQLData();
+            ViewBag.GetLKH = data.getData("SELECT* FROM LOAIKH");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult KHType(int? MaLKH, string TenLKH, string CKLKH, string status)
+        {
+            SQLData data = new SQLData();
+
+            if (ModelState.IsValid)
+            {
+                if (TenLKH != null && CKLKH != null)
+                {
+                    if (status == "Add")
+                    {
+                        bool isSaved = data.saveKHType(TenLKH, CKLKH);
+                        if (!isSaved)
+                        {
+                            ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
+                            ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
+                        }
+                        else ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
+                    }
+                    else if (status == "Update")
+                    {
+                        if (MaLKH != null)
+                        {
+                            bool isUpdate = data.updateKHType(MaLKH, TenLKH, CKLKH);
+                            if (!isUpdate)
+                            {
+                                ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
+                                ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
+                            }
+                            else ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
+                        }
+                        else
+                        {
+                            ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
+                            ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
+                        }
+                    }
+                    else ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
+
+                }
+                else ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
+            }
+            else ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
+
+            return View();
+        }
+
+        public ActionResult NVType()
+        {
+            SQLData data = new SQLData();
+            ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult NVType(int? MaLNV, string TenLNV, string status)
+        {
+            SQLData data = new SQLData();
+
+            if (ModelState.IsValid)
+            {
+                if (TenLNV != null)
+                {
+                    if (status == "Add")
+                    {
+                        bool isSaved = data.saveNVType(TenLNV);
+                        if (!isSaved)
+                        {
+                            ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
+                            ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
+                        }
+                        else ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
+                    }
+                    else if (status == "Update")
+                    {
+                        if (MaLNV != null)
+                        {
+                            bool isUpdate = data.updateNVType(MaLNV, TenLNV);
+                            if (!isUpdate)
+                            {
+                                ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
+                                ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
+                            }
+                            else ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
+                        }
+                        else
+                        {
+                            ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
+                            ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
+                        }
+                    }
+                    else ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
+
+                }
+                else ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
+            }
+            else ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
+
+            return View();
+        }
+
+        public ActionResult KhachHang()
+        {
+            SQLData data = new SQLData();
+            ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
+            ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult KhachHang(int? MaKH, string TenKH, string MatKhau, string Email, int? DiemThuong, string TrangThaiKH, string LoaiKH, int? MaLKHDetail, string status)
+        {
+            SQLData data = new SQLData();
+
+            if (ModelState.IsValid)
+            {
+                if (status == "Add")
+                {
+                    if (TenKH != null && MatKhau != null && Email != null && DiemThuong != null && TrangThaiKH != null && LoaiKH != null)
+                    {
+                        int getMaLKH = data.getMaLoaiKH(LoaiKH);
+                        if (getMaLKH != 0)
+                        {
+                            bool isSaved = data.saveKH(TenKH, MatKhau, Email, DiemThuong, TrangThaiKH, getMaLKH);
+                            if (!isSaved)
+                            {
+                                ViewBag.ThongBaoLuu = "Lỗi lưu không thành công hoặc phòng chiếu đã tồn tại!";
+                                ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
+                                ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
+                            }
+                            else
+                            {
+                                ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
+                                ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.ThongBaoLuu = "Lỗi không tồn tại loại phòng chiếu!";
+                            ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
+                            ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
+                        }
+                    }
+
+                }
+                else if (status == "Update")
+                {
+                    if (TenKH != null && MatKhau != null && Email != null && DiemThuong != null && TrangThaiKH != null && MaLKHDetail != null)
+                    {
+                        bool isUpdate = data.updateKH(MaKH, TenKH, MatKhau, Email, DiemThuong, TrangThaiKH, MaLKHDetail);
+                        if (!isUpdate)
+                        {
+                            ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
+                            ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
+                            ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
+                        }
+                        else
+                        {
+                            ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
+                            ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.ThongBaoLuu = "Lỗi null dữ liệu!";
+                        ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
+                        ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
+                    }
+
+                }
+                else
+                {
+                    ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
+                    ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
+                }
+            }
+
+            return View();
+        }
+
+        public ActionResult NhanVien()
+        {
+            SQLData data = new SQLData();
+            ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
+            ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult NhanVien(int? MaNV, string TenNV, string MatKhauNV, string EmailNV, string TrangThaiNV, string LoaiNV, int? MaLNVDetail, string status)
+        {
+            SQLData data = new SQLData();
+
+            if (ModelState.IsValid)
+            {
+                if (status == "Add")
+                {
+                    if (TenNV != null && MatKhauNV != null && EmailNV != null && TrangThaiNV != null && LoaiNV != null)
+                    {
+                        int getMaLNV = data.getMaLoaiNV(LoaiNV);
+                        if (getMaLNV != 0)
+                        {
+                            bool isSaved = data.saveNV(TenNV, MatKhauNV, EmailNV, TrangThaiNV, getMaLNV);
+                            if (!isSaved)
+                            {
+                                ViewBag.ThongBaoLuu = "Lỗi lưu không thành công hoặc đã tồn tại!";
+                                ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
+                                ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
+                            }
+                            else
+                            {
+                                ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
+                                ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.ThongBaoLuu = "Lỗi không tồn tại!";
+                            ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
+                            ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
+                        }
+                    }
+
+                }
+                else if (status == "Update")
+                {
+                    if (TenNV != null && MatKhauNV != null && EmailNV != null && TrangThaiNV != null && MaLNVDetail != null)
+                    {
+                        bool isUpdate = data.updateNV(MaNV, TenNV, MatKhauNV, EmailNV, TrangThaiNV, MaLNVDetail);
+                        if (!isUpdate)
+                        {
+                            ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
+                            ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
+                            ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
+                        }
+                        else
+                        {
+                            ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
+                            ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.ThongBaoLuu = "Lỗi null dữ liệu!";
+                        ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
+                        ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
+                    }
+
+                }
+                else
+                {
+                    ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
+                    ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
+                }
+            }
+
+            return View();
+        }
     }
 }
