@@ -697,6 +697,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             return View();
         }
 
+
         public ActionResult LoaiGhe()
         {
             SQLData data = new SQLData();
