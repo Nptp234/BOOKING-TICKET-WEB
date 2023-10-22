@@ -10,10 +10,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="admin_container">
+    <div class="admin_container" >
         <div class="navbar_admin">
-            <div class="category_container">
+            <div class="category_container" style="max-height: 100%; min-height: fit-content; background: #2C3333;">
                 <a id="qldonhang" href="#" class="menu_header">ADMINISTRATOR</a>
+
+                <a id="CustomerManager" href="@Url.Action("XuatChieu", "Admin")" class="menu_category">Xuất chiếu</a>
+                <a id="CustomerManager" href="@Url.Action("LichChieu", "Admin")" class="menu_category">Lịch chiếu</a>
+
+                <a id="CustomerManager" href="@Url.Action("LoaiGhe", "Admin")" class="menu_category">Loại ghế</a>
+
                 <a id="CustomerManager" href="@Url.Action("KhachHang", "Admin")" class="menu_category">Khách hàng</a>
                 <a id="StaffManager" href="@Url.Action("KHType", "Admin")" class="menu_category">Loại khách hàng</a>
 

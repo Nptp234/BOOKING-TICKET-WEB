@@ -1198,5 +1198,371 @@ namespace CNPMNC_REPORT1.Models
 
             return isUpdate;
         }
+
+        public bool saveChairType(string name, int? price)
+        {
+            bool isSaved = false;
+
+            if (name != null)
+            {
+                //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                //Đối tượng câu truy vấn thêm dữ liệu sql
+                string sql = "INSERT INTO LOAIGHE VALUES (@name, @price)";
+
+                //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+                connection.Open();
+
+                command.Parameters.AddWithValue("@name", name);
+                command.Parameters.AddWithValue("@price", price);
+
+                int result = command.ExecuteNonQuery();
+
+                if (result > 0)
+                {
+                    isSaved = true;
+                }
+                else isSaved = false;
+
+            }
+
+            return isSaved;
+        }
+        public bool updateChairType(int? code, string name, int? price)
+        {
+            bool isUpdate = false;
+
+            if (name != null)
+            {
+                //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                //Đối tượng câu truy vấn thêm dữ liệu sql
+                string sql = "UPDATE LOAIGHE SET TenLG = @name, GiaLGhe = @price WHERE MaGhe = @code";
+
+                //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+                connection.Open();
+
+                command.Parameters.AddWithValue("@name", name);
+                command.Parameters.AddWithValue("@code", code);
+                command.Parameters.AddWithValue("@price", price);
+
+
+
+                ArrayList listname = getData($"SELECT * FROM LOAIGHE WHERE TenLG = N'{name}'");
+
+                if (listname.Count == 0)
+                {
+                    //xử lý sự kiện khi thay đổi tên
+                    int result = command.ExecuteNonQuery();
+
+                    if (result > 0)
+                    {
+                        isUpdate = true;
+                    }
+                    else isUpdate = false;
+                }
+                else
+                {
+                    //xử lý sự kiện khi không thay đổi tên
+                    ArrayList listcheck = getData($"SELECT * FROM LOAIGHE WHERE MaGhe = {code} and TenLG = N'{name}'");
+                    if (listcheck.Count == 1)
+                    {
+                        int result = command.ExecuteNonQuery();
+
+                        if (result > 0)
+                        {
+                            isUpdate = true;
+                        }
+                        else isUpdate = false;
+                    }
+                    else
+                    {
+                        isUpdate = false;
+                    }
+                }
+
+            }
+
+            return isUpdate;
+        }
+
+        public bool saveXC(string name, string time)
+        {
+            bool isSaved = false;
+
+            if (name != null && time != null)
+            {
+                //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                //Đối tượng câu truy vấn thêm dữ liệu sql
+                string sql = "INSERT INTO XUATCHIEU VALUES (@name, @time)";
+
+                //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+                connection.Open();
+
+                command.Parameters.AddWithValue("@name", name);
+                command.Parameters.AddWithValue("@time", time);
+
+                int result = command.ExecuteNonQuery();
+
+                if (result > 0)
+                {
+                    isSaved = true;
+                }
+                else isSaved = false;
+
+            }
+
+            return isSaved;
+        }
+
+        public bool updateXC(int? code, string name, string time)
+        {
+            bool isUpdate = false;
+
+            if (name != null && time != null)
+            {
+                //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                //Đối tượng câu truy vấn thêm dữ liệu sql
+                string sql = "UPDATE XUATCHIEU SET CaXC = @name, GioXC = @time WHERE MaXC = @code";
+
+                //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+                connection.Open();
+
+                command.Parameters.AddWithValue("@name", name);
+                command.Parameters.AddWithValue("@code", code);
+                command.Parameters.AddWithValue("@time", time);
+
+
+
+                ArrayList listname = getData($"SELECT * FROM XUATCHIEU WHERE CaXC = '{name}'");
+
+                if (listname.Count == 0)
+                {
+                    //xử lý sự kiện khi thay đổi tên
+                    int result = command.ExecuteNonQuery();
+
+                    if (result > 0)
+                    {
+                        isUpdate = true;
+                    }
+                    else isUpdate = false;
+                }
+                else
+                {
+                    //xử lý sự kiện khi không thay đổi tên
+                    ArrayList listcheck = getData($"SELECT * FROM XUATCHIEU WHERE MaXC = {code} and CaXC = '{name}'");
+                    if (listcheck.Count == 1)
+                    {
+                        int result = command.ExecuteNonQuery();
+
+                        if (result > 0)
+                        {
+                            isUpdate = true;
+                        }
+                        else isUpdate = false;
+                    }
+                    else
+                    {
+                        isUpdate = false;
+                    }
+                }
+
+            }
+
+            return isUpdate;
+        }
+
+        public int getMaPhim(string name)
+        {
+            int ma_loai = 0;
+
+            //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //Đối tượng câu truy vấn thêm dữ liệu sql
+            string sql = "SELECT * FROM PHIM WHERE TenPhim = @name";
+
+            //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+            connection.Open();
+
+            command.Parameters.AddWithValue("@name", name);
+
+            SqlDataReader sqlDataReader = command.ExecuteReader();
+
+            if (sqlDataReader.HasRows)
+            {
+                //gán giá trị cột MaLPC cho biến ma_loai
+                if (sqlDataReader.Read())
+                {
+                    ma_loai = sqlDataReader.GetInt32(0);
+                }
+            }
+            else ma_loai = 0;
+
+            return ma_loai;
+        }
+
+        public int getMaXC(string name)
+        {
+            int ma_loai = 0;
+
+            //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //Đối tượng câu truy vấn thêm dữ liệu sql
+            string sql = "SELECT * FROM XUATCHIEU WHERE CaXC = @name";
+
+            //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+            connection.Open();
+
+            command.Parameters.AddWithValue("@name", name);
+
+            SqlDataReader sqlDataReader = command.ExecuteReader();
+
+            if (sqlDataReader.HasRows)
+            {
+                //gán giá trị cột MaLPC cho biến ma_loai
+                if (sqlDataReader.Read())
+                {
+                    ma_loai = sqlDataReader.GetInt32(0);
+                }
+            }
+            else ma_loai = 0;
+
+            return ma_loai;
+        }
+
+        public int getMaPC(string name)
+        {
+            int ma_loai = 0;
+
+            //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //Đối tượng câu truy vấn thêm dữ liệu sql
+            string sql = "SELECT * FROM PHONGCHIEU WHERE TenPC = @name";
+
+            //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+            connection.Open();
+
+            command.Parameters.AddWithValue("@name", name);
+
+            SqlDataReader sqlDataReader = command.ExecuteReader();
+
+            if (sqlDataReader.HasRows)
+            {
+                //gán giá trị cột MaLPC cho biến ma_loai
+                if (sqlDataReader.Read())
+                {
+                    ma_loai = sqlDataReader.GetInt32(0);
+                }
+            }
+            else ma_loai = 0;
+
+            return ma_loai;
+        }
+
+        public bool saveLC(string date, string status, int? amount, int? caxc, int? mapc, int? maphim)
+        {
+            bool isSaved = false;
+
+            if (date != null && status != null && amount != null && caxc != null && mapc != null && maphim != null)
+            {
+                //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                //Đối tượng câu truy vấn thêm dữ liệu sql
+                string sql = "INSERT INTO LICHCHIEU VALUES (@date, @status, @amount, @caxc, @mapc, @maphim)";
+
+                //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+                connection.Open();
+
+                command.Parameters.AddWithValue("@date", date);
+                command.Parameters.AddWithValue("@status", status);
+                command.Parameters.AddWithValue("@amount", amount);
+                command.Parameters.AddWithValue("@caxc", caxc);
+                command.Parameters.AddWithValue("@mapc", mapc);
+                command.Parameters.AddWithValue("@maphim", maphim);
+
+                int result = command.ExecuteNonQuery();
+
+                if (result > 0)
+                {
+                    isSaved = true;
+                }
+                else isSaved = false;
+
+            }
+
+            return isSaved;
+        }
+
+        public bool updateLC(int? code, string date, string status, int? amount, int? caxc, int? mapc, int? maphim)
+        {
+            bool isUpdate = false;
+
+            //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //Đối tượng câu truy vấn thêm dữ liệu sql
+            string sql = "UPDATE LICHCHIEU SET NgayLC=@date, TrangThaiLC=@status, SLVeDat=@amount, CaXC=@caxc, MaPC=@mapc, MaPhim=@maphim WHERE MaLC = @code";
+
+            //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+            connection.Open();
+
+            command.Parameters.AddWithValue("@code", code);
+            command.Parameters.AddWithValue("@date", date);
+            command.Parameters.AddWithValue("@status", status);
+            command.Parameters.AddWithValue("@amount", amount);
+            command.Parameters.AddWithValue("@caxc", caxc);
+            command.Parameters.AddWithValue("@mapc", mapc);
+            command.Parameters.AddWithValue("@maphim", maphim);
+
+
+            int result = command.ExecuteNonQuery();
+
+            if (result > 0)
+            {
+                isUpdate = true;
+            }
+            else isUpdate = false;
+
+            connection.Close();
+
+            return isUpdate;
+        }
     }
 }
