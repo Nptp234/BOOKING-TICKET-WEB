@@ -1,24 +1,19 @@
 ﻿
 @{
+    ViewBag.Title = "LichChieu";
+    Layout = "~/Areas/AdminArea/Views/Shared/_AdminMasterLayout.cshtml";
+}
+
+
+@{
     ViewBag.Title = "KhachHang";
     Layout = "~/Areas/AdminArea/Views/Shared/_AdminMasterLayout.cshtml";
 }
 
 <link href="~/Areas/AdminArea/Content/customermanager_style.css" rel="stylesheet" />
 <nav class="header_nav">
-    <a class="top_content">KHACHHANG MANAGER</a>
+    <a class="top_content">LICHCHIEU MANAGER</a>
 
-    
-    @*<div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Sắp xếp
-            </button>
-            <div class="dropdown-menu" style="transform: translate3d(-94px, 38px, 0px)" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Theo tên </a>
-                <a class="dropdown-item" href="#">Theo mã khách hàng</a>
-                <a class="dropdown-item" href="#">Theo tổng hóa đơn</a>
-            </div>
-        </div>*@
 </nav>
 <div class="container">
 
@@ -28,67 +23,80 @@
 
     @*nút thêm*@
     <button class="btn btn-secondary dropdown-toggle" type="button" id="addnewphim" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-bottom:20px;">
-        Thêm khách hàng
+        Thêm lịch chiếu
     </button>
 
     @*form thêm*@
-    <form action="@Url.Action("KhachHang", "Admin")" method="post" style="display: none;" id="formaddnew">
+    <form action="@Url.Action("LichChieu", "Admin")" method="post" style="display: none;" id="formaddnew">
 
-        @*tên*@
+        @*date*@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Tên khách hàng: </span>
+                <span class="input-group-text" id="basic-addon1">Ngày: </span>
             </div>
-            <input type="text" class="form-control" name="TenKH" required>
+            <input type="date" class="form-control" name="NgayLC" required>
         </div>
 
-        @*mật khẩu*@
+        @*status*@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Mật khẩu: </span>
+                <span class="input-group-text" id="basic-addon1">Trạng thái: </span>
             </div>
-            <input type="text" class="form-control" name="MatKhau" required>
+            <input type="text" class="form-control" name="TrangThaiLC" required>
         </div>
 
-        @*email*@
+        @*amount*@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Email: </span>
+                <span class="input-group-text" id="basic-addon1">Số lượng vé đặt: </span>
             </div>
-            <input type="email" class="form-control" name="Email" required>
+            <input type="number" class="form-control" name="SLVeDat" value="0" required>
         </div>
 
-        @*điểm thưởng*@
+        @*ca xc*@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Điểm thưởng: </span>
+                <span class="input-group-text">Ca XC: </span>
             </div>
-            <input type="number" min="0" max="100" class="form-control" name="DiemThuong" required>
-        </div>
-
-        @*trạng thái tài khoản*@
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Trạng thái tài khoản: </span>
-            </div>
-            <input id="inputchoice" min="1" max="255" class="form-control" name="TrangThaiKH" readonly required>
+            <input id="inputchoice" class="form-control" name="CaXC" readonly required>
             <select id="choice" style="width:10%; border-radius:0px 5px 5px 0px;" required>
-                <option value="Active">Active</option>
-                <option value="NotActive">NotActive</option>
-                <option value="Banned">Banned</option>
+                @if (ViewBag.GetXC != null)
+                {
+                    foreach (var item in ViewBag.GetXC)
+                    {
+                        <option value="@item[0]">@item[0]</option>
+                    }
+                }
             </select>
         </div>
 
-        @*loại kh*@
+        @*ma pc*@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text">Loại khách hàng: </span>
+                <span class="input-group-text">Mã PC: </span>
             </div>
-            <input id="inputchoice123" class="form-control" name="LoaiKH" readonly required>
+            <input id="inputchoice123" class="form-control" name="MaPC" readonly required>
             <select id="choice123" style="width:10%; border-radius:0px 5px 5px 0px;" required>
-                @if (ViewBag.GetListLKH != null)
+                @if (ViewBag.GetPC != null)
                 {
-                    foreach (var item in ViewBag.GetListLKH)
+                    foreach (var item in ViewBag.GetPC)
+                    {
+                        <option value="@item[0]">@item[0]</option>
+                    }
+                }
+            </select>
+        </div>
+
+        @*ma phim*@
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Phim: </span>
+            </div>
+            <input id="inputchoice456" class="form-control" name="MaPhim" readonly required>
+            <select id="choice456" style="width:10%; border-radius:0px 5px 5px 0px;" required>
+                @if (ViewBag.GetPhim != null)
+                {
+                    foreach (var item in ViewBag.GetPhim)
                     {
                         <option value="@item[0]">@item[0]</option>
                     }
@@ -111,29 +119,29 @@
     <table class="table" style="display: none" id="list">
         <thead>
             <tr>
-                <th scope="col">Mã KH</th>
-                <th scope="col">Tên KH</th>
-                <th scope="col">Mật khẩu KH</th>
-                <th scope="col">Email</th>
-                <th scope="col">Điểm thưởng</th>
+                <th scope="col">Mã LC</th>
+                <th scope="col">Ngày</th>
                 <th scope="col">Trạng thái</th>
-                <th scope="col">Mã LKH</th>
+                <th scope="col">Số lượng vé đặt</th>
+                <th scope="col">Ca XC</th>
+                <th scope="col">Mã PC</th>
+                <th scope="col">Mã phim</th>
             </tr>
         </thead>
         <tbody>
-            @if (ViewBag.GetKH != null)
+            @if (ViewBag.GetLC != null)
             {
-                foreach (var item in ViewBag.GetKH)
+                foreach (var item in ViewBag.GetLC)
                 {
-                    <form action="@Url.Action("KhachHang", "Admin")" method="post">
+                    <form action="@Url.Action("LichChieu", "Admin")" method="post">
                     <tr>
-                        <th scope="row"><input name="MaKH" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[0]" readonly required></th>
-                        <td><input name="TenKH" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[1]" required></td>
-                        <td><input name="MatKhau" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" required></td>
-                        <td><input name="Email" type="email" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[3]" required></td>
-                        <td><input name="DiemThuong" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[4]" required></td>
-                        <td><input name="TrangThaiKH" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[5]" required></td>
-                        <td><input name="MaLKHDetail" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[6]" required></td>
+                        <th scope="row"><input name="MaLC" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[0]" readonly required></th>
+                        <td><input name="NgayLC" type="datetime" class="form-control" style="overflow: hidden; text-overflow: ellipsis; width: 300px;" value="@item[1]" required></td>
+                        <td><input name="TrangThaiLC" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" required></td>
+                        <td><input name="SLVeDat" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[3]" required></td>
+                        <td><input name="CaXCDetail" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[4]" required></td>
+                        <td><input name="MaPCDetail" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[5]" required></td>
+                        <td><input name="MaPhimDetail" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[6]" required></td>
                         <td>
                             <button type="submit" class="btn btn-outline-info" name="status" value="Update">Cập nhật</button>
                         </td>
@@ -200,8 +208,19 @@
         inputchoice123.value = selectchoice123;
     };
 
+    var choice456 = document.getElementById("choice456");
+    var inputchoice456 = document.getElementById("inputchoice456");
+
+    choice456.onchange = function () {
+        var selectchoice456 = choice456.value;
+
+        inputchoice456.value = selectchoice456;
+    };
+
 
 </script>
+
+
 
 
 

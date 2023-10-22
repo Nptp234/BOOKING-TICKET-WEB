@@ -227,6 +227,9 @@
     <Content Include="Areas\AdminArea\Views\Admin\NVType.cshtml" />
     <Content Include="Areas\AdminArea\Views\Admin\KhachHang.cshtml" />
     <Content Include="Areas\AdminArea\Views\Admin\NhanVien.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Admin\LoaiGhe.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Admin\XuatChieu.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Admin\LichChieu.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />

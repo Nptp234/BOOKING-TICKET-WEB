@@ -696,5 +696,200 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
             return View();
         }
+
+
+        public ActionResult LoaiGhe()
+        {
+            SQLData data = new SQLData();
+            ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult LoaiGhe(int? MaLG, string TenLG, int? GiaGhe, string status)
+        {
+            SQLData data = new SQLData();
+
+            if (ModelState.IsValid)
+            {
+                if (TenLG != null && GiaGhe != null)
+                {
+                    if (status == "Add")
+                    {
+                        bool isSaved = data.saveChairType(TenLG, GiaGhe);
+                        if (!isSaved)
+                        {
+                            ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
+                            ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
+                        }
+                        else ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
+                    }
+                    else if (status == "Update")
+                    {
+                        if (MaLG != null)
+                        {
+                            bool isUpdate = data.updateChairType(MaLG, TenLG, GiaGhe);
+                            if (!isUpdate)
+                            {
+                                ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
+                                ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
+                            }
+                            else ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
+                        }
+                        else
+                        {
+                            ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
+                            ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
+                        }
+                    }
+                    else ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
+
+                }
+                else ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
+            }
+            else ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
+
+            return View();
+        }
+
+        public ActionResult XuatChieu()
+        {
+            SQLData data = new SQLData();
+            ViewBag.GetXC = data.getData("SELECT* FROM XUATCHIEU");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult XuatChieu(int? MaXC, string CaXC, string GioXC, string status)
+        {
+            SQLData data = new SQLData();
+
+            if (ModelState.IsValid)
+            {
+                if (CaXC != null && GioXC != null)
+                {
+                    if (status == "Add")
+                    {
+                        bool isSaved = data.saveXC(CaXC, GioXC);
+                        if (!isSaved)
+                        {
+                            ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
+                            ViewBag.GetXC = data.getData("SELECT* FROM XUATCHIEU");
+                        }
+                        else ViewBag.GetXC = data.getData("SELECT* FROM XUATCHIEU");
+                    }
+                    else if (status == "Update")
+                    {
+                        if (CaXC != null && GioXC != null && MaXC != null)
+                        {
+                            bool isUpdate = data.updateXC(MaXC, CaXC, GioXC);
+                            if (!isUpdate)
+                            {
+                                ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
+                                ViewBag.GetXC = data.getData("SELECT* FROM XUATCHIEU");
+                            }
+                            else ViewBag.GetXC = data.getData("SELECT* FROM XUATCHIEU");
+                        }
+                        else
+                        {
+                            ViewBag.GetXC = data.getData("SELECT* FROM XUATCHIEU");
+                            ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
+                        }
+                    }
+                    else ViewBag.GetXC = data.getData("SELECT* FROM XUATCHIEU");
+
+                }
+                else ViewBag.GetXC = data.getData("SELECT* FROM XUATCHIEU");
+            }
+            else ViewBag.GetXC = data.getData("SELECT* FROM XUATCHIEU");
+
+            return View();
+        }
+
+        public ActionResult LichChieu()
+        {
+            SQLData data = new SQLData();
+            ViewBag.GetXC = data.getData("SELECT CaXC FROM XUATCHIEU");
+            ViewBag.GetPC = data.getData("SELECT TenPC FROM PHONGCHIEU");
+            ViewBag.GetPhim = data.getData("SELECT TenPhim FROM PHIM");
+            ViewBag.GetLC = data.getData("SELECT * FROM LICHCHIEU");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult LichChieu(int? MaLC, string NgayLC, string TrangThaiLC, int? SLVeDat, string CaXC, string MaPC, string MaPhim, int? CaXCDetail, int? MaPhimDetail, int? MaPCDetail, string status)
+        {
+            SQLData data = new SQLData();
+
+            if (ModelState.IsValid)
+            {
+                if (status == "Add")
+                {
+                    if (NgayLC != null && TrangThaiLC != null && SLVeDat != null && CaXC != null && MaPhim != null && MaPC != null)
+                    {
+                        int getMaPC = data.getMaPC(MaPC);
+                        int getMaPhim = data.getMaPhim(MaPhim);
+                        int getMaXC = data.getMaXC(CaXC);
+
+                        if (getMaPC != 0 && getMaPhim != 0 && getMaXC != 0)
+                        {
+                            bool isSaved = data.saveLC(NgayLC, TrangThaiLC, SLVeDat, getMaXC, getMaPC, getMaPhim);
+                            if (!isSaved)
+                            {
+                                ViewBag.ThongBaoLuu = "Lỗi lưu không thành công hoặc đã tồn tại!";
+                                ViewBag.GetXC = data.getData("SELECT CaXC FROM XUATCHIEU");
+                                ViewBag.GetPC = data.getData("SELECT TenPC FROM PHONGCHIEU");
+                                ViewBag.GetPhim = data.getData("SELECT TenPhim FROM PHIM");
+                                ViewBag.GetLC = data.getData("SELECT * FROM LICHCHIEU");
+                            }
+                            else
+                            {
+                                ViewBag.GetXC = data.getData("SELECT CaXC FROM XUATCHIEU");
+                                ViewBag.GetPC = data.getData("SELECT TenPC FROM PHONGCHIEU");
+                                ViewBag.GetPhim = data.getData("SELECT TenPhim FROM PHIM");
+                                ViewBag.GetLC = data.getData("SELECT * FROM LICHCHIEU");
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.ThongBaoLuu = "Lỗi không tồn tại!";
+                            ViewBag.GetXC = data.getData("SELECT CaXC FROM XUATCHIEU");
+                            ViewBag.GetPC = data.getData("SELECT TenPC FROM PHONGCHIEU");
+                            ViewBag.GetPhim = data.getData("SELECT TenPhim FROM PHIM");
+                            ViewBag.GetLC = data.getData("SELECT * FROM LICHCHIEU");
+                        }
+                    }
+
+                }
+                else if (status == "Update")
+                {
+                    if (NgayLC != null && TrangThaiLC != null && SLVeDat != null && CaXCDetail != null && MaPhimDetail != null && MaPCDetail != null)
+                    {
+                        bool isUpdate = data.updateLC(MaLC, NgayLC, TrangThaiLC, SLVeDat, CaXCDetail, MaPhimDetail, MaPCDetail);
+                        if (!isUpdate)
+                        {
+                            ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
+                            ViewBag.GetXC = data.getData("SELECT CaXC FROM XUATCHIEU");
+                            ViewBag.GetPC = data.getData("SELECT TenPC FROM PHONGCHIEU");
+                            ViewBag.GetPhim = data.getData("SELECT TenPhim FROM PHIM");
+                            ViewBag.GetLC = data.getData("SELECT * FROM LICHCHIEU");
+                        }
+                        else
+                        {
+                            ViewBag.GetXC = data.getData("SELECT CaXC FROM XUATCHIEU");
+                            ViewBag.GetPC = data.getData("SELECT TenPC FROM PHONGCHIEU");
+                            ViewBag.GetPhim = data.getData("SELECT TenPhim FROM PHIM");
+                            ViewBag.GetLC = data.getData("SELECT * FROM LICHCHIEU");
+                        }
+                    }
+                }
+                else
+                {
+                    ViewBag.GetXC = data.getData("SELECT CaXC FROM XUATCHIEU");
+                    ViewBag.GetPC = data.getData("SELECT TenPC FROM PHONGCHIEU");
+                    ViewBag.GetPhim = data.getData("SELECT TenPhim FROM PHIM");
+                    ViewBag.GetLC = data.getData("SELECT * FROM LICHCHIEU");
+                }
+            }
+
+            return View();
+        }
     }
 }
