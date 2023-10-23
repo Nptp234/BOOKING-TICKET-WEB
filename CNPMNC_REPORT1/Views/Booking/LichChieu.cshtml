@@ -1,0 +1,299 @@
+﻿@using System.Globalization;
+@{
+    ViewBag.Title = "LichChieu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    string getStringType = "";
+    if (ViewBag.ListType != null)
+    {
+        for (int i = 0; i < ViewBag.ListType.Count; i++)
+        {
+            getStringType += ViewBag.ListType[i][1];
+            if (i != ViewBag.ListType.Count - 1) { getStringType += ", "; }
+        }
+    }
+
+    DateTime currentDate = DateTime.Now;
+    List<DateTime> dateList = new List<DateTime>();
+
+    for (int i = 0; i < 5; i++)
+    {
+        dateList.Add(currentDate.AddDays(i));
+    }
+    CultureInfo culture = new CultureInfo("vi-VN");
+
+
+    string getDate = DateTime.Now.ToString("yyyy-MM-dd");
+}
+
+
+<style>
+    .container_trailer {
+        width: 100%;
+        height: auto;
+    }
+
+    .film_info {
+        width: 100%;
+        display: flex;
+    }
+
+        .film_info .film_img_container {
+            overflow: hidden;
+            min-height: 300px;
+            border: 5px solid white;
+            box-sizing: border-box;
+        }
+
+            .film_info .film_img_container > img {
+                object-fit: fill;
+                height: 100%;
+                width: 100%;
+            }
+
+        .film_info .film_info_container {
+            flex-basis: 60%;
+            border: 2px solid white;
+            padding: 20px;
+        }
+
+            .film_info .film_info_container > h2 {
+                font-family: 'Roboto', sans-serif;
+                text-transform: uppercase;
+                font-size: 32px;
+                color: #fff;
+                text-align: left;
+                letter-spacing: 2px;
+            }
+
+    .big-text {
+        font-size: 1.75rem;
+        font-weight: bolder;
+        text-transform: uppercase;
+    }
+
+    .small-text {
+        font-size: 1.2rem;
+    }
+
+    .title-text {
+        padding: 5px 0px
+    }
+
+        .title-text * {
+            font-family: Arial;
+            color: black;
+        }
+
+    .header-text {
+        font-size: 24px;
+        font-weight: bolder;
+        padding-left: 20px;
+        border-left: 5px solid #212529;
+        letter-spacing: 1px;
+    }
+
+    .date_container {
+        display: flex;
+        justify-content: start;
+        font-size: 18px;
+    }
+
+        .date_container .date_block {
+            padding-right: 10px;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+            .date_container .date_block.selected, .date_container .date_block.selected * {
+                color: white;
+                background-color: #212529;
+            }
+
+            .date_container .date_block:hover {
+                background-color: #212529;
+            }
+
+                .date_container .date_block:hover * {
+                    color: white;
+                }
+
+            .date_container .date_block * {
+                font-size: 16px;
+            }
+
+    .showtime_container {
+        display: flex;
+    }
+
+    .showtime_content {
+        flex-basis: 15%;
+    }
+
+    .showtime_title {
+        flex-basis: 85%;
+        min-height: 50px;
+    }
+
+    a.time_block.btn.btn-outline-secondary {
+        font-weight: bolder;
+        min-width: 125px;
+    }
+
+        a.time_block.btn.btn-outline-secondary:hover {
+            color: white;
+        }
+</style>
+<div class="position-relative container_trailer" style="display: flex; justify-content: center;">
+    <div class="position-absolute" style="background-color: black; width: 100%; height: 100%">
+
+    </div>
+    <div class="embed-responsive embed-responsive-4by3" style="width: 1000px; height: 500px; box-shadow: inset 5px 5px 10px #888888; color: black;">
+        <iframe width="1382" height="572" src="@ViewBag.GetEmbedLink" title="@ViewBag.Phim[0][1]; Trailer | Khởi Chiếu @DateTime.Parse(ViewBag.Phim[0][3]).ToString("dd.MM.yyyy")" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+</div>
+
+
+<div class="container section_filmdetail" style="display: flex; align-items: center; ">
+    <div class="film_info" style="display: flex; flex-direction: row; margin: 0;">
+        <div class="film_img_container" style="max-width: 360px; max-height: 440px; margin-top: -40px; z-index: 1003;">
+            <img src="~/img_phim/@ViewBag.Phim[0][7]" alt="Alternate Text" />
+        </div>
+
+        <div class="film_info_container">
+            <div class="title-text">
+                <span class="big-text">@ViewBag.Phim[0][1]</span>
+            </div>
+            <div class="title-text">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="inline-block align-baseline mr-1">
+                    <path d="M7 0C3.13306 0 0 3.13306 0 7C0 10.8669 3.13306 14 7 14C10.8669 14 14 10.8669 14 7C14 3.13306 10.8669 0 7 0ZM7 12.6452C3.88105 12.6452 1.35484 10.119 1.35484 7C1.35484 3.88105 3.88105 1.35484 7 1.35484C10.119 1.35484 12.6452 3.88105 12.6452 7C12.6452 10.119 10.119 12.6452 7 12.6452ZM8.74435 9.69839L6.34798 7.95685C6.26048 7.89193 6.20968 7.79032 6.20968 7.68306V3.04839C6.20968 2.8621 6.3621 2.70968 6.54839 2.70968H7.45161C7.6379 2.70968 7.79032 2.8621 7.79032 3.04839V7.04798L9.67581 8.41976C9.82823 8.52984 9.85927 8.74153 9.74919 8.89395L9.21855 9.625C9.10847 9.7746 8.89677 9.80847 8.74435 9.69839Z" fill="#F58020">
+
+                    </path>
+                </svg>
+                <span class="small-text">@ViewBag.Phim[0][4] phút</span>
+                <span style="padding: 20px;"></span>
+                <svg width="12" height="14" viewBox="0 0 12 14" fill="none" class="inline-block align-baseline mr-1"><path d="M10.7143 1.75H9.42857V0.328125C9.42857 0.147656 9.28393 0 9.10714 0H8.03571C7.85893 0 7.71429 0.147656 7.71429 0.328125V1.75H4.28571V0.328125C4.28571 0.147656 4.14107 0 3.96429 0H2.89286C2.71607 0 2.57143 0.147656 2.57143 0.328125V1.75H1.28571C0.575893 1.75 0 2.33789 0 3.0625V12.6875C0 13.4121 0.575893 14 1.28571 14H10.7143C11.4241 14 12 13.4121 12 12.6875V3.0625C12 2.33789 11.4241 1.75 10.7143 1.75ZM10.5536 12.6875H1.44643C1.35804 12.6875 1.28571 12.6137 1.28571 12.5234V4.375H10.7143V12.5234C10.7143 12.6137 10.642 12.6875 10.5536 12.6875Z" fill="#F58020"></path></svg>
+                <span class="small-text">@DateTime.Parse(ViewBag.Phim[0][3]).ToString("dd/MM/yyyy")</span>
+            </div>
+            <div class="title-text">
+                <span class="small-text">Thể loại: @getStringType</span>
+            </div>
+            <div class="title-text">
+                <span class="small-text">Độ tuổi: @ViewBag.Phim[0][12]</span>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="container title-text">
+    <h3 class="header-text">
+        Nội Dung Phim
+    </h3>
+    <p style=" text-align: justify; ">
+        <span style="font-size: 18px; color: #4a4a4a; ">
+            @ViewBag.Phim[0][2]
+        </span>
+    </p>
+</div>
+<br />
+<div class="container title-text">
+    <h3 class="header-text">
+        Lịch chiếu
+    </h3>
+    <br />
+    <div class="date_container">
+        @foreach (var item in dateList)
+        {
+            <a id="@item.ToString("yyyy-MM-dd")" onclick="setOnClickDateBlock('@item.ToString("yyyy-MM-dd")')" class="date_block"><span>@culture.DateTimeFormat.GetDayName(item.DayOfWeek)</span> <br /> <span>@DateTime.Parse(item.ToString()).ToString("dd/MM/yyyy")</span></a>
+        }
+    </div>
+    <div class="line2"></div>
+    <br />
+    <div class="d-flex w-100">
+        <div class="showtime_content">2D Phụ đề</div>
+        <div id="2Dcontainer" class="showtime_title">
+            @foreach(var item in ViewBag.List2D)
+            {
+                <a class="time_block btn btn-outline-secondary">@DateTime.ParseExact(item[0], "HH:mm:ss", CultureInfo.InvariantCulture).ToString("HH:mm")</a>
+            }
+            
+            
+        </div>
+    </div>
+    <br />
+    <div class="d-flex w-100">
+        <div class="showtime_content">3D Phụ đề</div>
+        <div id="3Dcontainer" class="showtime_title">
+            @foreach (var item in ViewBag.List3D)
+            {
+                <a class="time_block btn btn-outline-secondary">@DateTime.ParseExact(item[0], "HH:mm:ss", CultureInfo.InvariantCulture).ToString("HH:mm")</a>
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var getTag = document.getElementById('@getDate');
+    getTag.classList.add('selected');
+
+    function setOnClickDateBlock(value) {
+        var getItem = document.getElementById(value);
+        var getSelectedItems = document.getElementsByClassName('selected');
+        //Thực hiện xóa bỏ element từ class đang có
+        Array.from(getSelectedItems).forEach(function (selectedItem) {
+            selectedItem.classList.remove('selected');
+        });
+        getItem.classList.add('selected');
+
+
+        $.ajax({
+                url: "@Url.Action("ChangeDay", "Booking")", // Đường dẫn đến phương thức kiểm tra tồn tại
+                type: "POST",
+                data: JSON.stringify({
+                    "date": value, "maphim": @ViewBag.Phim[0][0],
+                }), // Gửi dữ liệu dưới dạng JSON
+                contentType: "application/json; charset=utf-8", // Định dạng dữ liệu
+                dataType: "json", // Đặt kiểu dữ liệu mà bạn mong đợi từ phản hồi
+
+                success: function (response) {
+                    //clear hết thẻ con nằm trong thẻ 2DContainer và 3DContainer
+                    var get2Dcontainer = document.getElementById('2Dcontainer');
+                    var get3Dcontainer = document.getElementById('3Dcontainer');
+                    while (get2Dcontainer.firstChild) {
+                        get2Dcontainer.removeChild(get2Dcontainer.firstChild);
+                    }
+                    while (get3Dcontainer.firstChild) {
+                        get3Dcontainer.removeChild(get3Dcontainer.firstChild);
+                    }
+                    //console.log(get2Dcontainer);
+                    for (var i = 0; i < response.List2D.length; i++) {
+                        var childElement = document.createElement("a");
+                        childElement.setAttribute("class", "time_block btn btn-outline-secondary");
+                        childElement.textContent = response.List2D[i][0].split(':').slice(0, 2).join(':');
+                        console.log(i);
+                        get2Dcontainer.appendChild(childElement);
+                        /*get2Dcontainer.innerHTML += "<a class=\"time_block btn btn-outline-secondary\">" + response.List2D[i][7].split(':').slice(0, 2).join(':') +"  </a>";*/
+                    }
+                    for (var i = 0; i < response.List3D.length; i++) {
+                        var childElement = document.createElement("a");
+                        childElement.setAttribute("class", "time_block btn btn-outline-secondary");
+                        childElement.textContent = response.List3D[i][0].split(':').slice(0, 2).join(':');
+                        get3Dcontainer.appendChild(childElement);
+                    //    get3Dcontainer.innerHTML += "<a class=\"time_block btn btn-outline-secondary\">" + response.List3D[i][7].split(':').slice(0, 2).join(':') + "  </a>";
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Lỗi khi gửi yêu cầu: " + status + " - " + error);
+                }
+            });
+    }
+
+    function onchangeDay(value) {
+
+    }
+</script>
+
