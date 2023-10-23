@@ -1,0 +1,245 @@
+﻿
+@{
+    ViewBag.Title = "ChonGhe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        .container_info_booking_chair{
+            font-family: Arial;
+        }
+        .ticket_container {
+            display: flex;
+            flex-basis: 70%;
+            justify-content: center;
+            background-color: #85C48A;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .price_container{
+            flex-basis: 30%;
+            padding: 10px;
+        }
+        .ticket_container .listchair_cover{
+            display: flex;
+            padding: 20px;
+            background-color: #fff;
+            width: 100%;
+            justify-content: center;
+            border-radius: 10px;
+        }
+            .ticket_container .listchair_cover .listchair_inside {
+                background-color: #F2F2F2;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+        .listchair{
+            display: flex;
+            width: fit-content;
+            margin: 10px;
+        }
+        .chair.picker {
+            height: 30px;
+            width: 30px;
+            cursor: pointer;
+            background-color: #fff;
+            border: 0.5px solid #C4C4C4;
+            border-radius: 5px;
+            margin: 0px 5px;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 30px; /* Đặt giá trị cao gấp đôi của chiều cao của thẻ để căn giữa */
+            height: 30px; /* Đảm bảo chiều cao của thẻ */
+        }
+        .chair {
+            height: 20px;
+            width: 20px;
+            cursor: pointer;
+            background-color: #fff;
+            border: 0.5px solid #C4C4C4;
+            border-radius: 5px;
+            margin: 0px 5px;
+        }
+        .chair.vip {
+            
+            background-color: #C58940;
+            
+        }
+        .chair.selected, .chair.selected {
+            background-color: #B3B3B3;
+        }
+        .price_container{
+            text-align: center;
+            padding: 0px 10px;
+            display: flex;
+            flex-direction: column;
+        }
+            .price_container .price_ticket {
+                border: 0.5px solid #C4C4C4;
+                border-radius: 5px;
+                padding: 5px;
+                box-sizing: border-box;
+                margin-bottom: 10px;
+            }
+        .big-text {
+            font-size: 1.75rem;
+            font-weight: bolder;
+            text-transform: uppercase;
+        }
+
+        .small-text {
+            font-size: 1.2rem;
+            text-align: left;
+        }
+
+        .title_text {
+            margin-top: 5px;
+            width: 100%;
+        }
+        .ticket_chair {
+            display: inline-block;
+            border: 0.5px solid #C4C4C4;
+        }
+        .chair.d-inline-block{
+            margin-left: 0;
+        }
+        .chair_type{
+            display: flex;
+            align-content: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <br />
+    <div class="container d-flex container_info_booking_chair">
+        <div class="ticket_container">
+            <div class="listchair_cover">
+                <div class="listchair_inside">
+                    <h5 style="margin-top: 10px">MOVIE NAME</h5>
+
+
+                    <br />
+                    @for (char i = 'A'; i <= 'E'; i++)
+                    {
+                        <div class="container listchair">
+                            @for (int j = 1; j <= 10; j++)
+                            {
+                            <div id="@i.ToString()@j.ToString()" class="picker chair">@i.ToString()@j.ToString()</div>
+                            }
+                        </div>
+                    }
+
+                    @for (char i = 'F'; i <= 'F'; i++)
+                    {
+                        <div class="container listchair">
+                            @for (int j = 1; j <= 10; j++)
+                            {
+                            <div id="@i.ToString()@j.ToString()" class="picker chair vip">@i.ToString()@j.ToString()</div>
+                            }
+                        </div>
+                    }
+
+
+
+                </div>
+            </div>
+        </div>
+        <div class="price_container">
+            <div class="price_ticket">
+                <h6 style="font-weight: bolder;">Loại ghế</h6>
+                <div class="container d-flex justify-content-around " style="margin: 10px 0px; flex-direction: column">
+                    <div class="chair_type">
+                        <a class="chair d-inline-block"></a>
+                        <div class="d-inline-block">Còn trống</div>
+                    </div>
+                    <div class="chair_type">
+                        <a class="chair d-inline-block" style="background-color: #353535;"></a>
+                        <div class="d-inline-block">Đã đặt</div>
+                    </div>
+                    <div class="chair_type">
+                        <a class="chair d-inline-block" style="background-color: #B3B3B3;"></a>
+                        <div class="d-inline-block">Đã chọn</div>
+                    </div>
+                    <div class="chair_type">
+                        <a class="chair d-inline-block" style="background-color: #C58940;"></a>
+                        <div class="d-inline-block">Ghế VIP</div>
+                    </div>
+                </div>
+                @*<h6 style="font-weight: bolder; text-align: left;">Ghế VIP</h6>
+            <div class="container d-flex justify-content-around " style="margin: 10px 0px; flex-direction: column">
+
+            </div>*@
+            </div>
+            <div class="price_ticket">
+                <h6 style="font-weight: bolder;">Vé đã đặt</h6>
+                <div class="container d-flex justify-content-around " style="margin: 10px 0px; flex-direction: column">
+                    <span id="price_chair" style="text-align: left;">Giá: </span>
+                    <span style="text-align: left;">Ghế: </span>
+                    <span id="picked_chair" style="text-align: left;">
+
+                    </span>
+                </div>
+                
+            </div>
+                <button class="btn btn-outline-success" style="margin-right: 0px;">ĐẶT NGAY</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var buttons = document.querySelectorAll('.chair.picker');
+        // Gắn sự kiện 'onclick' cho từng thẻ với dữ liệu đầu vào riêng
+        buttons.forEach(function (button) {
+            button.onclick = function () {
+                var getPickedChair = document.getElementById('picked_chair');
+                if (button.classList.contains('selected')) {
+                    button.classList.remove('selected');
+                    var content = getPickedChair.innerHTML;
+                    if (button.classList.contains('vip')) {
+                        var removedItem = 'VIP_' + button.id;
+                        var regex = new RegExp(removedItem + "\\s*", "g");
+                        content = content.replace(regex, "");
+                        getPickedChair.innerHTML = content;
+                    } else {
+                        var regex = new RegExp(button.id + "\\s*", "g");
+                        content = content.replace(regex, "");
+                        getPickedChair.innerHTML = content;
+                    }
+
+                } else {
+                    button.classList.add('selected');
+                    if (button.classList.contains('vip')) {
+                        getPickedChair.innerHTML += 'VIP_' + button.id + " ";
+                    } else {
+                        getPickedChair.innerHTML += button.id + " ";
+                    }
+                }
+            };
+        });
+
+        @*function updatePrice() {
+            $.ajax({
+                url: "@Url.Action("ChangeDay", "Booking")", // Đường dẫn đến phương thức kiểm tra tồn tại
+                type: "POST",
+                data: JSON.stringify({
+                    "date": value, "maphim": @ViewBag.Phim[0][0],
+                }), // Gửi dữ liệu dưới dạng JSON
+                contentType: "application/json; charset=utf-8", // Định dạng dữ liệu
+                dataType: "json", // Đặt kiểu dữ liệu mà bạn mong đợi từ phản hồi
+
+                success: function (response) {
+                  
+                },
+                error: function (xhr, status, error) {
+                    console.error("Lỗi khi gửi yêu cầu: " + status + " - " + error);
+                }
+            });
+        }*@
+    </script>
+</body>
+</html>
+
+

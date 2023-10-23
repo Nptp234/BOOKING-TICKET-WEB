@@ -112,6 +112,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\AdminArea\AdminAreaAreaRegistration.cs" />
     <Compile Include="Areas\AdminArea\Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -254,6 +255,9 @@
     <Content Include="Views\Home\LoginPage.cshtml" />
     <Content Include="Views\Home\RegisterPage.cshtml" />
     <Content Include="Views\Home\FilmDetail.cshtml" />
+    <Content Include="Views\Booking\LichChieu.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Booking\ChonGhe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
