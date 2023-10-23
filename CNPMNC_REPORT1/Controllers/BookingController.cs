@@ -27,8 +27,8 @@ namespace CNPMNC_REPORT1.Controllers
             ViewBag.Phim = db.getData($"SELECT PHIM.*, GIOIHANTUOI.MoTaGHT, GIOIHANTUOI.TenGHT FROM PHIM, GIOIHANTUOI WHERE MaPhim = {maphim} AND GIOIHANTUOI.MaGHT = PHIM.MaGHT") ;
             //ViewBag.ListShowTime = db.getData($"SELECT* FROM PHIM WHERE MaPhim = {maphim}");
             ViewBag.ListType = db.getData($"SELECT THELOAIP.MoTaTL, THELOAIP.TenTL FROM THELOAIP, TL_P WHERE THELOAIP.MaTL = TL_P.MaTL AND TL_P.MaPhim = {maphim}");
-            ViewBag.List2D = db.getData($"SELECT DISTINCT XUATCHIEU.GioXC FROM LICHCHIEU, PHONGCHIEU, LOAIPC, XUATCHIEU WHERE MaPhim = {maphim} AND LOAIPC.TenLPC = '2D' AND XUATCHIEU.CaXC = LICHCHIEU.CaXC AND LICHCHIEU.MaPC = PHONGCHIEU.MaPC AND PHONGCHIEU.MaLPC = LOAIPC.MaLPC AND LICHCHIEU.NgayLC = '{ngay}' ORDER BY GioXC ASC ");
-            ViewBag.List3D = db.getData($"SELECT DISTINCT XUATCHIEU.GioXC FROM LICHCHIEU, PHONGCHIEU, LOAIPC, XUATCHIEU WHERE MaPhim = {maphim} AND LOAIPC.TenLPC = '3D' AND XUATCHIEU.CaXC = LICHCHIEU.CaXC AND LICHCHIEU.MaPC = PHONGCHIEU.MaPC AND PHONGCHIEU.MaLPC = LOAIPC.MaLPC AND LICHCHIEU.NgayLC = '{ngay}' ORDER BY GioXC ASC ");
+            ViewBag.List2D = db.getData($"SELECT DISTINCT XUATCHIEU.GioXC FROM LICHCHIEU, PHONGCHIEU, LOAIPC, XUATCHIEU WHERE MaPhim = {maphim} AND LOAIPC.TenLPC = '2D' AND XUATCHIEU.MaXC = LICHCHIEU.MaXC AND LICHCHIEU.MaPC = PHONGCHIEU.MaPC AND PHONGCHIEU.MaLPC = LOAIPC.MaLPC AND LICHCHIEU.NgayLC = '{ngay}' ORDER BY GioXC ASC ");
+            ViewBag.List3D = db.getData($"SELECT DISTINCT XUATCHIEU.GioXC FROM LICHCHIEU, PHONGCHIEU, LOAIPC, XUATCHIEU WHERE MaPhim = {maphim} AND LOAIPC.TenLPC = '3D' AND XUATCHIEU.MaXC = LICHCHIEU.MaXC AND LICHCHIEU.MaPC = PHONGCHIEU.MaPC AND PHONGCHIEU.MaLPC = LOAIPC.MaLPC AND LICHCHIEU.NgayLC = '{ngay}' ORDER BY GioXC ASC ");
 
             string input = ViewBag.Phim[0][8];
             string delimiter = "https://www.youtube.com/watch?v=";
@@ -55,15 +55,15 @@ namespace CNPMNC_REPORT1.Controllers
                 Date = DateTime.Now.ToString("dd/MM/yyyy");
             //LẤY DANH SÁCH CÁC GHẾ THƯỜNG VÀ VIP CÓ SẴN
             ViewBag.getChair = db.getData($"SELECT LICHCHIEU.*, PHONGCHIEU.SLGheThuong, PHONGCHIEU.SLGheVIP, XUATCHIEU.GioXC, LOAIPC.TenLPC " +
-                                            $"FROM LICHCHIEU, XUATCHIEU, PHIM, PHONGCHIEU, LOAIPC " +
-                                            $"WHERE PHONGCHIEU.MaPC = LICHCHIEU.MaPC " +
-                                            $"AND PHIM.MaPhim = LICHCHIEU.MaPhim " +
-                                            $"AND LICHCHIEU.CaXC = XUATCHIEU.CaXC " +
-                                            $"AND LOAIPC.MaLPC = PHONGCHIEU.MaLPC " +
-                                            $"AND LOAIPC.TenLPC = '{Type}'" +
-                                            $"AND LICHCHIEU.NgayLC = '{Date}' " +
-                                            $"AND LICHCHIEU.MaPhim = {MaPhim} " +
-                                            $"AND XUATCHIEU.GioXC = '{Time}'");
+                $"FROM LICHCHIEU, XUATCHIEU, PHIM, PHONGCHIEU, LOAIPC " +
+                $"WHERE LOAIPC.TenLPC = '{Type}' " +
+                $"AND LOAIPC.MaLPC = PHONGCHIEU.MaLPC " +
+                $"AND PHONGCHIEU.MaPC = LICHCHIEU.MaPC " +
+                $"AND PHIM.MaPhim = LICHCHIEU.MaPhim " +
+                $"AND LICHCHIEU.MaXC = XUATCHIEU.MaXC " +
+                $"AND LICHCHIEU.NgayLC = '{Date}' " +
+                $"AND LICHCHIEU.MaPhim = {MaPhim} " +
+                $"AND XUATCHIEU.GioXC = '{Time}'");
             ViewBag.getChair_STT = ViewBag.getChair[int.Parse(stt) - 1];
 
             //LẤY DANH SÁCH GHẾ ĐÃ ĐƯỢC ĐẶT
