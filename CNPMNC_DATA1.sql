@@ -292,4 +292,8 @@ set LuotThich = 11234
 where MaPhim = 2
 
 sELECT * FROM VE_GHE vg, GHECUAPC gpc WHERE vg.TenGheVG=gpc.TenGhePC AND vg.MaVe = 123;
+<<<<<<< HEAD
+INSERT INTO LICHCHIEU VALUES ('2-2-2023', 'Active', 0, 1, 1 ,1)
+=======
 INSERT INTO LICHCHIEU VALUES ('2-2-2023', )
+>>>>>>> e6c3d761684eaf568468b0b2472a87f756f96907
