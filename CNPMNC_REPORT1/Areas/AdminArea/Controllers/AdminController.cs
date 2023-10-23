@@ -577,12 +577,11 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                         }
                         else
                         {
-                            ViewBag.ThongBaoLuu = "Lỗi không tồn tại loại phòng chiếu!";
+                            ViewBag.ThongBaoLuu = "Lỗi không tồn tại loại khách hàng!";
                             ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
                             ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
                         }
                     }
-
                 }
                 else if (status == "Update")
                 {
