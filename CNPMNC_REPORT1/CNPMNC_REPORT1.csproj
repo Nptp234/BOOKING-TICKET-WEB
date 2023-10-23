@@ -202,8 +202,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\AdminArea\Views\web.config" />
     <Content Include="Areas\AdminArea\Views\Shared\_AdminMasterLayout.cshtml" />
-    <Content Include="Areas\AdminArea\Views\Admin\CustomerManager.cshtml" />
-    <Content Include="Areas\AdminArea\Views\Admin\StaffManager.cshtml" />
     <Content Include="Areas\AdminArea\Views\Admin\Film.cshtml" />
     <Content Include="Areas\AdminArea\Views\Admin\FilmType.cshtml" />
     <Content Include="Areas\AdminArea\Views\Admin\AgeLimit.cshtml" />
@@ -226,6 +224,13 @@
     <Content Include="Content\bootstrap.rtl.css.map" />
     <Content Include="Content\bootstrap.rtl.min.css.map" />
     <Content Include="Areas\AdminArea\Views\Admin\TheLoaiVaPhim.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Admin\KHType.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Admin\NVType.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Admin\KhachHang.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Admin\NhanVien.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Admin\LoaiGhe.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Admin\XuatChieu.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Admin\LichChieu.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
