@@ -17,7 +17,6 @@
     }
 
 
-
 }
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -202,7 +201,7 @@
                     </div>
                     <p style="color: #fff; font-size: 16px"></p>
 
-                    <a class="cart-btn fontsize14" style="width: 100%; text-align: center;" href="">Mua vé</a>
+                    <a  class="cart-btn fontsize14" style="width: 100%; text-align: center;" href="@Url.Action("LichChieu", "Booking", new { maphim = a[0]})">Mua vé</a>
                 </div>
             </div>
         }
@@ -222,10 +221,12 @@
     </div>
 </div>
 
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script type="text/javascript">
+
+   
+
     document.addEventListener('DOMContentLoaded', function () {
         const scrollButton = document.getElementById('scrollButton');
         const targetElement = document.getElementById('targetElement'); // Đổi thành phần bạn muốn cuộn đến

@@ -9,13 +9,13 @@ namespace CNPMNC_REPORT1.Models
 {
     public class SQLData
     {
-        public static string connectionString = "Server=localhost;Database=CNPMNC_DATA1;Trusted_Connection=True";
+        public static string connectionString = "Server=LAPTOP-FJ00A5PB\\SQLEXPRESS;Database=CNPMNC_DATA1;Trusted_Connection=True";
         private int countTLP;
 
         public ArrayList getData(String sql)
         {
             ArrayList listData = new ArrayList();
-
+            
             //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
             SqlConnection connection = new SqlConnection(connectionString);
 
