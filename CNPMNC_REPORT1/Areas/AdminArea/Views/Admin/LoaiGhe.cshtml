@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "LoaiGhe";
+    Layout = "~/Areas/AdminArea/Views/Shared/_AdminMasterLayout.cshtml";
+}
+
+
+<link href="~/Areas/AdminArea/Content/customermanager_style.css" rel="stylesheet" />
+<nav class="header_nav">
+    <a class="top_content">LOAIGHE MANAGER</a>
+</nav>
+<div class="container">
+
+    <br />
+    <p class="smaller_content">Quản lý loại ghế</p>
+    <p class="smaller_content" style="color:red;">@ViewBag.ThongBaoLuu</p>
+
+    @*nút thêm phim*@
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="addnewphim" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-bottom:20px;">
+        Thêm loại ghế
+    </button>
+
+    @*form thêm phim*@
+    <form action="@Url.Action("LoaiGhe", "Admin")" method="post" style="display: none;" id="formaddnew">
+
+        @*tên loại ghế*@
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Tên loại ghế: </span>
+            </div>
+            <input type="text" class="form-control" name="TenLG" required>
+        </div>
+
+        @*giá*@
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Gía ghế: </span>
+            </div>
+            <input type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="GiaGhe" required>
+        </div>
+
+        @*button xác nhận*@
+        <button type="submit" class="btn btn-outline-info" name="status" value="Add">Xác nhận thêm mới</button>
+    </form>
+
+    <br />
+    <div class="border-bottom"> </div>
+    <br />
+    <p class="smaller_content">Quản lý danh sách loại ghế</p>
+    <br />
+    <button type="button" class="btn btn-secondary" id="button_showlist">Hiện danh sách</button>
+    <br />
+    <table class="table" style="display: none" id="list">
+        <thead>
+            <tr>
+                <th scope="col">Mã loại</th>
+                <th scope="col">Tên loại</th>
+                <th scope="col">Gía</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (ViewBag.GetLG != null)
+            {
+                foreach (var item in ViewBag.GetLG)
+                {
+                    <form action="@Url.Action("LoaiGhe", "Admin")" method="post">
+                    <tr>
+                        <th scope="row"><input name="MaLG" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[0]" readonly required></th>
+                        <td><input name="TenLG" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[1]" required></td>
+                        <td><input name="GiaGhe" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" required></td>
+                        <td>
+                            <button type="submit" class="btn btn-outline-info" name="status" value="Update">Cập nhật</button>
+                        </td>
+                    </tr>
+                    </form>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+<script type="text/javascript">
+    // Lấy tham chiếu đến button và thẻ cần ẩn/hiện
+    var toggleButton = document.getElementById("button_showlist");
+    var targetDiv = document.getElementById("list");
+
+    // Gán sự kiện click cho nút (button)
+    toggleButton.addEventListener("click", function () {
+        // Kiểm tra xem thẻ đang ẩn hay hiện
+        if (targetDiv.style.display === "none" || targetDiv.style.display === "") {
+            // Nếu thẻ đang ẩn hoặc không có style display, thì hiển thị thẻ
+            targetDiv.style.display = "table"; // Hoặc có thể sử dụng "inline" hoặc "inline-block" tùy vào loại thẻ
+            toggleButton.innerHTML = "Ẩn danh sách"
+        } else {
+            // Nếu thẻ đang hiện, thì ẩn thẻ
+            targetDiv.style.display = "none";
+            toggleButton.innerHTML = "Hiện danh sách"
+        }
+    });
+
+    // Lấy tham chiếu đến button và thẻ cần ẩn/hiện
+    var addbt = document.getElementById("addnewphim");
+    var form = document.getElementById("formaddnew");
+
+    // Gán sự kiện click cho nút (button)
+    addbt.addEventListener("click", function () {
+        // Kiểm tra xem thẻ đang ẩn hay hiện
+        if (form.style.display === "none" || form.style.display === "") {
+            // Nếu thẻ đang ẩn hoặc không có style display, thì hiển thị thẻ
+            form.style.display = "block"; // Hoặc có thể sử dụng "inline" hoặc "inline-block" tùy vào loại thẻ
+        } else {
+            // Nếu thẻ đang hiện, thì ẩn thẻ
+            form.style.display = "none";
+        }
+    });
+
+
+</script>
+
+
