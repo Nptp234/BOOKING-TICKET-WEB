@@ -25,6 +25,9 @@
 
 
     string getDate = DateTime.Now.ToString("yyyy-MM-dd");
+
+    string csTime = "";
+    string csDate = "";
 }
 
 
@@ -42,6 +45,7 @@
         .film_info .film_img_container {
             overflow: hidden;
             min-height: 300px;
+            min-width: 250px;
             border: 5px solid white;
             box-sizing: border-box;
         }
@@ -218,7 +222,7 @@
         <div id="2Dcontainer" class="showtime_title">
             @foreach(var item in ViewBag.List2D)
             {
-                <a class="time_block btn btn-outline-secondary">@DateTime.ParseExact(item[0], "HH:mm:ss", CultureInfo.InvariantCulture).ToString("HH:mm")</a>
+                <a onclick="openPickChair('@item[0]', '2D')" class="time_block btn btn-outline-secondary">@DateTime.ParseExact(item[0], "HH:mm:ss", CultureInfo.InvariantCulture).ToString("HH:mm")</a>
             }
             
             
@@ -230,7 +234,7 @@
         <div id="3Dcontainer" class="showtime_title">
             @foreach (var item in ViewBag.List3D)
             {
-                <a class="time_block btn btn-outline-secondary">@DateTime.ParseExact(item[0], "HH:mm:ss", CultureInfo.InvariantCulture).ToString("HH:mm")</a>
+                <a onclick="openPickChair('@item[0]', '3D')" class="time_block btn btn-outline-secondary">@DateTime.ParseExact(item[0], "HH:mm:ss", CultureInfo.InvariantCulture).ToString("HH:mm")</a>
             }
         </div>
     </div>
@@ -248,8 +252,6 @@
             selectedItem.classList.remove('selected');
         });
         getItem.classList.add('selected');
-
-
         $.ajax({
                 url: "@Url.Action("ChangeDay", "Booking")", // Đường dẫn đến phương thức kiểm tra tồn tại
                 type: "POST",
@@ -292,8 +294,17 @@
             });
     }
 
-    function onchangeDay(value) {
+    function openPickChair(time, type) {
+        var getElementBySelected = document.getElementsByClassName('selected');
+        if (getElementBySelected != null) {
+            var jsDate = getElementBySelected[0].id;
+            var jsTime = time;
+            var url ='@Url.Action("ChonGhe", "Booking")' ;
+            window.location.href = url + '?Date=' + jsDate + '&Time=' + jsTime + '&Type=' + type;
 
+        } else {
+            alert("Chưa chọn ngày chiếu phim");
+        }
     }
 </script>
 
