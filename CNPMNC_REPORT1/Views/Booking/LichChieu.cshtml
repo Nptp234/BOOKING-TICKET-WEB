@@ -276,7 +276,10 @@
                         var childElement = document.createElement("a");
                         childElement.setAttribute("class", "time_block btn btn-outline-secondary");
                         childElement.textContent = response.List2D[i][0].split(':').slice(0, 2).join(':');
-                        console.log(i);
+                        childElement.onclick = function () {
+                            openPickChair(response.List2D[0], '2D');
+                        };
+                        /*childElement.setOnClickDateBlock()*/
                         get2Dcontainer.appendChild(childElement);
                         /*get2Dcontainer.innerHTML += "<a class=\"time_block btn btn-outline-secondary\">" + response.List2D[i][7].split(':').slice(0, 2).join(':') +"  </a>";*/
                     }
@@ -284,6 +287,9 @@
                         var childElement = document.createElement("a");
                         childElement.setAttribute("class", "time_block btn btn-outline-secondary");
                         childElement.textContent = response.List3D[i][0].split(':').slice(0, 2).join(':');
+                        childElement.onclick = function () {
+                            openPickChair(response.List3D[0], '3D');
+                        };
                         get3Dcontainer.appendChild(childElement);
                     //    get3Dcontainer.innerHTML += "<a class=\"time_block btn btn-outline-secondary\">" + response.List3D[i][7].split(':').slice(0, 2).join(':') + "  </a>";
                     }
