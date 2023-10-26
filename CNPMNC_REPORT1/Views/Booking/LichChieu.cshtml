@@ -1,7 +1,7 @@
 ﻿@using System.Globalization;
 @{
     ViewBag.Title = "LichChieu";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_IndexLayout.cshtml";
 
 
     string getStringType = "";
@@ -234,7 +234,7 @@
         <div id="3Dcontainer" class="showtime_title">
             @foreach (var item in ViewBag.List3D)
             {
-                <a onclick="openPickChair('@item[0]', '3D')" class="time_block btn btn-outline-secondary">@DateTime.ParseExact(item[0], "HH:mm:ss", CultureInfo.InvariantCulture).ToString("HH:mm")</a>
+                <a onclick="openPickChair('@item[0]', '3D')" href="" class="time_block btn btn-outline-secondary">@DateTime.ParseExact(item[0], "HH:mm:ss", CultureInfo.InvariantCulture).ToString("HH:mm")</a>
             }
         </div>
     </div>
@@ -243,6 +243,62 @@
 
     var getTag = document.getElementById('@getDate');
     getTag.classList.add('selected');
+
+    @*function setOnClickDateBlock(value) {
+        var getItem = document.getElementById(value);
+        var getSelectedItems = document.getElementsByClassName('selected');
+        //Thực hiện xóa bỏ element từ class đang có
+        Array.from(getSelectedItems).forEach(function (selectedItem) {
+            selectedItem.classList.remove('selected');
+        });
+        getItem.classList.add('selected');
+        $.ajax({
+                url: "@Url.Action("ChangeDay", "Booking")", // Đường dẫn đến phương thức kiểm tra tồn tại
+                type: "POST",
+                data: JSON.stringify({
+                    "date": value, "maphim": @ViewBag.Phim[0][0],
+                }), // Gửi dữ liệu dưới dạng JSON
+                contentType: "application/json; charset=utf-8", // Định dạng dữ liệu
+                dataType: "json", // Đặt kiểu dữ liệu mà bạn mong đợi từ phản hồi
+
+                success: function (response) {
+                    //clear hết thẻ con nằm trong thẻ 2DContainer và 3DContainer
+                    var get2Dcontainer = document.getElementById('2Dcontainer');
+                    var get3Dcontainer = document.getElementById('3Dcontainer');
+                    while (get2Dcontainer.firstChild) {
+                        get2Dcontainer.removeChild(get2Dcontainer.firstChild);
+                    }
+                    while (get3Dcontainer.firstChild) {
+                        get3Dcontainer.removeChild(get3Dcontainer.firstChild);
+                    }
+                    //console.log(get2Dcontainer);
+                    for (var i = 0; i < response.List2D.length; i++) {
+                        var childElement = document.createElement("a");
+                        childElement.setAttribute("class", "time_block btn btn-outline-secondary");
+                        childElement.textContent = response.List2D[i][0].split(':').slice(0, 2).join(':');
+                        childElement.onclick = function () {
+                            openPickChair(response.List2D[0], '2D');
+                        };
+                        /*childElement.setOnClickDateBlock()*/
+                        get2Dcontainer.appendChild(childElement);
+                        /*get2Dcontainer.innerHTML += "<a class=\"time_block btn btn-outline-secondary\">" + response.List2D[i][7].split(':').slice(0, 2).join(':') +"  </a>";*/
+                    }
+                    for (var i = 0; i < response.List3D.length; i++) {
+                        var childElement = document.createElement("a");
+                        childElement.setAttribute("class", "time_block btn btn-outline-secondary");
+                        childElement.textContent = response.List3D[i][0].split(':').slice(0, 2).join(':');
+                        childElement.onclick = function () {
+                            openPickChair(response.List3D[0], '3D');
+                        };
+                        get3Dcontainer.appendChild(childElement);
+                    //    get3Dcontainer.innerHTML += "<a class=\"time_block btn btn-outline-secondary\">" + response.List3D[i][7].split(':').slice(0, 2).join(':') + "  </a>";
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Lỗi khi gửi yêu cầu: " + status + " - " + error);
+                }
+            });
+    }*@
 
     function setOnClickDateBlock(value) {
         var getItem = document.getElementById(value);

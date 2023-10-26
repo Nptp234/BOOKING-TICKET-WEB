@@ -91,17 +91,18 @@
                                         <div class="tab-content">
                                             <div class="tab-content-inner active" data-content="signup">
                                                 <h3 class="cursive-font">LOGIN</h3>
-                                                <form action="#">
+                                                <p class="smaller_content" style="color:red;">@ViewBag.ThongBao</p>
+                                                <form action="@Url.Action("LoginPage","Home")" method="post">
                                                     <div class="row form-group">
                                                         <div class="col-md-12">
                                                             <label>Username</label> <br />
-                                                            <input type="text">
+                                                            <input type="text" name="Username" required>
                                                         </div>
                                                     </div>
                                                     <div class="row form-group">
                                                         <div class="col-md-12">
                                                             <label>Password</label> <br />
-                                                            <input type="password">
+                                                            <input type="password" name="Password" required>
                                                         </div>
                                                     </div>
                                                     <div class="row form-group">
@@ -110,7 +111,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row form-group">
-                                                        <a id="LoginFormBtn" style="color: #FBB448">Chưa có tài khoản? <u>ĐĂNG KÝ NGAY</u></a>
+                                                        <a href="@Url.Action("RegisterPage","Home")" style="color: #FBB448">Chưa có tài khoản?</a>
                                                     </div>
                                                 </form>
                                             </div>
@@ -118,64 +119,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight" style="display: none;" id="RegisterForm">
-                                <div class="form-wrap">
-                                    <div class="tab">
-                                        <div class="tab-content">
-                                            <div class="tab-content-inner active" data-content="signup">
-                                                <h3 class="cursive-font">REGISTER</h3>
-                                                <form action="#">
-                                                    <div class="row form-group">
-                                                        <div class="col-md-12">
-                                                            <label>Username</label> <br />
-                                                            <input type="text" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-md-12">
-                                                            <label>Password</label> <br />
-                                                            <input type="text" required>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row form-group">
-                                                        <div class="col-md-12">
-                                                            <label>Phone number</label> <br />
-                                                            <input type="tel" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-md-12">
-                                                            <label>Gmail</label> <br />
-                                                            <input type="email" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-md-12">
-                                                            <label>Address</label> <br />
-                                                            <input type="text" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-md-12">
-                                                            <label for="date-start">Date</label>
-                                                            <input type="text" id="date" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <div class="col-md-12">
-                                                            <input type="submit" class="btn btn-primary btn-block" style="height: fit-content" value="REGISTER NOW">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <a id="RegisterFormBtn" style="color: #FBB448">Đã có tài khoản? <u>ĐĂNG NHẬP NGAY</u></a>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>

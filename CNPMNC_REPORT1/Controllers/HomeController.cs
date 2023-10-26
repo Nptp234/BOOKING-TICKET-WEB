@@ -28,11 +28,66 @@ namespace CNPMNC_REPORT1.Controllers
         {
             return View();
         }
-        public ActionResult RegisterPage()
+        [HttpPost]
+        public ActionResult LoginPage(string Username, string Password)
         {
+            if (Username != null && Password != null)
+            {
+                if (Username == "admin" && Password == "adminpad")
+                {
+                    return RedirectToAction("Film", "Admin");
+                }
+                else
+                {
+                    if (db.getData($"SELECT * FROM KHACHHANG WHERE TenTKKH = '{Username}' AND MatKhauKH = '{Password}'").Count >= 1)
+                    {
+                        Session["isLogined"] = "true";
+                        if (Session["isLogined"] == "true")
+                        {
+                            Session["Username"] = Username;
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.ThongBao = "Error Login!";
+                    }
+                }
+                
+            }
+            else
+            {
+                ViewBag.ThongBao = "Error Null!";
+            }
             return View();
         }
 
+        public ActionResult RegisterPage()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult RegisterPage(string Username, string Password, string Email)
+        {
+            if (Username != null && Password != null && Email != null)
+            {
+                if (db.checkDataUsername(Username))
+                {
+                    if (db.saveDataUser(Username, Password, Email))
+                    {
+                        Session["isLogined"] = "true";
+                        if (Session["isLogined"]=="true")
+                        {
+                            Session["Username"] = Username;
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+                }
+            }
+            
+            return View();
+        }
         public ActionResult FilmDetail(int? IDPhim)
         {
             if (IDPhim != null)

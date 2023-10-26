@@ -31,7 +31,9 @@
     </button>
 
     @*form thêm phim*@
-    <form action="@Url.Action("Film", "Admin")" method="post" style="display: none;" id="formaddnew">
+    @using (Html.BeginForm("Film", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
 
         @*tên phim*@
         <div class="input-group mb-3">
@@ -68,12 +70,15 @@
             </div>
         </div>
 
-        @*hình ảnh phim*@
+        @*hình ảnh*@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text">Hình ảnh phim: </span>
+                <span class="input-group-text">Hình ảnh: </span>
             </div>
-            <input type="text" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="HinhAnhP" required>
+            <div style="display: flex; flex-direction:column; justify-content: center;">
+                <img id="blah" src="#" alt="" width="80" height="80" /><br>
+                <input accept="images/*" type='file' class="form-control" id="imgInp" name="HinhAnhFile" required>
+            </div>
         </div>
 
         @*trailer phim*@
@@ -111,7 +116,16 @@
 
         @*button xác nhận*@
         <button type="submit" class="btn btn-outline-info" name="status" value="Add">Xác nhận thêm phim mới</button>
-    </form>
+
+    }
+
+
+
+
+    @*<form action="@Url.Action("Film", "Admin")" method="post" style="display: none;" id="formaddnew">
+
+
+        </form>*@
 
     <br />
     <div class="border-bottom"> </div>
@@ -138,31 +152,42 @@
                 </tr>
             </thead>
             <tbody style="width: fit-content;">
-
-                @if (ViewBag.DSF != null)
+                @using (Html.BeginForm("Film", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
                 {
-                    foreach (var item in ViewBag.DSF)
+                    @Html.AntiForgeryToken()
+                    if (ViewBag.DSF != null)
                     {
-                        <form action="@Url.Action("Film", "Admin")" method="post">
-                        <tr>
-                            <th scope="row"><input name="MaP" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[0]" readonly required></th>
-                            <td><input name="TenF" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[1]" required></td>
-                            <td><input name="MoTaF" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" required></td>
-                            <td><input name="NgayCC" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[3]" required></td>
-                            <td><input name="ThoiLuong" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[4]" required></td>
-                            <td><input name="LuotMua" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[5]" readonly required></td>
-                            <td><input name="LuotThich" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[6]" readonly required></td>
-                            <td><input name="HinhAnh" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[7]" required></td>
-                            <td><input name="Trailer" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[8]" required></td>
-                            <td><input name="Gia" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[9]" required></td>
-                            <td><input name="MaGHT" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[10]" required></td>
-                            <td>
-                                <button type="submit" class="btn btn-outline-info" name="status" value="Update">Cập nhật</button>
-                            </td>
-                        </tr>
-                        </form>
+                        foreach (var item in ViewBag.DSF)
+                        {
+                            @*<form action="@Url.Action("Film", "Admin")" method="post">
+
+                    </form>*@
+
+                            <tr>
+                                <th scope="row"><input name="MaP" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[0]" readonly required></th>
+                                <td><input name="TenF" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[1]" required></td>
+                                <td><input name="MoTaF" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" required></td>
+                                <td><input name="NgayCC" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[3]" required></td>
+                                <td><input name="ThoiLuong" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[4]" required></td>
+                                <td><input name="LuotMua" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[5]" readonly required></td>
+                                <td><input name="LuotThich" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[6]" readonly required></td>
+                                <td style="width: 300px;">
+                                    <img src="~/img_phim/@item[7]" alt="" width="100" height="150" /><br>
+                                    <input accept="img/*" type='file' class="form-control" name="HinhAnhFiledetail1">
+                                    <input type='text' class="form-control" name="HinhAnhFiledetail2" value="@item[7]" style="display:none;">
+
+                                </td>
+                                <td><input name="Trailer" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[8]" required></td>
+                                <td><input name="Gia" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[9]" required></td>
+                                <td><input name="MaGHT" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[10]" required></td>
+                                <td>
+                                    <button type="submit" class="btn btn-outline-info" name="status" value="Update">Cập nhật</button>
+                                </td>
+                            </tr>
+                        }
                     }
                 }
+
 
             </tbody>
         </table>
@@ -213,6 +238,13 @@
 
         inputchoice.value = selectchoice;
     };
+
+    imgInp.onchange = evt => {
+        const [file] = imgInp.files
+        if (file) {
+            blah.src = URL.createObjectURL(file)
+        }
+    }
 
 
 </script>
