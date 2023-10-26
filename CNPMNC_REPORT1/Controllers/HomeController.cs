@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using CNPMNC_REPORT1.Models;
 using System.Net;
 using System.Net.Mail;
+using System.Collections;
+
 namespace CNPMNC_REPORT1.Controllers
 {
     public class HomeController : Controller
@@ -31,33 +33,26 @@ namespace CNPMNC_REPORT1.Controllers
         [HttpPost]
         public ActionResult LoginPage(string Username, string Password)
         {
-            if (Username != null && Password != null)
+            //Không cần kiểm tra Username và Password là null do thẻ input đã có thuộc tính required
+            if (Username == "admin" && Password == "adminpad")
             {
-                if (Username == "admin" && Password == "adminpad")
-                {
-                    return RedirectToAction("Film", "Admin");
-                }
-                else
-                {
-                    if (db.getData($"SELECT * FROM KHACHHANG WHERE TenTKKH = '{Username}' AND MatKhauKH = '{Password}'").Count >= 1)
-                    {
-                        Session["isLogined"] = "true";
-                        if (Session["isLogined"] == "true")
-                        {
-                            Session["Username"] = Username;
-                            return RedirectToAction("Index", "Home");
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.ThongBao = "Error Login!";
-                    }
-                }
-                
+                return RedirectToAction("Film", "Admin");
             }
             else
             {
-                ViewBag.ThongBao = "Error Null!";
+                if (db.getData($"SELECT * FROM KHACHHANG WHERE TenTKKH = '{Username}' AND MatKhauKH = '{Password}'").Count >= 1)
+                {
+                    Session["isLogined"] = "true";
+                    if (Session["isLogined"] == "true")
+                    {
+                        Session["Username"] = Username;
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
+                {
+                    ViewBag.ThongBao = "Error Login!";
+                }
             }
             return View();
         }

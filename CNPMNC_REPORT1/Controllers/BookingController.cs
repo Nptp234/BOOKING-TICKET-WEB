@@ -78,7 +78,6 @@ namespace CNPMNC_REPORT1.Controllers
         }
         public JsonResult updateViewPrice(string listloaighe, string maphim = "1")
         {
-            
             double totalPrice = 0;
             if (listloaighe != "")
             {
@@ -100,7 +99,6 @@ namespace CNPMNC_REPORT1.Controllers
                     }
                 }
             }
-            
             var data = new { totalPrice = totalPrice};
             return Json(data);
         }
