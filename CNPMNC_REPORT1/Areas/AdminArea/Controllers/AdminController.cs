@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Collections; // Sử dụng Lớp ArrayList để lưu kết quả
 using System.Data.SqlClient;// Sử dụng các lớp tương tác CSDL
 using CNPMNC_REPORT1.Models;
+using System.IO;
 
 namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 {
@@ -29,61 +30,93 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Film(int? MaP, string TenF, string MoTaF, string NgayCC, int? ThoiLuongP, string HinhAnhP, string TrailerP, string GHTP, int? GiaP, int? MaGHT, string status)
+        public ActionResult Film(int? MaP, string TenF, string MoTaF, string NgayCC, int? ThoiLuongP, string HinhAnhP, string TrailerP, string GHTP, int? GiaP, int? MaGHT, HttpPostedFileBase HinhAnhFile, HttpPostedFileBase HinhAnhFiledetail1, string HinhAnhFiledetail2, string status)
         {
             SQLData data = new SQLData();
             if (ModelState.IsValid)
             {
                 if (status == "Add")
                 {
-                    if (TenF != null && MoTaF != null && NgayCC != null && ThoiLuongP != null && HinhAnhP != null && TrailerP != null && GHTP != null && GiaP != null)
+                    if (TenF != null && MoTaF != null && NgayCC != null && ThoiLuongP != null && TrailerP != null && GHTP != null && GiaP != null)
                     {
-                        int getMaGHT = data.getMaGHT(GHTP);
-                        if (getMaGHT != 0)
+                        if (HinhAnhFile != null)
                         {
-                            bool isSaved = data.saveFilm(TenF, MoTaF, NgayCC, ThoiLuongP, HinhAnhP, TrailerP, GiaP, getMaGHT);
-                            if (!isSaved)
+                            var fileName = Path.GetFileName(HinhAnhFile.FileName);
+                            var path = Path.Combine(Server.MapPath("~/img_phim"), fileName);
+                            HinhAnhFile.SaveAs(path);
+
+                            int getMaGHT = data.getMaGHT(GHTP);
+                            if (getMaGHT != 0)
                             {
-                                ViewBag.ThongBaoLuu = "Lỗi lưu không thành công hoặc phim đã tồn tại!";
-                                ViewBag.DSF = data.getData("SELECT * FROM PHIM");
-                                ViewBag.DSGHTP = data.getData("SELECT * FROM GIOIHANTUOI");
+                                bool isSaved = data.saveFilm(TenF, MoTaF, NgayCC, ThoiLuongP, fileName, TrailerP, GiaP, getMaGHT);
+                                if (!isSaved)
+                                {
+                                    ViewBag.ThongBaoLuu = "Lỗi lưu không thành công hoặc phim đã tồn tại!";
+                                    ViewBag.DSF = data.getData("SELECT * FROM PHIM");
+                                    ViewBag.DSGHTP = data.getData("SELECT * FROM GIOIHANTUOI");
+                                }
+                                else
+                                {
+                                    ViewBag.DSF = data.getData("SELECT * FROM PHIM");
+                                    ViewBag.DSGHTP = data.getData("SELECT * FROM GIOIHANTUOI");
+                                }
                             }
                             else
                             {
+                                ViewBag.ThongBaoLuu = "Lỗi không tồn tại giới hạn tuổi!";
                                 ViewBag.DSF = data.getData("SELECT * FROM PHIM");
                                 ViewBag.DSGHTP = data.getData("SELECT * FROM GIOIHANTUOI");
                             }
                         }
                         else
                         {
-                            ViewBag.ThongBaoLuu = "Lỗi không tồn tại giới hạn tuổi!";
+                            ViewBag.ThongBaoLuu = "Lỗi không tồn tại!";
                             ViewBag.DSF = data.getData("SELECT * FROM PHIM");
                             ViewBag.DSGHTP = data.getData("SELECT * FROM GIOIHANTUOI");
                         }
                     }
                     else
                     {
-                        ViewBag.ThongBaoLuu = "Lỗi không tồn tại!";
+                        ViewBag.ThongBaoLuu = "Lỗi hinhanh ko tồn tại!";
                         ViewBag.DSF = data.getData("SELECT * FROM PHIM");
                         ViewBag.DSGHTP = data.getData("SELECT * FROM GIOIHANTUOI");
                     }
-
-
                 }
                 else if (status == "Update")
                 {
-                    if (TenF != null && MoTaF != null && NgayCC != null && ThoiLuongP != null && HinhAnhP != null && TrailerP != null && MaGHT != null && GiaP != null)
+                    if (TenF != null && MoTaF != null && NgayCC != null && ThoiLuongP != null && TrailerP != null && MaGHT != null && GiaP != null)
                     {
-                        bool isUpdate = data.updateFilm(MaP,TenF, MoTaF, NgayCC, ThoiLuongP, HinhAnhP, TrailerP, GiaP, MaGHT);
-                        if (!isUpdate)
+                        if (HinhAnhFiledetail1 == null)
                         {
-                            ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
-                            ViewBag.DSTLF = data.getData("SELECT * FROM PHIM");
+                            bool isUpdate = data.updateFilm(MaP, TenF, MoTaF, NgayCC, ThoiLuongP, HinhAnhFiledetail2, TrailerP, GiaP, MaGHT);
+                            if (!isUpdate)
+                            {
+                                ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
+                                ViewBag.DSTLF = data.getData("SELECT * FROM PHIM");
+                            }
+                            else
+                            {
+                                ViewBag.DSTLF = data.getData("SELECT * FROM PHIM");
+                            }
                         }
                         else
                         {
-                            ViewBag.DSTLF = data.getData("SELECT * FROM PHIM");
+                            var fileName1 = Path.GetFileName(HinhAnhFiledetail1.FileName);
+                            var path1 = Path.Combine(Server.MapPath("~/img"), fileName1);
+                            HinhAnhFiledetail1.SaveAs(path1);
+
+                            bool isUpdate = data.updateFilm(MaP, TenF, MoTaF, NgayCC, ThoiLuongP, fileName1, TrailerP, GiaP, MaGHT);
+                            if (!isUpdate)
+                            {
+                                ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
+                                ViewBag.DSTLF = data.getData("SELECT * FROM PHIM");
+                            }
+                            else
+                            {
+                                ViewBag.DSTLF = data.getData("SELECT * FROM PHIM");
+                            }
                         }
+                        
                     }
                     else
                     {

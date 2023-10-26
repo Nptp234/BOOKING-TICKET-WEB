@@ -9,7 +9,7 @@ namespace CNPMNC_REPORT1.Models
 {
     public class SQLData
     {
-        public static string connectionString = "Server=LAPTOP-FJ00A5PB\\SQLEXPRESS;Database=CNPMNC_DATA1;Trusted_Connection=True";
+        public static string connectionString = "Server=localhost;Database=CNPMNC_DATA1;Trusted_Connection=True";
         private int countTLP;
 
         public ArrayList getData(String sql)
@@ -47,6 +47,98 @@ namespace CNPMNC_REPORT1.Models
             return listData;
         }
 
+        public bool checkDataUsername(string username)
+        {
+            bool isChecked = true;
+
+            //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            string sql = "SELECT * FROM KHACHHANG WHERE TenTKKH = @username";
+
+            //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+            connection.Open();
+
+            command.Parameters.AddWithValue("@username", username);
+
+            SqlDataReader sqlDataReader = command.ExecuteReader();
+
+            if (sqlDataReader.HasRows)
+            {
+                isChecked = false;
+            }
+            else isChecked = true;
+
+
+            connection.Close();
+
+            return isChecked;
+        }
+        public bool saveDataUser(string username, string password, string email)
+        {
+            bool isSaved = true;
+
+            //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //Đối tượng câu truy vấn thêm dữ liệu sql
+            string sql = "INSERT INTO KHACHHANG VALUES (@username, @pass, @email, 0, 'Actived', 1)";
+
+            //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+            connection.Open();
+
+            command.Parameters.AddWithValue("@username", username);
+            command.Parameters.AddWithValue("@pass", password);
+            command.Parameters.AddWithValue("@email", email);
+
+            int result = command.ExecuteNonQuery();
+
+            if (result > 0)
+            {
+                isSaved = true;
+            }
+            else isSaved = false;
+
+            return isSaved;
+        }
+        public bool checkLoginDataUser(string username, string password)
+        {
+            bool isChecked = true;
+
+            //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //Đối tượng câu truy vấn thêm dữ liệu sql
+            string sql = "SELECT * FROM KHACHHANG WHERE TenTKKH = @username AND MatKhauKH = @password";
+
+            //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+            connection.Open();
+
+            command.Parameters.AddWithValue("@username", username);
+            command.Parameters.AddWithValue("@password", password);
+
+            
+            int result = command.ExecuteNonQuery();
+
+            if (result > 0)
+            {
+                isChecked = true;
+            }
+            else isChecked = false;
+
+            connection.Close();
+
+            return isChecked;
+        }
 
         public bool saveFilm(string name, string des, string date, int? time, string img, string trailer, int? gia, int? codeght)
         {

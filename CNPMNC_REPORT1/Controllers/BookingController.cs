@@ -42,8 +42,8 @@ namespace CNPMNC_REPORT1.Controllers
 
         public JsonResult ChangeDay(string maphim, string date)
         {
-            ArrayList list2D = db.getData($"SELECT DISTINCT XUATCHIEU.GioXC FROM LICHCHIEU, PHONGCHIEU, LOAIPC, XUATCHIEU WHERE MaPhim = {maphim} AND LOAIPC.TenLPC = '2D' AND XUATCHIEU.MaXC = LICHCHIEU.CaXC AND LICHCHIEU.MaPC = PHONGCHIEU.MaPC AND PHONGCHIEU.MaLPC = LOAIPC.MaLPC AND LICHCHIEU.NgayLC = '{date}' ORDER BY GioXC ASC");
-            ArrayList list3D = db.getData($"SELECT DISTINCT XUATCHIEU.GioXC FROM LICHCHIEU, PHONGCHIEU, LOAIPC, XUATCHIEU WHERE MaPhim = {maphim} AND LOAIPC.TenLPC = '3D' AND XUATCHIEU.MaXC = LICHCHIEU.CaXC AND LICHCHIEU.MaPC = PHONGCHIEU.MaPC AND PHONGCHIEU.MaLPC = LOAIPC.MaLPC AND LICHCHIEU.NgayLC = '{date}' ORDER BY GioXC ASC");
+            ArrayList list2D = db.getData($"SELECT DISTINCT XUATCHIEU.GioXC FROM LICHCHIEU, PHONGCHIEU, LOAIPC, XUATCHIEU WHERE MaPhim = {maphim} AND LOAIPC.TenLPC = '2D' AND XUATCHIEU.MaXC = LICHCHIEU.MaXC AND LICHCHIEU.MaPC = PHONGCHIEU.MaPC AND PHONGCHIEU.MaLPC = LOAIPC.MaLPC AND LICHCHIEU.NgayLC = '{date}' ORDER BY GioXC ASC");
+            ArrayList list3D = db.getData($"SELECT DISTINCT XUATCHIEU.GioXC FROM LICHCHIEU, PHONGCHIEU, LOAIPC, XUATCHIEU WHERE MaPhim = {maphim} AND LOAIPC.TenLPC = '3D' AND XUATCHIEU.MaXC = LICHCHIEU.MaXC AND LICHCHIEU.MaPC = PHONGCHIEU.MaPC AND PHONGCHIEU.MaLPC = LOAIPC.MaLPC AND LICHCHIEU.NgayLC = '{date}' ORDER BY GioXC ASC");
             //var data = new { Check = true, Email = email, Name = name, Address = address };
             var data = new { List2D = list2D, List3D = list3D };
             return Json(data);
@@ -52,7 +52,7 @@ namespace CNPMNC_REPORT1.Controllers
         public ActionResult ChonGhe(string Type, string Date = "", string Time = "7:00:00", string MaPhim = "1", string stt = "1")
         {
             if (Date == null || Date == "")
-                Date = DateTime.Now.ToString("dd/MM/yyyy");
+                Date = DateTime.Now.ToString("yyyy-MM-dd");
             //LẤY DANH SÁCH CÁC GHẾ THƯỜNG VÀ VIP CÓ SẴN
             ViewBag.getChair = db.getData($"SELECT LICHCHIEU.*, PHONGCHIEU.SLGheThuong, PHONGCHIEU.SLGheVIP, XUATCHIEU.GioXC, LOAIPC.TenLPC " +
                 $"FROM LICHCHIEU, XUATCHIEU, PHIM, PHONGCHIEU, LOAIPC " +
