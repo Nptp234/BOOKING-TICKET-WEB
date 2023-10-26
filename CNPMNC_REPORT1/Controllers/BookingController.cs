@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CNPMNC_REPORT1.Models;
+using Newtonsoft.Json;
+
 namespace CNPMNC_REPORT1.Controllers
 {
     public class BookingController : Controller
@@ -99,8 +101,41 @@ namespace CNPMNC_REPORT1.Controllers
                     }
                 }
             }
+<<<<<<< Updated upstream
             var data = new { totalPrice = totalPrice};
+=======
+            var data = new { totalPrice = totalPrice };
+>>>>>>> Stashed changes
             return Json(data);
         }
+
+        public ActionResult ShowTicket(string getIdLichChieu, string getListChairPicked = "", string getTotalMoney = "0")
+        {
+            //Lấy ra một mảng là những ghế được chọn
+            List<string> listChair = getListChairPicked.Split(' ').ToList();
+            //Lấy ra thông tin lịch chiếu
+            ViewBag.LichChieu = db.getData( $"SELECT lc.MaLC, p.HinhAnh, lc.MaPC, lpc.TenLPC, lc.NgayLC, p.TenPhim, ght.TenGHT, xc.GioXC " +
+                                            $"FROM LICHCHIEU lc, PHIM p, LOAIPC lpc, GIOIHANTUOI ght, PHONGCHIEU pc, XUATCHIEU xc " +
+                                            $"WHERE lc.MaPhim = p.MaPhim " +
+                                            $"AND p.MaGHT = ght.MaGHT " +
+                                            $"AND lc.MaPC = pc.MaPC " +
+                                            $"AND pc.MaLPC = lpc.MaLPC " +
+                                            $"AND xc.MaXC = lc.MaXC " +
+                                            $"AND lc.MaLC = 1");
+           
+            //Lấy ra số tiền phải trả
+            ViewBag.Money = getTotalMoney.Split(' ').ToList()[0];
+
+            return View(listChair);
+        }
+
+        public ActionResult BookingFinal()
+        {
+
+        }
+        //public ActionResult ShowTicket()
+        //{
+        //    return View();
+        //}
     }
 }

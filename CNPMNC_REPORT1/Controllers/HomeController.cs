@@ -103,8 +103,5 @@ namespace CNPMNC_REPORT1.Controllers
             }
             return View();
         }
-
-        
-
     }
 }

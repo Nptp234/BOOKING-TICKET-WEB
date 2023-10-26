@@ -22,6 +22,7 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="~/Content/style.css">
 
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -183,13 +184,13 @@
     </style>
 
     <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg" style="padding: 0; padding-top: 20px; padding-bottom: 20px; position: relative">
+    <nav class="navbar navbar-expand-lg" style="padding: 0; position: relative">
         <div class="container">
             <a class="navbar-brand navbar-logo" href="@Url.Action("Index", "Home")">
                 <img src="~/images/logo.png" alt="logo" class="logo-1" width="150">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="fas fa-bars"></span> </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            @*<div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"> <a class="nav-link" href="~/Home/Index" data-scroll-nav="0">Home</a> </li>
                     <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="1">Now Showing</a> </li>
@@ -199,7 +200,7 @@
                     <li class="nav-item"> <a class="nav-link" href="#" data-scroll-nav="5">Contact</a> </li>
                     <li class="nav-item"> <a class="nav-link" href="@Url.Action("LoginPage", "Home")">Login</a> </li>
                 </ul>
-            </div>
+            </div>*@
         </div>
     </nav>
     <!-- END NAVBAR -->
