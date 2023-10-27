@@ -84,10 +84,11 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                 }
                 else if (status == "Update")
                 {
-                    if (TenF != null && MoTaF != null && NgayCC != null && ThoiLuongP != null && TrailerP != null && MaGHT != null && GiaP != null)
+                    if (TenF != null && MoTaF != null && NgayCC != null && TrailerP != null && ThoiLuongP != null && MaGHT != null && GiaP != null)
                     {
                         if (HinhAnhFiledetail1 == null)
                         {
+                            
                             bool isUpdate = data.updateFilm(MaP, TenF, MoTaF, NgayCC, ThoiLuongP, HinhAnhFiledetail2, TrailerP, GiaP, MaGHT);
                             if (!isUpdate)
                             {
@@ -105,6 +106,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                             var path1 = Path.Combine(Server.MapPath("~/img"), fileName1);
                             HinhAnhFiledetail1.SaveAs(path1);
 
+                            
                             bool isUpdate = data.updateFilm(MaP, TenF, MoTaF, NgayCC, ThoiLuongP, fileName1, TrailerP, GiaP, MaGHT);
                             if (!isUpdate)
                             {
@@ -120,11 +122,11 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                     }
                     else
                     {
-                        ViewBag.ThongBaoLuu = "Lỗi không tồn tại!";
+                        ViewBag.ThongBaoLuu = $"Lỗi null {MaP},{TenF},{MoTaF},{NgayCC},{ThoiLuongP},{TrailerP},{GiaP},{MaGHT}!";
                         ViewBag.DSTLF = data.getData("SELECT * FROM PHIM");
                     }
                 }
-                else ViewBag.ThongBaoLuu = "Lỗi không tồn tại!";
+                else ViewBag.ThongBaoLuu = "Lỗi model!";
             }
             return View();
         }
