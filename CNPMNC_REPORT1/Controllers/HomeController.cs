@@ -36,7 +36,7 @@ namespace CNPMNC_REPORT1.Controllers
             //Không cần kiểm tra Username và Password là null do thẻ input đã có thuộc tính required
             if (Username == "admin" && Password == "adminpad")
             {
-                return RedirectToAction("Film", "Admin");
+                return RedirectToAction("Film", "Admin", new { area = "AdminArea" });
             }
             else
             {
