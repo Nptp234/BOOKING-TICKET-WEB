@@ -1,7 +1,7 @@
 ﻿@using System.Globalization;
 @{
     ViewBag.Title = "LichChieu";
-    Layout = "~/Views/Shared/_IndexLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
 
     string getStringType = "";
@@ -234,7 +234,7 @@
         <div id="3Dcontainer" class="showtime_title">
             @foreach (var item in ViewBag.List3D)
             {
-                <a onclick="openPickChair('@item[0]', '3D')" href="" class="time_block btn btn-outline-secondary">@DateTime.ParseExact(item[0], "HH:mm:ss", CultureInfo.InvariantCulture).ToString("HH:mm")</a>
+                <a onclick="openPickChair('@item[0]', '3D')" class="time_block btn btn-outline-secondary">@DateTime.ParseExact(item[0], "HH:mm:ss", CultureInfo.InvariantCulture).ToString("HH:mm")</a>
             }
         </div>
     </div>

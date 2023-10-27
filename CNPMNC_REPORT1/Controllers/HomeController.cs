@@ -22,7 +22,7 @@ namespace CNPMNC_REPORT1.Controllers
             //Lấy danh sách phim sắp khởi chiếu
             ViewBag.ComingSoon = db.getData("SELECT * FROM PHIM WHERE NgayCongChieu > GETDATE()");
             //Lấy danh sách phim xem nhiều nhất
-            ViewBag.MostWatching = db.getData("SELECT * FROM PHIM WHERE LuotMua>=10");
+            ViewBag.MostWatching = db.getData("SELECT * FROM PHIM WHERE LuotMua >= 10");
             return View();
         }
 
@@ -101,6 +101,11 @@ namespace CNPMNC_REPORT1.Controllers
                 }
                 return View();
             }
+            return View();
+        }
+
+        public ActionResult Error_Page()
+        {
             return View();
         }
     }

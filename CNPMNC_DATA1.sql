@@ -432,4 +432,3 @@ where MaPhim = 2
 --Thêm LICHCHIEU vào ngày 20-10-2023, 'ENABLE', số vé là 0, Ca chiếu 1, Phòng 4(3D), Mã phim 1
 INSERT INTO LICHCHIEU VALUES('20231027', 'ENABLE', 0, 1, 4, 1)
 
-SELECT * FROM KHACHHANG WHERE TenTKKH = @username AND MatKhauKH = @password

@@ -21,7 +21,11 @@ namespace CNPMNC_REPORT1.Controllers
         //}
         public ActionResult LichChieu(string maphim = "1", string ngay = "")
         {
-            
+            if (Session["Username"] == null)
+            {
+                return RedirectToAction("LoginPage", "Home");
+            }
+
             if (ngay == "")
             {
                 ngay = DateTime.Now.ToString("yyyy-MM-dd");
@@ -101,11 +105,7 @@ namespace CNPMNC_REPORT1.Controllers
                     }
                 }
             }
-<<<<<<< Updated upstream
-            var data = new { totalPrice = totalPrice};
-=======
             var data = new { totalPrice = totalPrice };
->>>>>>> Stashed changes
             return Json(data);
         }
 
@@ -126,16 +126,30 @@ namespace CNPMNC_REPORT1.Controllers
             //Lấy ra số tiền phải trả
             ViewBag.Money = getTotalMoney.Split(' ').ToList()[0];
 
+            ViewBag.ListChair = getListChairPicked;
             return View(listChair);
         }
+        [HttpPost]
+        public ActionResult BookingFinal(string total_price, string slve, string getlistghe, string malc)
+         {
+            string getUsername = Session["Username"] as string;
+            ViewBag.getIDUser = db.getData($"SELECT* FROM KHACHHANG WHERE TenTKKH = '{getUsername}'")[0];
 
-        public ActionResult BookingFinal()
-        {
+            // total_price sẽ có dữ liệu là " ... VND", nên cần phải tách chuỗi ra dựa theo khoảng trắng và lấy kí tự đầu tiên
+            db.getData($"INSERT INTO VEPHIM VALUES ('{DateTime.Now.ToString()}', N'CHƯA THANH TOÁN', N'CHƯA HẾT HẠN', {slve}, {Convert.ToDouble(total_price.Split(' ')[0].Replace(".", ""))}, {malc}, {ViewBag.getIDUser[0]});");
+            ViewBag.getIDVePhim = db.getData("SELECT TOP(1) * FROM VEPHIM ORDER BY MaVe DESC");
+            string idVePhim = ViewBag.getIDVePhim[0][0].ToString();
 
+            List<string> getListGhe = getlistghe.Split(' ').ToList();
+            foreach(var item in getListGhe)
+            {
+                db.getData($"INSERT INTO VE_GHE VALUES ({idVePhim}, '{item}')");
+            }
+            return RedirectToAction("ThankYouPage", "Booking"); 
         }
-        //public ActionResult ShowTicket()
-        //{
-        //    return View();
-        //}
+        public ActionResult ThankYouPage()
+        {
+            return View();
+        }
     }
 }

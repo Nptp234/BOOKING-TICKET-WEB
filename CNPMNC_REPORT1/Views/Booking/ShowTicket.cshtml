@@ -346,16 +346,12 @@
                     </div>
                     <form action="@Url.Action("BookingFinal", "Booking")" method="post">
                         <div class="row">
-                            <div class="col-md-6">
+                            <input type="text" name="malc" style="display: none" value="@ViewBag.LichChieu[0][0]" />
+                            <input type="text" name="getlistghe" style="display: none" value="@ViewBag.ListChair" />
+                            <div class="col-md-12">
                                 <div class="form-group">
-                                    <span class="form-label">Họ tên</span>
-                                    <input class="form-control" type="text" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <span class="form-label">Email</span>
-                                    <input class="form-control" type="text" required>
+                                    <span class="form-label" >Tài khoản sử dụng</span>
+                                    <input class="form-control" name="name" type="text" value="@Session["Username"]" required>
                                 </div>
                             </div>
                         </div>
@@ -363,13 +359,13 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <span class="form-label">Quantity</span>
-                                    <input readonly type="text" value="@Model.Count" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                                    <input readonly type="text" name="slve" value="@Model.Count" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <span class="form-label">Price Total</span>
-                                    <input class="form-control" type="text" value="@ViewBag.Money VND" readonly>
+                                    <input class="form-control" name="total_price" type="text" value="@ViewBag.Money VND" readonly>
                                 </div>
                             </div>
                         </div>
