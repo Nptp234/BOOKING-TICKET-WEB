@@ -152,6 +152,7 @@
     <Content Include="css\owl.carousel.min.css" />
     <Content Include="css\owl.theme.default.min.css" />
     <Content Include="css\style.css" />
+    <Content Include="css\thankyou_style.css" />
     <Content Include="css\themify-icons.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -258,6 +259,9 @@
     <Content Include="Views\Booking\LichChieu.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Booking\ChonGhe.cshtml" />
+    <Content Include="Views\Booking\ShowTicket.cshtml" />
+    <Content Include="Views\Home\Error_Page.cshtml" />
+    <Content Include="Views\Booking\ThankYouPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

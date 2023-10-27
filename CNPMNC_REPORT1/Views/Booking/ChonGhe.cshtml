@@ -1,9 +1,11 @@
-﻿
+﻿@using System.Collections;
 @{
     ViewBag.Title = "ChonGhe";
     Layout = "~/Views/Shared/_IndexLayout.cshtml";
     char checkNor = 'F';
+    ArrayList getLichChieu = ViewBag.getChair_STT as ArrayList;
 }
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
@@ -273,10 +275,6 @@
                         <div class="d-inline-block">Ghế VIP</div>
                     </div>
                 </div>
-                @*<h6 style="font-weight: bolder; text-align: left;">Ghế VIP</h6>
-                    <div class="container d-flex justify-content-around " style="margin: 10px 0px; flex-direction: column">
-
-                    </div>*@
             </div>
             <div class="price_ticket">
                 <h6 style="font-weight: bolder;">Vé đã đặt</h6>
@@ -285,12 +283,10 @@
                     <span id="price_chair" style="text-align: left;">0 ₫</span>
                     <span style="text-align: left; font-weight: bolder">Ghế: </span>
                     <span id="picked_chair" style="text-align: left;">
-
                     </span>
                 </div>
-
             </div>
-            <button class="btn btn-outline-success" style="margin-right: 0px;">ĐẶT NGAY</button>
+            <div onclick="ShowTicket()" class="btn btn-outline-success" style="margin-right: 0px;">ĐẶT NGAY</div>
         </div>
     </div>
 
@@ -345,6 +341,26 @@
                     console.error("Lỗi khi gửi yêu cầu: " + status + " - " + error);
                 }
             });
+        }
+
+        function ShowTicket() {
+
+
+            var picked_chair = document.getElementById('picked_chair');
+            var price_chair = document.getElementById('price_chair');
+
+            if (picked_chair.innerHTML.trim() == "") {
+                alert("Vui lòng chọn ít nhất 1(một) ghế để có thể thực hiện đặt vé.");
+            } else {
+                 var getLichChieuID = @ViewBag.getChair_STT[0];
+            var url = '@Url.Action("ShowTicket", "Booking")' +
+                '?getIdLichChieu=' + getLichChieuID +
+                        '&getListChairPicked=' + picked_chair.innerHTML.trim() +
+                        '&getTotalMoney=' + price_chair.innerHTML.trim();
+
+            window.location.href = url;
+            }
+
         }
     </script>
 </body>

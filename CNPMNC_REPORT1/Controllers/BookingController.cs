@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CNPMNC_REPORT1.Models;
+using Newtonsoft.Json;
+
 namespace CNPMNC_REPORT1.Controllers
 {
     public class BookingController : Controller
@@ -19,7 +21,11 @@ namespace CNPMNC_REPORT1.Controllers
         //}
         public ActionResult LichChieu(string maphim = "1", string ngay = "")
         {
-            
+            if (Session["Username"] == null)
+            {
+                return RedirectToAction("LoginPage", "Home");
+            }
+
             if (ngay == "")
             {
                 ngay = DateTime.Now.ToString("yyyy-MM-dd");
@@ -78,7 +84,6 @@ namespace CNPMNC_REPORT1.Controllers
         }
         public JsonResult updateViewPrice(string listloaighe, string maphim = "1")
         {
-            
             double totalPrice = 0;
             if (listloaighe != "")
             {
@@ -100,9 +105,51 @@ namespace CNPMNC_REPORT1.Controllers
                     }
                 }
             }
-            
-            var data = new { totalPrice = totalPrice};
+            var data = new { totalPrice = totalPrice };
             return Json(data);
+        }
+
+        public ActionResult ShowTicket(string getIdLichChieu, string getListChairPicked = "", string getTotalMoney = "0")
+        {
+            //Lấy ra một mảng là những ghế được chọn
+            List<string> listChair = getListChairPicked.Split(' ').ToList();
+            //Lấy ra thông tin lịch chiếu
+            ViewBag.LichChieu = db.getData( $"SELECT lc.MaLC, p.HinhAnh, lc.MaPC, lpc.TenLPC, lc.NgayLC, p.TenPhim, ght.TenGHT, xc.GioXC " +
+                                            $"FROM LICHCHIEU lc, PHIM p, LOAIPC lpc, GIOIHANTUOI ght, PHONGCHIEU pc, XUATCHIEU xc " +
+                                            $"WHERE lc.MaPhim = p.MaPhim " +
+                                            $"AND p.MaGHT = ght.MaGHT " +
+                                            $"AND lc.MaPC = pc.MaPC " +
+                                            $"AND pc.MaLPC = lpc.MaLPC " +
+                                            $"AND xc.MaXC = lc.MaXC " +
+                                            $"AND lc.MaLC = 1");
+           
+            //Lấy ra số tiền phải trả
+            ViewBag.Money = getTotalMoney.Split(' ').ToList()[0];
+
+            ViewBag.ListChair = getListChairPicked;
+            return View(listChair);
+        }
+        [HttpPost]
+        public ActionResult BookingFinal(string total_price, string slve, string getlistghe, string malc)
+         {
+            string getUsername = Session["Username"] as string;
+            ViewBag.getIDUser = db.getData($"SELECT* FROM KHACHHANG WHERE TenTKKH = '{getUsername}'")[0];
+
+            // total_price sẽ có dữ liệu là " ... VND", nên cần phải tách chuỗi ra dựa theo khoảng trắng và lấy kí tự đầu tiên
+            db.getData($"INSERT INTO VEPHIM VALUES ('{DateTime.Now.ToString()}', N'CHƯA THANH TOÁN', N'CHƯA HẾT HẠN', {slve}, {Convert.ToDouble(total_price.Split(' ')[0].Replace(".", ""))}, {malc}, {ViewBag.getIDUser[0]});");
+            ViewBag.getIDVePhim = db.getData("SELECT TOP(1) * FROM VEPHIM ORDER BY MaVe DESC");
+            string idVePhim = ViewBag.getIDVePhim[0][0].ToString();
+
+            List<string> getListGhe = getlistghe.Split(' ').ToList();
+            foreach(var item in getListGhe)
+            {
+                db.getData($"INSERT INTO VE_GHE VALUES ({idVePhim}, '{item}')");
+            }
+            return RedirectToAction("ThankYouPage", "Booking"); 
+        }
+        public ActionResult ThankYouPage()
+        {
+            return View();
         }
     }
 }
