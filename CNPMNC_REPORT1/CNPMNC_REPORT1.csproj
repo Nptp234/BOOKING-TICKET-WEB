@@ -114,6 +114,7 @@
     <Compile Include="Areas\AdminArea\Controllers\AdminController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -232,6 +233,8 @@
     <Content Include="Areas\AdminArea\Views\Admin\LoaiGhe.cshtml" />
     <Content Include="Areas\AdminArea\Views\Admin\XuatChieu.cshtml" />
     <Content Include="Areas\AdminArea\Views\Admin\LichChieu.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Admin\ReportHD.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Admin\HDDetail.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -262,6 +265,7 @@
     <Content Include="Views\Booking\ShowTicket.cshtml" />
     <Content Include="Views\Home\Error_Page.cshtml" />
     <Content Include="Views\Booking\ThankYouPage.cshtml" />
+    <Content Include="Views\Store\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

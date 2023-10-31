@@ -31,93 +31,95 @@
     </button>
 
     @*form thêm phim*@
-    @using (Html.BeginForm("Film", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
+    <div style="display: none;" id="formaddnew">
+        @using (Html.BeginForm("Film", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
 
-        @*tên phim*@
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Tên phim: </span>
+            @*tên phim*@
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Tên phim: </span>
+                </div>
+                <input type="text" class="form-control" name="TenF" required>
             </div>
-            <input type="text" class="form-control" name="TenF" required>
-        </div>
 
-        @*mô tả phim*@
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Mô tả: </span>
+            @*mô tả phim*@
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Mô tả: </span>
+                </div>
+                <input type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="MoTaF" required>
             </div>
-            <input type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="MoTaF" required>
-        </div>
 
-        @*ngày công chiếu phim*@
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Ngày công chiếu phim: </span>
+            @*ngày công chiếu phim*@
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Ngày công chiếu phim: </span>
+                </div>
+                <input type="date" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="NgayCC" required>
             </div>
-            <input type="date" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="NgayCC" required>
-        </div>
 
-        @*thời lượng phim*@
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Thời lượng phim: </span>
+            @*thời lượng phim*@
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Thời lượng phim: </span>
+                </div>
+                <input type="number" min="1" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="ThoiLuongP" required>
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> Phút</span>
+                </div>
             </div>
-            <input type="number" min="1" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="ThoiLuongP" required>
-            <div class="input-group-prepend">
-                <span class="input-group-text"> Phút</span>
-            </div>
-        </div>
 
-        @*hình ảnh*@
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Hình ảnh: </span>
+            @*hình ảnh*@
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Hình ảnh: </span>
+                </div>
+                <div style="display: flex; flex-direction:column; justify-content: center;">
+                    <img id="blah" src="#" alt="" width="100" height="150" /><br>
+                    <input accept="images/*" type='file' class="form-control" id="imgInp" name="HinhAnhFile" required>
+                </div>
             </div>
-            <div style="display: flex; flex-direction:column; justify-content: center;">
-                <img id="blah" src="#" alt="" width="80" height="80" /><br>
-                <input accept="images/*" type='file' class="form-control" id="imgInp" name="HinhAnhFile" required>
-            </div>
-        </div>
 
-        @*trailer phim*@
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Trailer phim: </span>
+            @*trailer phim*@
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Trailer phim: </span>
+                </div>
+                <input type="text" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="TrailerP" required>
             </div>
-            <input type="text" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="TrailerP" required>
-        </div>
 
-        @*giá phim*@
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Giá phim: </span>
+            @*giá phim*@
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Giá phim: </span>
+                </div>
+                <input type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="GiaP" required>
             </div>
-            <input type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="GiaP" required>
-        </div>
 
-        @*tên giới hạn độ tuổi phim*@
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Tên giới hạn độ tuổi phim: </span>
-            </div>
-            <input id="inputchoice" min="1" max="255" class="form-control" name="GHTP" readonly required>
-            <select id="choice" style="width:10%; border-radius:0px 5px 5px 0px;" required>
-                @if (ViewBag.DSGHTP != null)
-                {
-                    foreach (var item in ViewBag.DSGHTP)
+            @*tên giới hạn độ tuổi phim*@
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Tên giới hạn độ tuổi phim: </span>
+                </div>
+                <input id="inputchoice" min="1" max="255" class="form-control" name="GHTP" readonly required>
+                <select id="choice" style="width:10%; border-radius:0px 5px 5px 0px;" required>
+                    @if (ViewBag.DSGHTP != null)
                     {
-                        <option value="@item[1]">@item[1]</option>
+                        foreach (var item in ViewBag.DSGHTP)
+                        {
+                            <option value="@item[1]">@item[1]</option>
+                        }
                     }
-                }
-            </select>
-        </div>
+                </select>
+            </div>
 
-        @*button xác nhận*@
-        <button type="submit" class="btn btn-outline-info" name="status" value="Add">Xác nhận thêm phim mới</button>
+            @*button xác nhận*@
+            <button type="submit" class="btn btn-outline-info" name="status" value="Add">Xác nhận thêm phim mới</button>
 
-    }
+        }
+    </div>
 
 
 
@@ -168,7 +170,7 @@
                                 <td><input name="TenF" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[1]" required></td>
                                 <td><input name="MoTaF" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" required></td>
                                 <td><input name="NgayCC" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[3]" required></td>
-                                <td><input name="ThoiLuong" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[4]" required></td>
+                                <td><input name="ThoiLuongP" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[4]" required></td>
                                 <td><input name="LuotMua" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[5]" readonly required></td>
                                 <td><input name="LuotThich" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[6]" readonly required></td>
                                 <td style="width: 300px;">
@@ -177,8 +179,8 @@
                                     <input type='text' class="form-control" name="HinhAnhFiledetail2" value="@item[7]" style="display:none;">
 
                                 </td>
-                                <td><input name="Trailer" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[8]" required></td>
-                                <td><input name="Gia" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[9]" required></td>
+                                <td><input name="TrailerP" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[8]" required></td>
+                                <td><input name="GiaP" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[9]" required></td>
                                 <td><input name="MaGHT" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[10]" required></td>
                                 <td>
                                     <button type="submit" class="btn btn-outline-info" name="status" value="Update">Cập nhật</button>

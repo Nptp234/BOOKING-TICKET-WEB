@@ -1,0 +1,182 @@
+﻿
+@{
+    ViewBag.Title = "ReportHD";
+    Layout = "~/Areas/AdminArea/Views/Shared/_AdminMasterLayout.cshtml";
+}
+
+
+<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+<link href="~/Areas/AdminArea/Content/customermanager_style.css" rel="stylesheet" />
+
+<style>
+    
+
+</style>
+
+<nav class="header_nav">
+    <a class="top_content">REPORT MANAGER</a>
+</nav>
+
+<div class="container">
+
+    <br />
+    <p class="smaller_content">Quản lý báo cáo</p>
+    <p class="smaller_content" style="color:red;">@ViewBag.ThongBaoLuu</p>
+
+    <br />
+    <div class="border-bottom" style="margin-bottom: 20px;"> </div>
+    <br />
+    <div class="row" style="justify-content: center; margin-bottom: 400px; height: fit-content; margin-top:-50px;">
+        <div id="chartContainer1" style="margin: 30px; font-size: 20px; width: 400px;"></div>
+        <br />
+        <div id="chartContainer2" style="margin: 30px; font-size: 20px; width: 600px;"></div>
+    </div>
+
+    <br />
+    <div class="border-bottom"> </div>
+    <br />
+    <p class="smaller_content">Quản lý hóa đơn và báo cáo</p>
+    <br />
+    <button type="button" class="btn btn-secondary" id="button_showlist">Hiện danh sách</button>
+    <br />
+    <div style="display:flex; flex-direction:row;">
+
+        <div style="width: 100%;">
+            <table class="table" style="display: none" id="list">
+                <thead>
+                    <tr>
+                        <th scope="col">Mã HD</th>
+                        <th scope="col">Ngày tạo</th>
+                        <th scope="col">Tổng giá HD</th>
+                        <th scope="col">Tổng giá sau giảm</th>
+                        <th scope="col">Tỉ lệ giảm giá</th>
+                        <th scope="col">Mã KH</th>
+                        <th scope="col">Mã NV</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.GetHD != null)
+                    {
+                        foreach (var item in ViewBag.GetHD)
+                        {
+                            <form  action="@Url.Action("HDDetail", "Admin")" method="post">
+                                <tr class="row_table">
+                                    <th scope="row"><input name="MaHD" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[0]" readonly required></th>
+                                    <td><input name="NgayTao" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[1]" readonly required></td>
+                                    <td><input name="TongGiaHD" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[3]" readonly required></td>
+                                    <td><input name="TongGiaSauGiam" type="email" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" readonly required></td>
+                                    <td><input name="TiLeGiamGia" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[4]" readonly required></td>
+                                    <td><input name="MaKH" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[5]" readonly required></td>
+                                    <td><input name="MaNV" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[6]" readonly required></td>
+                                    <td><button type="submit" class="btn btn-outline-info" name="status" value="Detail">Detail</button></td>
+                                </tr>
+                            </form>
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    // Lấy tham chiếu đến button và thẻ cần ẩn/hiện
+    var toggleButton = document.getElementById("button_showlist");
+    var targetDiv = document.getElementById("list");
+
+    // Gán sự kiện click cho nút (button)
+    toggleButton.addEventListener("click", function () {
+        // Kiểm tra xem thẻ đang ẩn hay hiện
+        if (targetDiv.style.display === "none" || targetDiv.style.display === "") {
+            // Nếu thẻ đang ẩn hoặc không có style display, thì hiển thị thẻ
+            targetDiv.style.display = "table"; // Hoặc có thể sử dụng "inline" hoặc "inline-block" tùy vào loại thẻ
+            toggleButton.innerHTML = "Ẩn danh sách"
+        } else {
+            // Nếu thẻ đang hiện, thì ẩn thẻ
+            targetDiv.style.display = "none";
+            toggleButton.innerHTML = "Hiện danh sách"
+        }
+    });
+
+
+    var changeFormDe = function (idform) {
+        // Lấy tham chiếu đến button và thẻ cần ẩn/hiện
+        var detailform = document.getElementById(idform);
+
+        // Kiểm tra xem thẻ đang ẩn hay hiện
+        if (detailform.style.display === "none" || detailform.style.display === "") {
+            // Nếu thẻ đang ẩn hoặc không có style display, thì hiển thị thẻ
+            detailform.style.display = "block"; // Hoặc có thể sử dụng "inline" hoặc "inline-block" tùy vào loại thẻ
+        } else {
+            // Nếu thẻ đang hiện, thì ẩn thẻ
+            detailform.style.display = "none";
+        }
+    }
+
+
+    //Chart
+    window.onload = function () {
+        var data = @Html.Raw(Json.Encode(ViewBag.DataPoints1)); // Sử dụng Html.Raw và Json.Encode để chuyển đổi dữ liệu từ ViewBag sang định dạng JSON
+        var data2 = @Html.Raw(Json.Encode(ViewBag.DataPoints2)); // Sử dụng Html.Raw và Json.Encode để chuyển đổi dữ liệu từ ViewBag sang định dạng JSON
+
+        var dataPoints1 = [];
+        var dataPoints2 = [];
+
+        for (var i = 0; i < data.length; i++) {
+            // Duyệt qua mảng data
+            var number = parseInt(data[i][1]);
+            dataPoints1.push({ label: data[i][0], y: number });
+        }
+        for (var i = 0; i < data2.length; i++) {
+            // Duyệt qua mảng data
+            var number = parseInt(data2[i][1]);
+            dataPoints2.push({ label: data2[i][0], y: number });
+        }
+
+        var chart1 = new CanvasJS.Chart("chartContainer1", {
+            theme: "light2",
+            animationEnabled: true,
+            title: {
+                text: "Số lượng vé đã đặt của khách hàng",
+                fontColor: 'black',
+                fontSize: 20
+            },
+            data: [
+                {
+                    type: "pie", //change type to bar, line, area, pie, etc
+                    lineThickness: 3,
+                    axisYType: "primary", // for align the y to right
+                    dataPoints: dataPoints2
+                }
+            ]
+        });
+
+        var chart2 = new CanvasJS.Chart("chartContainer2", {
+            theme: "light2",
+            animationEnabled: true,
+            title: {
+                text: "Số lượng vé đã đặt của phim",
+                fontColor: 'black',
+                fontSize: 20
+            },
+            data: [
+                {
+                    type: "bar", //change type to bar, line, area, pie, etc
+                    lineThickness: 3,
+                    axisYType: "primary", // for align the y to right
+                    dataPoints: dataPoints1
+                }
+            ]
+        });
+
+        chart1.render();
+        chart2.render();
+    };
+
+</script>
+
+
+

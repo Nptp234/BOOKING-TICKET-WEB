@@ -9,7 +9,7 @@ namespace CNPMNC_REPORT1.Models
 {
     public class SQLData
     {
-        public static string connectionString = "Server=LAPTOP-FJ00A5PB\\SQLEXPRESS;Database=CNPMNC_DATA1;Trusted_Connection=True";
+        public static string connectionString = "Server=localhost;Database=CNPMNC_DATA1;Trusted_Connection=True";
         private int countTLP;
 
         public ArrayList getData(String sql)
@@ -1655,6 +1655,38 @@ namespace CNPMNC_REPORT1.Models
             connection.Close();
 
             return isUpdate;
+        }
+
+        public bool deleteVP (int? code)
+        {
+            bool isDelete = false;
+
+            //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //Đối tượng câu truy vấn thêm dữ liệu sql
+            string sql = "DELETE FROM VE_GHE WHERE MaVe = @code DELETE FROM VEPHIM WHERE MaVe = @code";
+
+            //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+            connection.Open();
+
+            command.Parameters.AddWithValue("@code", code);
+
+
+            int result = command.ExecuteNonQuery();
+
+            if (result > 0)
+            {
+                isDelete = true;
+            }
+            else isDelete = false;
+
+            connection.Close();
+
+            return isDelete;
         }
     }
 }

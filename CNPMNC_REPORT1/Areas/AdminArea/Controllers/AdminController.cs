@@ -84,10 +84,11 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                 }
                 else if (status == "Update")
                 {
-                    if (TenF != null && MoTaF != null && NgayCC != null && ThoiLuongP != null && TrailerP != null && MaGHT != null && GiaP != null)
+                    if (TenF != null && MoTaF != null && NgayCC != null && TrailerP != null && ThoiLuongP != null && MaGHT != null && GiaP != null)
                     {
                         if (HinhAnhFiledetail1 == null)
                         {
+                            
                             bool isUpdate = data.updateFilm(MaP, TenF, MoTaF, NgayCC, ThoiLuongP, HinhAnhFiledetail2, TrailerP, GiaP, MaGHT);
                             if (!isUpdate)
                             {
@@ -105,6 +106,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                             var path1 = Path.Combine(Server.MapPath("~/img"), fileName1);
                             HinhAnhFiledetail1.SaveAs(path1);
 
+                            
                             bool isUpdate = data.updateFilm(MaP, TenF, MoTaF, NgayCC, ThoiLuongP, fileName1, TrailerP, GiaP, MaGHT);
                             if (!isUpdate)
                             {
@@ -120,11 +122,11 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                     }
                     else
                     {
-                        ViewBag.ThongBaoLuu = "Lỗi không tồn tại!";
+                        ViewBag.ThongBaoLuu = $"Lỗi null {MaP},{TenF},{MoTaF},{NgayCC},{ThoiLuongP},{TrailerP},{GiaP},{MaGHT}!";
                         ViewBag.DSTLF = data.getData("SELECT * FROM PHIM");
                     }
                 }
-                else ViewBag.ThongBaoLuu = "Lỗi không tồn tại!";
+                else ViewBag.ThongBaoLuu = "Lỗi model!";
             }
             return View();
         }
@@ -921,6 +923,70 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                 }
             }
 
+            return View();
+        }
+
+        public ActionResult ReportHD(string status)
+        {
+            SQLData data = new SQLData();
+
+            ViewBag.GetHD = data.getData("SELECT * FROM HOADON");
+
+            ViewBag.GetTenP = data.getData("SELECT p.TenPhim " +
+                                            "FROM HOADON hd, CHITIETHD cthd, VEPHIM vp, LICHCHIEU lc, PHIM p " +
+                                            "WHERE cthd.MaHD = hd.MaHD " +
+                                            "AND cthd.MaVe = vp.MaVe " +
+                                            "AND vp.MaLC = lc.MaLC " +
+                                            "AND p.MaPhim = lc.MaPhim " +
+                                            "GROUP BY p.TenPhim");
+            ViewBag.GetSLHDP = data.getData("SELECT COUNT(p.TenPhim) as SLP " +
+                                            "FROM HOADON hd, CHITIETHD cthd, VEPHIM vp, LICHCHIEU lc, PHIM p " +
+                                            "WHERE cthd.MaHD = hd.MaHD " +
+                                            "AND cthd.MaVe = vp.MaVe " +
+                                            "AND vp.MaLC = lc.MaLC " +
+                                            "AND p.MaPhim = lc.MaPhim " +
+                                            "GROUP BY p.TenPhim");
+
+            ViewBag.GetTenKH = data.getData("SELECT kh.TenTKKH FROM HOADON hd, KHACHHANG kh WHERE hd.MaKH = kh.MaKH GROUP BY kh.TenTKKH");
+            ViewBag.GetSLHDKH = data.getData("SELECT COUNT(*) as SLHD FROM HOADON hd, KHACHHANG kh WHERE hd.MaKH = kh.MaKH GROUP BY kh.TenTKKH");
+
+            // Trong controller
+            ArrayList dataPoints1 = new ArrayList();
+            ArrayList dataPoints2 = new ArrayList();
+
+            for (int i = 0; i < ViewBag.GetSLHDP.Count; i++)
+            {
+                dataPoints1.Add(new object[] { ViewBag.GetTenP[i][0], ViewBag.GetSLHDP[i][0] });
+            }
+
+            for (int i = 0; i < ViewBag.GetSLHDKH.Count; i++)
+            {
+                dataPoints2.Add(new object[] { ViewBag.GetTenKH[i][0], ViewBag.GetSLHDKH[i][0] });
+            }
+
+            if (dataPoints1 != null)
+            {
+                ViewBag.DataPoints1 = dataPoints1;
+            }
+            if (dataPoints2 != null)
+            {
+                ViewBag.DataPoints2 = dataPoints2;
+            }
+
+            if (status == "Detail")
+            {
+                return RedirectToAction("HDDetail", "Admin");
+            }
+
+
+            return View();
+        }
+
+        public ActionResult HDDetail(int? MaHD)
+        {
+            SQLData data = new SQLData();
+            ViewBag.GetCTHD = data.getData($"select cthd.* from HOADON hd, CHITIETHD cthd where hd.MaHD={MaHD} and hd.MaHD=cthd.MaHD");
+            ViewBag.GetCTVP = data.getData($"select vp.* from HOADON hd, CHITIETHD cthd, VEPHIM vp where hd.MaHD={MaHD} and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe");
             return View();
         }
     }
