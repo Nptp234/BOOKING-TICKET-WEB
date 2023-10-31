@@ -121,7 +121,7 @@ namespace CNPMNC_REPORT1.Controllers
                                             $"AND lc.MaPC = pc.MaPC " +
                                             $"AND pc.MaLPC = lpc.MaLPC " +
                                             $"AND xc.MaXC = lc.MaXC " +
-                                            $"AND lc.MaLC = 1");
+                                            $"AND lc.MaLC = {getIdLichChieu}");
            
             //Lấy ra số tiền phải trả
             ViewBag.Money = getTotalMoney.Split(' ').ToList()[0];

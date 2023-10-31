@@ -362,7 +362,7 @@
             var jsDate = getElementBySelected[0].id;
             var jsTime = time;
             var url ='@Url.Action("ChonGhe", "Booking")' ;
-            window.location.href = url + '?Date=' + jsDate + '&Time=' + jsTime + '&Type=' + type;
+            window.location.href = url + '?Date=' + jsDate + '&Time=' + jsTime + '&Type=' + type + '&MaPhim=' + @ViewBag.Phim[0][0];
 
         } else {
             alert("Chưa chọn ngày chiếu phim");
