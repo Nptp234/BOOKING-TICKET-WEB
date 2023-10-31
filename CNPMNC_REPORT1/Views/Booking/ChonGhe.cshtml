@@ -281,9 +281,9 @@
                 <div class="container d-flex justify-content-around " style="margin: 10px 0px; flex-direction: column">
                     <span style="text-align: left; font-weight: bolder">Giá tiền: </span>
                     <span id="price_chair" style="text-align: left;">0 ₫</span>
+
                     <span style="text-align: left; font-weight: bolder">Ghế: </span>
-                    <span id="picked_chair" style="text-align: left;">
-                    </span>
+                    <span id="picked_chair" style="text-align: left;"></span>
                 </div>
             </div>
             <div onclick="ShowTicket()" class="btn btn-outline-success" style="margin-right: 0px;">ĐẶT NGAY</div>
@@ -337,6 +337,7 @@
                     var price_chair = document.getElementById('price_chair');
                     price_chair.innerHTML = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(response.totalPrice) /*.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })*/
                 },
+
                 error: function (xhr, status, error) {
                     console.error("Lỗi khi gửi yêu cầu: " + status + " - " + error);
                 }
