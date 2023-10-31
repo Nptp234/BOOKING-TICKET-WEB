@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "HDDetail";
+    Layout = "~/Areas/AdminArea/Views/Shared/_AdminMasterLayout.cshtml";
+}
+
+<link href="~/Areas/AdminArea/Content/customermanager_style.css" rel="stylesheet" />
+
+
+<nav class="header_nav" style="margin-bottom: 30px; flex-direction: column;">
+    <a href="@Url.Action("ReportHD", "Admin")" style="margin-bottom: 50px;">Back to report</a>
+    <a class="top_content">DETAIL BILL</a>
+</nav>
+
+<div class="container">
+
+    <p class="smaller_content">Chi tiết hóa đơn</p>
+    <form>
+
+        @if (ViewBag.GetCTHD != null)
+        {
+            foreach (var a in ViewBag.GetCTHD)
+            {
+                <div class="border-bottom" style="margin-bottom: 30px;">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Mã vé: </span>
+                        </div>
+                        <input type="number" class="form-control" name="MaVe" value="@a[0]" readonly required>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Số lượng vé: </span>
+                        </div>
+                        <input type="number" class="form-control" name="SoLuongVP" value="@a[2]" readonly required>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Thành tiền vé: </span>
+                        </div>
+                        <input type="number" class="form-control" name="ThanhTienVP" value="@a[3]" readonly required>
+                    </div>
+                </div>
+
+            }
+        }
+
+    </form>
+
+    <p class="smaller_content">Chi tiết vé</p>
+    <form>
+
+        @if (ViewBag.GeCTVP != null)
+        {
+            foreach (var a in ViewBag.GeCTVP)
+            {
+                <div class="border-bottom" style="margin-bottom: 30px;">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Mã vé: </span>
+                        </div>
+                        <input type="number" class="form-control" name="MaVe" value="@a[0]" readonly required>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Ngày đặt: </span>
+                        </div>
+                        <input type="text" class="form-control" name="NgayDat" value="@a[1]" readonly required>
+                    </div>
+
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Trạng thái thanh toán: </span>
+                        </div>
+                        <input type="text" class="form-control" name="ThanhToanVP" value="@a[2]" readonly required>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Trạng thái hạn vé: </span>
+                        </div>
+                        <input type="text" class="form-control" name="HanVP" value="@a[3]" readonly required>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Số lượng ghế: </span>
+                        </div>
+                        <input type="number" class="form-control" name="SoluongG" value="@a[4]" readonly required>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Gía vé: </span>
+                        </div>
+                        <input type="number" class="form-control" name="GiaVe" value="@a[5]" readonly required>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Mã lịch chiếu: </span>
+                        </div>
+                        <input type="number" class="form-control" name="MaLC" value="@a[6]" readonly required>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Mã khách hàng: </span>
+                        </div>
+                        <input type="number" class="form-control" name="MaKH" value="@a[7]" readonly required>
+                    </div>
+
+                </div>
+
+            }
+        }
+
+    </form>
+</div>
+
+
