@@ -64,7 +64,7 @@
             line-height: 30px; /* Đặt giá trị cao gấp đôi của chiều cao của thẻ để căn giữa */
             height: 30px; /* Đảm bảo chiều cao của thẻ */
         }
-        .chair.picked {
+        .chair.picked, .picked.chair.vip {
             background-color: #353535;
             color: #fff;
         }
@@ -232,7 +232,7 @@
                                 bool check = true;
                                 foreach (var item in ViewBag.ListPickedChair)
                                 {
-                                    if (item[2] == ("VIP_" + i.ToString() + j.ToString()))
+                                    if (item[2].Trim() == ("VIP_" + i.ToString() + j.ToString()))
                                     {
                                         check = false;
                                         break;
