@@ -15,7 +15,7 @@ namespace CNPMNC_REPORT1.Controllers
     {
 
         SQLData db = new SQLData();
-        public ActionResult Index()
+        public ActionResult Index(string Logout)
         {
             //Lấy danh sách phim đang khởi chiếu
             ViewBag.NowShowing = db.getData("SELECT * FROM PHIM WHERE NgayCongChieu <= GETDATE()");
@@ -23,6 +23,14 @@ namespace CNPMNC_REPORT1.Controllers
             ViewBag.ComingSoon = db.getData("SELECT * FROM PHIM WHERE NgayCongChieu > GETDATE()");
             //Lấy danh sách phim xem nhiều nhất
             ViewBag.MostWatching = db.getData("SELECT * FROM PHIM WHERE LuotMua >= 10");
+
+            if (Logout == "true")
+            {
+                Session["isLogined"] = null;
+                Session["Username"] = null;
+                return View();
+            }
+
             return View();
         }
 
