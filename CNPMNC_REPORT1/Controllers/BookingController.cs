@@ -114,7 +114,7 @@ namespace CNPMNC_REPORT1.Controllers
             //Lấy ra một mảng là những ghế được chọn
             List<string> listChair = getListChairPicked.Split(' ').ToList();
             //Lấy ra thông tin lịch chiếu
-            ViewBag.LichChieu = db.getData( $"SELECT lc.MaLC, p.HinhAnh, lc.MaPC, lpc.TenLPC, lc.NgayLC, p.TenPhim, ght.TenGHT, xc.GioXC " +
+            ViewBag.LichChieu = db.getData( $"SELECT lc.MaLC, p.HinhAnh, lc.MaPC, lpc.TenLPC, FORMAT(lc.NgayLC, 'MM/dd/yyyy h:mm:ss tt'), p.TenPhim, ght.TenGHT, xc.GioXC " +
                                             $"FROM LICHCHIEU lc, PHIM p, LOAIPC lpc, GIOIHANTUOI ght, PHONGCHIEU pc, XUATCHIEU xc " +
                                             $"WHERE lc.MaPhim = p.MaPhim " +
                                             $"AND p.MaGHT = ght.MaGHT " +
