@@ -266,6 +266,7 @@
     <Content Include="Views\Home\Error_Page.cshtml" />
     <Content Include="Views\Booking\ThankYouPage.cshtml" />
     <Content Include="Views\Store\Index.cshtml" />
+    <Content Include="Views\Store\IndexForNull.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

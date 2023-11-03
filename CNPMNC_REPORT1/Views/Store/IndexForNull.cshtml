@@ -1,5 +1,11 @@
 ﻿
 @{
+    ViewBag.Title = "IndexForNull";
+    Layout = "~/Views/Shared/_IndexLayout.cshtml";
+}
+
+
+@{
     ViewBag.Title = "Index";
     Layout = null;
 }
@@ -205,21 +211,15 @@
             <div class="title">
                 <div class="row">
                     <div class="col"><h4><b>Movie Ticket</b></h4></div>
-                    @*<p class="smaller_content" style="color:red;">@ViewBag.ThongBao</p>*@
-                    @if (ViewBag.GetCountVP != null)
-                    {
-                        <div class="col align-self-center text-right text-muted">@ViewBag.GetCountVP[0][0] tickets</div>
-                    }
-                    else
-                    {
-                        <div class="col align-self-center text-right text-muted">0 tickets</div>
-                    }
-
+                    <p class="smaller_content" style="color:red;">@ViewBag.ThongBao</p>
+                    <div class="col align-self-center text-right text-muted">0 tickets</div>
                 </div>
             </div>
 
-            
-            @if (ViewBag.GetDSVP != null)
+
+            <p style="font-size: 20px; width: 100%; text-align: center; color: gray;">Nothing here :(</p>
+
+            @*@if (ViewBag.GetDSVP != null)
             {
                 foreach (var a in ViewBag.GetDSVP)
                 {
@@ -254,7 +254,7 @@
                         </div>
                     </form>
                 }
-            }
+            }*@
 
             <div class="back-to-shop"><a href="@Url.Action("Index","Home")">&leftarrow; Back to home</a></div>
         </div>
@@ -265,34 +265,9 @@
             <hr>
             <div class="row">
 
-                @if (ViewBag.GetCountVP != null)
-                {
-                    <div class="col" style="padding-left:0;">TICKETS @ViewBag.GetCountVP[0][0]</div>
-                }
-                else
-                {
-                    <div class="col" style="padding-left:0;">TICKETS 0</div>
-                }
-
-                @{
-                    int sum = 0;
-                    if (ViewBag.GetDSVP != null)
-                    {
-                        foreach (var a1 in ViewBag.GetDSVP)
-                        {
-                            sum = sum + int.Parse(a1[2]);
-                        }
-                    }
-                }
-                @if (sum != 0)
-                {
-                    <div class="col text-right"> @sum VND </div>
-                }
-                else
-                {
-                    <div class="col text-right"> 0 VND </div>
-                }
+                <div class="col" style="padding-left:0;">TICKETS 0</div>
                 
+                <div class="col text-right"> 0 VND </div>
             </div>
             <form>
                 <p>ADDRESS</p>
@@ -305,48 +280,17 @@
 
             <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                 <div class="col">TOTAL PRICE</div>
-                @{
-                    int sum1 = 0;
-                    if (ViewBag.GetDSVP != null)
-                    {
-                        foreach (var a1 in ViewBag.GetDSVP)
-                        {
-                            sum1 = sum1 + int.Parse(a1[2]);
-                        }
-                    }
-                }
-                @if (sum1 != 0)
-                {
-                    <div class="col text-right"> @sum1 VND </div>
-                }
-                else
-                {
-                    <div class="col text-right"> 0 VND </div>
-                }
                 
+                <div class="col text-right"> 0 VND </div>
             </div>
 
-            <form action="@Url.Action("Index","Store")" method="post">
+            <form>
 
-                @if (sum1 != 0)
-                {
-                    <input name="TongGia" value="@sum1" style="display: none;" />
-                }
-                else
-                {
-                    <input name="TongGia" value="0" style="display: none;" />
-                }
+                <input name="TongGia" value="0" style="display: none;" />
 
-                @if (ViewBag.GetDSVP != null)
-                {
-                    <input name="ThanhTien" value="@ViewBag.GetDSVP[0][2]" style="display: none;" />
-                }
-                else
-                {
-                    <input name="ThanhTien" value="0" style="display: none;" />
-                }
+                <input name="ThanhTien" value="0" style="display: none;" />
 
-                <button name="status" value="ThanhToan" type="submit" class="btn" style="font-weight: bold;">BUY</button>
+                <button name="status" value="ThanhToan" type="button" class="btn" style="font-weight: bold;">BUY</button>
             </form>
 
         </div>
@@ -355,6 +299,8 @@
 </div>
 
 <script>
-    
+
 </script>
+
+
 

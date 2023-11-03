@@ -372,7 +372,6 @@ SELECT* FROM PHONGCHIEU
 SELECT* FROM BINHLUAN
 SELECT* FROM YEUTHICH
 SELECT* FROM VEPHIM
-SELECT TOP(1) * FROM VEPHIM ORDER BY MaVe DESC
 SELECT* FROM VE_GHE
 SELECT* FROM HOADON
 SELECT* FROM CHITIETHD
@@ -444,7 +443,7 @@ SELECT p.TenPhim, p.HinhAnh, vp.GiaVe, lc.NgayLC, vp.NgayDat, vp.MaVe FROM VEPHI
 DECLARE @chietkhau FLOAT, @makh INT
 SELECT @chietkhau=lkh.ChietKhau FROM KHACHHANG kh, LOAIKH lkh WHERE kh.MaLoaiKH=lkh.MaLoaiKH AND kh.TenTKKH = 'phuoc'
 SELECT @makh = MaKH FROM KHACHHANG WHERE TenTKKH = 'phuoc'
-INSERT INTO HOADON VALUES (GETDATE(), 1000, 1000-(1000-@chietkhau), @chietkhau, @makh, 1)
+INSERT INTO HOADON VALUES (GETDATE(), 1000, 1000-(1000*@chietkhau), @chietkhau, @makh, 1)
 
 DECLARE @mahd INT
 SELECT @mahd=MAX(MaHD) FROM HOADON
@@ -452,4 +451,6 @@ INSERT INTO CHITIETHD VALUES (mave, @mahd, sl, tt)
 
 SELECT vp.MaVe FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH=kh.MaKH AND kh.TenTKKH='phuoc'
 
-UPDATE VEPHIM SET TrangThaiThanhToan = N'ĐÃ THANH TOÁN'
+UPDATE VEPHIM SET TrangThaiThanhToan = N'ĐÃ THANH TOÁN' WHERE MaVe = 1
+
+SELECT p.TenPhim, p.HinhAnh, vp.GiaVe, lc.NgayLC, vp.NgayDat, vp.MaVe FROM VEPHIM vp, LICHCHIEU lc, PHIM p, KHACHHANG kh WHERE vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim AND kh.MaKH=vp.MaKH AND kh.TenTKKH='phuoc' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'
