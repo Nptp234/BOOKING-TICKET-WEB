@@ -27,18 +27,18 @@ CREATE TABLE KHACHHANG(
 	MaLoaiKH INT REFERENCES LOAIKH(MaLoaiKH)
 )
 
-CREATE TABLE LAOINV(
-	MaLoaiNV INT IDENTITY(1,1) PRIMARY KEY,
-	TenLoaiNV NVARCHAR(100) NOT NULL
-)
+--CREATE TABLE LAOINV(
+--	MaLoaiNV INT IDENTITY(1,1) PRIMARY KEY,
+--	TenLoaiNV NVARCHAR(100) NOT NULL
+--)
 
 CREATE TABLE NHANVIEN(
 	MaNV INT IDENTITY(1,1) PRIMARY KEY,
 	HoTenNV NVARCHAR(100) NOT NULL,
 	Email VARCHAR(35) NOT NULL,
 	MatKhauNV VARCHAR(30) NOT NULL,
-	TrangThaiTKNV NVARCHAR(25) NOT NULL,
-	MaLoaiNV INT REFERENCES LAOINV(MaLoaiNV)
+	TrangThaiTKNV NVARCHAR(25) NOT NULL
+	--MaLoaiNV INT REFERENCES LAOINV(MaLoaiNV)
 )
 
 CREATE TABLE THELOAIP(
@@ -64,7 +64,7 @@ CREATE TABLE PHIM(
 	HinhAnh VARCHAR(50) NOT NULL,
 	Trailer VARCHAR(100) NOT NULL,
 	GiaPhim FLOAT CHECK (GiaPhim>=0) NOT NULL,
-	MaGHT INT REFERENCES GIOIHANTUOI(MaGHT) 
+	MaGHT INT REFERENCES GIOIHANTUOI(MaGHT)
 )
 
 CREATE TABLE TL_P(
@@ -341,8 +341,7 @@ INSERT INTO LICHCHIEU VALUES(GETDATE(), 'ENABLE', 0, 1, 4, 1)
 INSERT INTO LOAIKH VALUES ('Normal', 0.0)
 INSERT INTO KHACHHANG VALUES ('demo_khachhang', '123456', 'dfzdfg@gmail.com', 0, 'ACTIVE', 1);
 
-INSERT INTO LAOINV VALUES (N'QL Sản phẩm')
-INSERT INTO NHANVIEN VALUES (N'Phước', 'phuoc@gmail.com', '12345678', 'Actived', 1)
+INSERT INTO NHANVIEN VALUES (N'Phước', 'phuoc@gmail.com', '12345678', 'Actived')
 
 INSERT INTO VEPHIM VALUES (GETDATE(), N'CHƯA THANH TOÁN', N'CHƯA HẾT HẠN', 6, 6*50000, 1, 1);
 INSERT INTO VEPHIM VALUES (GETDATE(), N'CHƯA THANH TOÁN', N'CHƯA HẾT HẠN', 1, 1*50000, 2, 1);
@@ -358,7 +357,6 @@ INSERT INTO VE_GHE VALUES (2, 'C6', N'CHƯA THANH TOÁN')
 --Truy xuất dữ liệu từ các bảng
 SELECT* FROM LOAIKH
 SELECT* FROM KHACHHANG
-SELECT* FROM LAOINV
 SELECT* FROM NHANVIEN
 SELECT* FROM THELOAIP
 SELECT* FROM TL_P
@@ -460,14 +458,19 @@ SELECT p.TenPhim, p.HinhAnh, vp.GiaVe, lc.NgayLC, vp.NgayDat, vp.MaVe FROM VEPHI
 
 SELECT * FROM VE_GHE WHERE MaVe = 1
 
-SELECT * FROM VE_GHE WHERE MaVe = {MaVe}
+select vp.NgayDat, vp.GiaVe, lc.NgayLC, p.TenPhim from HOADON hd, CHITIETHD cthd, VEPHIM vp, LICHCHIEU lc, PHIM p where hd.MaHD=1 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe AND vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim
 
+select vg.TenGheVG from VEPHIM vp, HOADON hd, VE_GHE vg, CHITIETHD cthd where hd.MaHD=1 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe and vp.MaVe=vg.MaVe
 
+select cthd.* from HOADON hd, CHITIETHD cthd where hd.MaHD=1 and hd.MaHD=cthd.MaHD
 
+SELECT vp.MaVe FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH=kh.MaKH AND kh.TenTKKH='phuoc' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'
 
+SELECT * FROM VE_GHE WHERE MaVe = 1 AND TrangThaiVG = N'CHƯA THANH TOÁN'
 
+select vp.NgayDat, vp.GiaVe, lc.NgayLC, p.TenPhim, vp.MaVe from HOADON hd, CHITIETHD cthd, VEPHIM vp, LICHCHIEU lc, PHIM p where hd.MaHD=1 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe AND vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim
 
-
+select cthd.* from VEPHIM vp, HOADON hd, VE_GHE vg, CHITIETHD cthd where hd.MaHD=1 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe and vp.MaVe=vg.MaVe
 
 
 

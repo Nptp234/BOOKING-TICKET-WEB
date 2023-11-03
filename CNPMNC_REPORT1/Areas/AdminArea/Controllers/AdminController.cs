@@ -657,11 +657,10 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         {
             SQLData data = new SQLData();
             ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
-            ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
             return View();
         }
         [HttpPost]
-        public ActionResult NhanVien(int? MaNV, string TenNV, string MatKhauNV, string EmailNV, string TrangThaiNV, string LoaiNV, int? MaLNVDetail, string status)
+        public ActionResult NhanVien(int? MaNV, string TenNV, string MatKhauNV, string EmailNV, string TrangThaiNV, string status)
         {
             SQLData data = new SQLData();
 
@@ -669,62 +668,46 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             {
                 if (status == "Add")
                 {
-                    if (TenNV != null && MatKhauNV != null && EmailNV != null && TrangThaiNV != null && LoaiNV != null)
+                    if (TenNV != null && MatKhauNV != null && EmailNV != null && TrangThaiNV != null)
                     {
-                        int getMaLNV = data.getMaLoaiNV(LoaiNV);
-                        if (getMaLNV != 0)
+                        bool isSaved = data.saveNV(TenNV, MatKhauNV, EmailNV, TrangThaiNV);
+                        if (!isSaved)
                         {
-                            bool isSaved = data.saveNV(TenNV, MatKhauNV, EmailNV, TrangThaiNV, getMaLNV);
-                            if (!isSaved)
-                            {
-                                ViewBag.ThongBaoLuu = "Lỗi lưu không thành công hoặc đã tồn tại!";
-                                ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
-                                ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
-                            }
-                            else
-                            {
-                                ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
-                                ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
-                            }
+                            ViewBag.ThongBaoLuu = "Lỗi lưu không thành công hoặc đã tồn tại!";
+                            ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
                         }
                         else
                         {
-                            ViewBag.ThongBaoLuu = "Lỗi không tồn tại!";
                             ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
-                            ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
                         }
                     }
 
                 }
                 else if (status == "Update")
                 {
-                    if (TenNV != null && MatKhauNV != null && EmailNV != null && TrangThaiNV != null && MaLNVDetail != null)
+                    if (TenNV != null && MatKhauNV != null && EmailNV != null && TrangThaiNV != null)
                     {
-                        bool isUpdate = data.updateNV(MaNV, TenNV, MatKhauNV, EmailNV, TrangThaiNV, MaLNVDetail);
+                        bool isUpdate = data.updateNV(MaNV, TenNV, MatKhauNV, EmailNV, TrangThaiNV);
                         if (!isUpdate)
                         {
                             ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
                             ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
-                            ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
                         }
                         else
                         {
                             ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
-                            ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
                         }
                     }
                     else
                     {
                         ViewBag.ThongBaoLuu = "Lỗi null dữ liệu!";
                         ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
-                        ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
                     }
 
                 }
                 else
                 {
                     ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
-                    ViewBag.GetListLNV = data.getData("SELECT TenLoaiNV FROM LAOINV");
                 }
             }
 
@@ -981,7 +964,11 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         {
             SQLData data = new SQLData();
             ViewBag.GetCTHD = data.getData($"select cthd.* from HOADON hd, CHITIETHD cthd where hd.MaHD={MaHD} and hd.MaHD=cthd.MaHD");
-            ViewBag.GetCTVP = data.getData($"select vp.* from HOADON hd, CHITIETHD cthd, VEPHIM vp where hd.MaHD={MaHD} and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe");
+            ViewBag.GetCTVP = data.getData($"select vp.NgayDat, vp.GiaVe, lc.NgayLC, p.TenPhim, vp.MaVe from HOADON hd, CHITIETHD cthd, VEPHIM vp, LICHCHIEU lc, PHIM p where hd.MaHD={MaHD} and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe AND vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim");
+
+            
+            ViewBag.GetTenGhe = data.getData($"select vg.TenGheVG, vg.MaVe from VEPHIM vp, HOADON hd, VE_GHE vg, CHITIETHD cthd where hd.MaHD={MaHD} and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe and vp.MaVe=vg.MaVe");
+
             return View();
         }
     }

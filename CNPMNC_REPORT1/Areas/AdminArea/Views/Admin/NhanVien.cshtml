@@ -72,23 +72,7 @@
             </select>
         </div>
 
-        @*loại kh*@
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Loại nhân viên: </span>
-            </div>
-            <input id="inputchoice123" class="form-control" name="LoaiNV" readonly required>
-            <select id="choice123" style="width:10%; border-radius:0px 5px 5px 0px;" required>
-                @if (ViewBag.GetListLNV != null)
-                {
-                    foreach (var item in ViewBag.GetListLNV)
-                    {
-                        <option value="@item[0]">@item[0]</option>
-                    }
-                }
-            </select>
-        </div>
-
+        
 
         @*button xác nhận*@
         <button type="submit" class="btn btn-outline-info" name="status" value="Add">Xác nhận thêm</button>
@@ -109,7 +93,6 @@
                 <th scope="col">Mật khẩu NV</th>
                 <th scope="col">Email</th>
                 <th scope="col">Trạng thái</th>
-                <th scope="col">Mã LNV</th>
             </tr>
         </thead>
         <tbody>
@@ -124,7 +107,6 @@
                         <td><input name="MatKhauNV" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[3]" required></td>
                         <td><input name="EmailNV" type="email" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" required></td>
                         <td><input name="TrangThaiNV" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[4]" required></td>
-                        <td><input name="MaLNVDetail" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[5]" required></td>
                         <td>
                             <button type="submit" class="btn btn-outline-info" name="status" value="Update">Cập nhật</button>
                         </td>
