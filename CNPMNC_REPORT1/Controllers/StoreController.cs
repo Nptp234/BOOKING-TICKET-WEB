@@ -70,7 +70,7 @@ namespace CNPMNC_REPORT1.Controllers
                     if (isAdd)
                     {
                         bool isAddCT = false;
-                        ViewBag.GetMaVP = data.getData($"SELECT vp.MaVe FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH=kh.MaKH AND kh.TenTKKH='{tentk}'");
+                        ViewBag.GetMaVP = data.getData($"SELECT vp.MaVe FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH=kh.MaKH AND kh.TenTKKH='{tentk}' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
                         //ViewBag.GetMaVeHD = data.getData($"SELECT MAX(MaHD) FROM HOADON");
 
                         foreach (var b in ViewBag.GetMaVP)
@@ -96,7 +96,7 @@ namespace CNPMNC_REPORT1.Controllers
                                 foreach (var b in ViewBag.GetMaVP)
                                 {
                                     int mave = int.Parse(b[0]);
-                                    ViewBag.GetVeGhe = data.getData($"SELECT * FROM VE_GHE WHERE MaVe = {mave}");
+                                    ViewBag.GetVeGhe = data.getData($"SELECT * FROM VE_GHE WHERE MaVe = {mave} AND TrangThaiVG = N'CHƯA THANH TOÁN'");
                                     foreach (var b1 in ViewBag.GetVeGhe)
                                     {
                                         isUpdateVG = data.updateTTVG(mave);
