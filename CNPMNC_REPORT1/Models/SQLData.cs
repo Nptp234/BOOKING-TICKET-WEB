@@ -9,7 +9,7 @@ namespace CNPMNC_REPORT1.Models
 {
     public class SQLData
     {
-        public static string connectionString = "Server=LAPTOP-FJ00A5PB\\SQLEXPRESS;Database=CNPMNC_DATA1;Trusted_Connection=True";
+        public static string connectionString = "Server=localhost;Database=CNPMNC_DATA1;Trusted_Connection=True";
         private int countTLP;
 
         public ArrayList getData(String sql)
@@ -1732,9 +1732,7 @@ namespace CNPMNC_REPORT1.Models
             SqlConnection connection = new SqlConnection(connectionString);
 
             //Đối tượng câu truy vấn thêm dữ liệu sql
-            string sql = "DECLARE @mahd INT " +
-                        "SELECT @mahd=MAX(MaHD) FROM HOADON " +
-                        "INSERT INTO CHITIETHD VALUES (@mave, @mahd, @slve, @thanhtien)";
+            string sql = "DECLARE @mahd INT SELECT @mahd=MAX(MaHD) FROM HOADON INSERT INTO CHITIETHD VALUES (@mave, @mahd, @slve, @thanhtien)";
 
             //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
             SqlCommand command = new SqlCommand(sql, connection);
@@ -1768,6 +1766,37 @@ namespace CNPMNC_REPORT1.Models
 
             //Đối tượng câu truy vấn thêm dữ liệu sql
             string sql = "UPDATE VEPHIM SET TrangThaiThanhToan = N'ĐÃ THANH TOÁN' WHERE MaVe = @mave";
+
+            //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+            connection.Open();
+
+            command.Parameters.AddWithValue("@mave", mave);
+
+            int result = command.ExecuteNonQuery();
+
+            if (result > 0)
+            {
+                isUpdate = true;
+            }
+            else isUpdate = false;
+
+            connection.Close();
+
+            return isUpdate;
+        }
+
+        public bool updateTTVG(int? mave)
+        {
+            bool isUpdate = false;
+
+            //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //Đối tượng câu truy vấn thêm dữ liệu sql
+            string sql = "UPDATE VE_GHE SET TrangThaiVG = N'ĐÃ THANH TOÁN' WHERE MaVe = @mave";
 
             //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
             SqlCommand command = new SqlCommand(sql, connection);

@@ -143,7 +143,7 @@ namespace CNPMNC_REPORT1.Controllers
             List<string> getListGhe = getlistghe.Split(' ').ToList();
             foreach(var item in getListGhe)
             {
-                db.getData($"INSERT INTO VE_GHE VALUES ({idVePhim}, '{item}')");
+                db.getData($"INSERT INTO VE_GHE VALUES ({idVePhim}, '{item}', N'CHƯA THANH TOÁN')");
             }
             return RedirectToAction("ThankYouPage", "Booking"); 
         }
