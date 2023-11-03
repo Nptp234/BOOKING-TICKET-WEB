@@ -973,11 +973,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                 ViewBag.DataPoints2 = dataPoints2;
             }
 
-            if (status == "Detail")
-            {
-                return RedirectToAction("HDDetail", "Admin");
-            }
-
 
             return View();
         }
