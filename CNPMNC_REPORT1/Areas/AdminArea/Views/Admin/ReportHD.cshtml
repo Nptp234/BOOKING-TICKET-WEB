@@ -59,7 +59,7 @@
                     {
                         foreach (var item in ViewBag.GetHD)
                         {
-                            <form  action="@Url.Action("HDDetail", "Admin")" method="post">
+                            <form  action="@Url.Action("HDDetail", "Admin", new { MaHD = item[0]})" method="post">
                                 <tr class="row_table">
                                     <th scope="row"><input name="MaHD" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[0]" readonly required></th>
                                     <td><input name="NgayTao" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[1]" readonly required></td>
@@ -68,7 +68,7 @@
                                     <td><input name="TiLeGiamGia" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[4]" readonly required></td>
                                     <td><input name="MaKH" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[5]" readonly required></td>
                                     <td><input name="MaNV" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[6]" readonly required></td>
-                                    <td><button type="submit" class="btn btn-outline-info" name="status" value="Detail">Detail</button></td>
+                                    <td><button type="submit" class="btn btn-outline-info">Detail</button></td>
                                 </tr>
                             </form>
                         }
