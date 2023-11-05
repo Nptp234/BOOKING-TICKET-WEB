@@ -41,19 +41,32 @@ namespace CNPMNC_REPORT1.Controllers
         [HttpPost]
         public ActionResult LoginPage(string Username, string Password)
         {
-            //Không cần kiểm tra Username và Password là null do thẻ input đã có thuộc tính required
-            if (db.getData($"SELECT * FROM KHACHHANG WHERE TenTKKH = '{Username}' AND MatKhauKH = '{Password}'").Count >= 1)
+            
+            if (Username == "admin" && Password == "adminpad")
             {
-                Session["isLogined"] = "true";
-                if (Session["isLogined"] == "true")
+                Session["isLoginedQL"] = "true";
+                if (Session["isLoginedQL"] == "true")
                 {
-                    Session["Username"] = Username;
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("ReportHD", "Admin", new { area = "AdminArea" });
                 }
             }
             else
             {
-                ViewBag.ThongBao = "Error Login!";
+                Session["isLoginedQL"] = "false";
+                //Không cần kiểm tra Username và Password là null do thẻ input đã có thuộc tính required
+                if (db.getData($"SELECT * FROM KHACHHANG WHERE TenTKKH = '{Username}' AND MatKhauKH = '{Password}'").Count >= 1)
+                {
+                    Session["isLogined"] = "true";
+                    if (Session["isLogined"] == "true")
+                    {
+                        Session["Username"] = Username;
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
+                {
+                    ViewBag.ThongBao = "Error Login!";
+                }
             }
             return View();
         }
@@ -139,6 +152,52 @@ namespace CNPMNC_REPORT1.Controllers
                 }
                 return View();
             }
+            return View();
+        }
+
+        public ActionResult AccountPage()
+        {
+            SQLData data = new SQLData();
+            string tentk = Session["Username"].ToString();
+
+            ViewBag.GetDate = data.getData($"SELECT CONVERT(date, vp.NgayDat) FROM VEPHIM vp, KHACHHANG kh WHERE kh.MaKH=vp.MaKH AND kh.TenTKKH='{tentk}' GROUP BY CONVERT(date, vp.NgayDat) ORDER BY CONVERT(date, vp.NgayDat) DESC");
+            ViewBag.GetKH = data.getData($"SELECT kh.TenTKKH, kh.EmailKH, kh.MatKhauKH, lkh.TenLKH FROM KHACHHANG kh, LOAIKH lkh WHERE kh.MaLoaiKH=lkh.MaLoaiKH AND kh.TenTKKH='{tentk}'");
+
+            ViewBag.GetVP = data.getData($"SELECT vp.MaVe, p.TenPhim, pc.TenPC, STRING_AGG(vg.TenGheVG, ''), CONVERT(date, vp.NgayDat) " +
+                                        $"FROM VEPHIM vp, KHACHHANG kh, LICHCHIEU lc, PHIM p, PHONGCHIEU pc, VE_GHE vg " +
+                                        $"WHERE kh.TenTKKH='{tentk}' " +
+                                        $"AND vp.MaKH=kh.MaKH " +
+                                        $"AND vp.MaLC=lc.MaLC " +
+                                        $"AND lc.MaPhim=p.MaPhim " +
+                                        $"AND pc.MaPC=lc.MaPC " +
+                                        $"AND vp.MaVe=vg.MaVe " +
+                                        $"GROUP BY vp.MaVe, p.TenPhim, pc.TenPC, vp.NgayDat " +
+                                        $"ORDER BY vp.NgayDat DESC");
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AccountPage(string TenTK, string Email, string Pass)
+        {
+            SQLData data = new SQLData();
+            
+            if (Email != null && Pass != null)
+            {
+                bool isUpdate = data.updateKH(TenTK, Email, Pass);
+                if (isUpdate)
+                {
+                    return RedirectToAction("AccountPage", "Home");
+                }
+                else
+                {
+                    ViewBag.ThongBao = "Update Fail!";
+                }
+            }
+            else
+            {
+                ViewBag.ThongBao = "Null Email or Pass!";
+            }
+
             return View();
         }
 
