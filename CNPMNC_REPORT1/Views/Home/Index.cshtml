@@ -39,6 +39,39 @@
         a{
             text-decoration: none;
         }
+        .search_bar {
+            border: 1px solid grey;
+            border-radius: 10px;
+        }
+
+        #SearchBar:focus + #SearchResult {
+            display: block
+        }
+
+        .search_result {
+            padding: 5px 0px;
+            margin-bottom: 5px;
+            text-decoration: none !important;
+            color: black !important;
+        }
+
+            .search_result:hover {
+                background-color: #EDEDED;
+            }
+
+        .search_result_container {
+            position: absolute;
+            background-color: white;
+            z-index: 1000;
+            height: 200px;
+            overflow:visible;
+            overflow-x: hidden;
+            display: none;
+        }
+
+        #SearchResult {
+            min-height: 100px;
+        }
     </style>
 </head>
 
@@ -47,11 +80,28 @@
     <!-------Banner Start------->
     <section class="banner" data-scroll-index='0' style="height: fit-content; display: flex; justify-content: center; align-items: center; flex-direction: column; color: white; background-color: #331D2C;">
         <img src="/images/banner.png" alt="" style="width: 100%; height: 100%; object-fit: contain;">
-
-
     </section>
     <!-------Banner End------->
-    <!-------About End------->
+    <!-------Search Bar Start------->
+    <div class="container">
+        <br />
+        <h3 style="text-align: center; width: 100%;">SEARCH YOUR FAVORITE FILM</h3>
+
+        <div class="input-group mb-3">
+            <input onkeyup="ShowSearchResult()" id="SearchBar" style="height:42px" type="text" class="form-control search_bar" placeholder="Input your favorite film's name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <a class="btn btn-outline-secondary" ><i class="bi bi-search"></i></a>
+            </div>
+        </div>
+
+        <div style="position: relative">
+            <div class="container search_result_container" id="SearchResult">
+                <!-- content here -->
+            </div>
+        </div>
+    </div>
+    <!-------Search Bar End------->
+    <!-------Now Showing Start------>
 
     <section class="about section-padding prelative"
              data-scroll-index='1'
@@ -99,7 +149,7 @@
 
         </div>
     </section>
-    <!-------About End------->
+    <!-------Now Showing End------>
     <!-------Video Start------->
     <section class="video-section prelative text-center white">
         <div class="section-padding video-overlay">
@@ -332,78 +382,49 @@
             </div>
         </div>
     </section>
-    <!-------FAQ End------->
-    <!-------Contact Start------->
-    <!--<section class="contact section-padding" data-scroll-index='5'>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="sectioner-header text-center">
-                        <h3>Contact us</h3>
-                        <span class="line"></span>
-                        <p>Sed quis nisi nisi. Proin consectetur porttitor dui sit amet viverra. Fusce sit amet lorem faucibus, vestibulum ante in, pharetra ante.</p>
-                    </div>
-                    <div class="section-content">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12 col-lg-8">
-                                <form id="contact_form" action="">
-                                    <div class="row">
-                                        <div class="col">
-                                            <input type="text" id="your_name" class="form-input w-100" name="full-name" placeholder="Full Name" required>
-                                        </div>
-                                        <div class="col">
-                                            <input type="email" id="email" class="form-input w-100" name="email" placeholder="Email" required>
-                                        </div>
-                                    </div>
-                                    <input type="text" id="subject" class="form-input w-100" name="subject" placeholder="Subject">
-                                    <textarea class="form-input w-100" id="message" placeholder="Message" name="message"></textarea>
-                                    <button class="btn-grad w-100 text-uppercase" type="submit" name="button">submit</button>
-                                </form>
-                            </div>
-                            <div class="col-sm-12 col-md-12 col-lg-4">
-                                <div class="contact-info white">
-                                    <div class="contact-item media">
-                                        <i class="fa fa-map-marker-alt media-left media-right-margin"></i>
-                                        <div class="media-body">
-                                            <p class="text-uppercase">Address</p>
-                                            <p class="text-uppercase">
-                                                <a class="text-white" href="https://maps.app.goo.gl/K8MjW2eXXKgcBQVM8">
-                                                    10 Highway 22, Tan Xuan, Hoc Mon, Ho Chi Minh City, Viet Nam
-                                                </a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="contact-item media">
-                                        <i class="fa fa-mobile media-left media-right-margin"></i>
-                                        <div class="media-body">
-                                            <p class="text-uppercase">Phone</p>
-                                            <p class="text-uppercase"><a class="text-white" href="tel:+15173977100">009900990099</a> </p>
-                                        </div>
-                                    </div>
-                                    <div class="contact-item media">
-                                        <i class="fa fa-envelope media-left media-right-margin"></i>
-                                        <div class="media-body">
-                                            <p class="text-uppercase">E-mail</p>
-                                            <p class="text-uppercase"><a class="text-white" href="mailto:abcdefg@gmail.com">moc.cinema@gmail.com</a> </p>
-                                        </div>
-                                    </div>
-                                    <div class="contact-item media">
-                                        <i class="fa fa-clock media-left media-right-margin"></i>
-                                        <div class="media-body">
-                                            <p class="text-uppercase">Working Hours</p>
-                                            <p class="text-uppercase">Mon-Fri 9.00 AM to 10.00PM.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>-->
-    <!-------Contact End------->
-    <!-- JS -->
+    <script>
+        const myInput = document.getElementById("SearchBar");
+        const myDiv = document.getElementById("SearchResult");
 
+        myInput.addEventListener("focus", function () {
+            myDiv.style.display = "block";
+        });
+
+        myDiv.addEventListener("mousedown", function (event) {
+            event.stopPropagation();
+        });
+
+        document.addEventListener("mousedown", function (event) {
+            if (event.target !== myInput) {
+                myDiv.style.display = "none";
+            }
+        });
+
+        //document.getElementById("SearchBar").addEventListener("focus", function () {
+        //    // Hiển thị thẻ div khi input được focus
+        //    document.getElementById("SearchResult").style.display = "block";
+        //});
+        //function keepSearchResultBlocked() {
+        //    document.getElementById("SearchResult").style.display = "block";
+        //}
+
+        //document.getElementById("SearchBar").addEventListener("blur", function () {
+        //    // Ẩn thẻ div khi input hết được focus
+        //    document.getElementById("SearchResult").style.display = "none";
+        //});
+
+        function ShowSearchResult() {
+            var getValueSearchBar = document.getElementById("SearchBar").value;
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("SearchResult", "Home")',
+                data: { searchValue: getValueSearchBar },
+                success: function (result) {
+                    $('#SearchResult').html(result);
+                }
+            });
+        }
+
+    </script>
 </body>
 </html>
