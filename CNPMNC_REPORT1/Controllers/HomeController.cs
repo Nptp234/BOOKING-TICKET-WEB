@@ -43,20 +43,50 @@ namespace CNPMNC_REPORT1.Controllers
         public ActionResult LoginPage(string Username, string Password)
         {
             //Không cần kiểm tra Username và Password là null do thẻ input đã có thuộc tính required
-            if (Username == "admin" && Password == "adminpad")
+            if (db.getData($"SELECT * FROM KHACHHANG WHERE TenTKKH = '{Username}' AND MatKhauKH = '{Password}'").Count >= 1)
             {
-                return RedirectToAction("Film", "Admin", new { area = "AdminArea" });
+                Session["isLogined"] = "true";
+                if (Session["isLogined"] == "true")
+                {
+                    Session["Username"] = Username;
+                    return RedirectToAction("Index", "Home");
+                }
             }
             else
             {
-                if (db.getData($"SELECT * FROM KHACHHANG WHERE TenTKKH = '{Username}' AND MatKhauKH = '{Password}'").Count >= 1)
+                ViewBag.ThongBao = "Error Login!";
+            }
+            return View();
+        }
+
+        public ActionResult LoginPageNV()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult LoginPageNV(string Username, string Password)
+        {
+            //Không cần kiểm tra Username và Password là null do thẻ input đã có thuộc tính required
+            if (Username == "admin@gmail.com" && Password == "adminpad")
+            {
+                Session["isLoginedQL"] = "true";
+                if (Session["isLoginedQL"] == "true")
                 {
-                    Session["isLogined"] = "true";
-                    if (Session["isLogined"] == "true")
-                    {
-                        Session["Username"] = Username;
-                        return RedirectToAction("Index", "Home");
-                    }
+                    return RedirectToAction("ReportHD", "Admin", new { area = "AdminArea" });
+                }
+            }
+            else
+            {
+                if (db.getData($"SELECT * FROM NHANVIEN WHERE Email = '{Username}' AND MatKhauNV = '{Password}'").Count >= 1)
+                {
+                    //Session["isLogined"] = "true";
+                    //if (Session["isLogined"] == "true")
+                    //{
+                    //    Session["Username"] = Username;
+                    //    return RedirectToAction("Index", "Home");
+                    //}
+                    Session["isLoginedQL"] = "false";
+                    return RedirectToAction("Film", "Admin", new { area = "AdminArea" });
                 }
                 else
                 {

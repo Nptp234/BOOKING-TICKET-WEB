@@ -54,67 +54,52 @@
     <p class="smaller_content">Chi tiết vé</p>
     <form>
 
-        @if (ViewBag.GetCTVP != null)
+        @if (ViewBag.GetCTVP != null && ViewBag.GetTenGhe != null)
         {
             foreach (var a in ViewBag.GetCTVP)
             {
                 <div class="border-bottom" style="margin-bottom: 30px;">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Mã vé: </span>
-                        </div>
-                        <input type="number" class="form-control" name="MaVe" value="@a[0]" readonly required>
-                    </div>
-
-
+                    
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Ngày đặt: </span>
                         </div>
-                        <input type="text" class="form-control" name="NgayDat" value="@a[1]" readonly required>
-                    </div>
-
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Trạng thái thanh toán: </span>
-                        </div>
-                        <input type="text" class="form-control" name="ThanhToanVP" value="@a[2]" readonly required>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Trạng thái hạn vé: </span>
-                        </div>
-                        <input type="text" class="form-control" name="HanVP" value="@a[3]" readonly required>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Số lượng ghế: </span>
-                        </div>
-                        <input type="number" class="form-control" name="SoluongG" value="@a[4]" readonly required>
+                        <input type="text" class="form-control" name="NgayDat" value="@a[0]" readonly required>
                     </div>
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Gía vé: </span>
                         </div>
-                        <input type="number" class="form-control" name="GiaVe" value="@a[5]" readonly required>
+                        <input type="number" class="form-control" name="GiaVe" value="@a[1]" readonly required>
                     </div>
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Mã lịch chiếu: </span>
+                            <span class="input-group-text" id="basic-addon1">Ngày lịch chiếu: </span>
                         </div>
-                        <input type="number" class="form-control" name="MaLC" value="@a[6]" readonly required>
+                        <input type="text" class="form-control" name="MaLC" value="@a[2]" readonly required>
                     </div>
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">Mã khách hàng: </span>
+                            <span class="input-group-text" id="basic-addon1">Tên phim: </span>
                         </div>
-                        <input type="number" class="form-control" name="MaKH" value="@a[7]" readonly required>
+                        <input type="text" class="form-control" name="MaLC" value="@a[3]" readonly required>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Tên ghế: </span>
+                        </div>
+                        @foreach (var an in ViewBag.GetTenGhe)
+                        {
+                            if (an[1] == a[4])
+                            {
+                                <input type="text" class="form-control" name="MaLC" value="@an[0]" readonly required>
+                            }
+                        }
+
                     </div>
 
                 </div>

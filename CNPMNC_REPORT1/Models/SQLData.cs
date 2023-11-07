@@ -1219,17 +1219,17 @@ namespace CNPMNC_REPORT1.Models
             return ma_loai;
         }
 
-        public bool saveNV(string name, string pass, string email, string trangthai, int? maloai)
+        public bool saveNV(string name, string pass, string email, string trangthai)
         {
             bool isSaved = false;
 
-            if (name != null && pass != null && email != null && trangthai != null && maloai != null)
+            if (name != null && pass != null && email != null && trangthai != null)
             {
                 //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
                 SqlConnection connection = new SqlConnection(connectionString);
 
                 //Đối tượng câu truy vấn thêm dữ liệu sql
-                string sql = "INSERT INTO NHANVIEN VALUES (@name, @email, @pass,  @trangthai, @maloai)";
+                string sql = "INSERT INTO NHANVIEN VALUES (@name, @email, @pass,  @trangthai)";
 
                 //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
                 SqlCommand command = new SqlCommand(sql, connection);
@@ -1240,7 +1240,6 @@ namespace CNPMNC_REPORT1.Models
                 command.Parameters.AddWithValue("@name", name);
                 command.Parameters.AddWithValue("@pass", pass);
                 command.Parameters.AddWithValue("@trangthai", trangthai);
-                command.Parameters.AddWithValue("@maloai", maloai);
                 command.Parameters.AddWithValue("@email", email);
 
                 int result = command.ExecuteNonQuery();
@@ -1257,7 +1256,7 @@ namespace CNPMNC_REPORT1.Models
 
         }
 
-        public bool updateNV(int? code, string name, string pass, string email, string trangthai, int? maloai)
+        public bool updateNV(int? code, string name, string pass, string email, string trangthai)
         {
             bool isUpdate = false;
 
@@ -1265,7 +1264,7 @@ namespace CNPMNC_REPORT1.Models
             SqlConnection connection = new SqlConnection(connectionString);
 
             //Đối tượng câu truy vấn thêm dữ liệu sql
-            string sql = "UPDATE NHANVIEN SET HoTenNV=@name, MatKhauNV=@pass, Email=@email, TrangThaiTKNV=@trangthai, MaLoaiNV=@maloai WHERE MaNV=@code";
+            string sql = "UPDATE NHANVIEN SET HoTenNV=@name, MatKhauNV=@pass, Email=@email, TrangThaiTKNV=@trangthai WHERE MaNV=@code";
 
             //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
             SqlCommand command = new SqlCommand(sql, connection);
@@ -1277,7 +1276,6 @@ namespace CNPMNC_REPORT1.Models
             command.Parameters.AddWithValue("@name", name);
             command.Parameters.AddWithValue("@pass", pass);
             command.Parameters.AddWithValue("@trangthai", trangthai);
-            command.Parameters.AddWithValue("@maloai", maloai);
             command.Parameters.AddWithValue("@email", email);
 
             ArrayList listname = getData($"SELECT * FROM NHANVIEN WHERE HoTenNV = N'{name}'");

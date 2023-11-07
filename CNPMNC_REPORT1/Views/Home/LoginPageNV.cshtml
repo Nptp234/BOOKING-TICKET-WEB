@@ -92,11 +92,11 @@
                                             <div class="tab-content-inner active" data-content="signup">
                                                 <h3 class="cursive-font">LOGIN</h3>
                                                 <p class="smaller_content" style="color:red;">@ViewBag.ThongBao</p>
-                                                <form action="@Url.Action("LoginPage","Home")" method="post">
+                                                <form action="@Url.Action("LoginPageNV","Home")" method="post">
                                                     <div class="row form-group">
                                                         <div class="col-md-12">
-                                                            <label>Username</label> <br />
-                                                            <input type="text" name="Username" required>
+                                                            <label>Email</label> <br />
+                                                            <input type="email" name="Username" required>
                                                         </div>
                                                     </div>
                                                     <div class="row form-group">
@@ -110,19 +110,14 @@
                                                             <input type="submit" class="btn btn-primary btn-block" value="LOGIN NOW">
                                                         </div>
                                                     </div>
-                                                    <div class="row form-group">
-                                                        <a href="@Url.Action("RegisterPage","Home")" style="color: #FBB448">Chưa có tài khoản?</a>
-                                                    </div>
-                                                    <div class="row form-group">
-                                                        <a href="@Url.Action("LoginPageNV","Home")" style="color: #FBB448">Đăng nhập nhân viên?</a>
-                                                    </div>
+                                                    
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -178,3 +173,5 @@
     </script>
 </body>
 </html>
+
+

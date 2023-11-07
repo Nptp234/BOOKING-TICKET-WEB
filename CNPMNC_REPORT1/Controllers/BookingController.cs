@@ -114,7 +114,7 @@ namespace CNPMNC_REPORT1.Controllers
             //Lấy ra một mảng là những ghế được chọn
             List<string> listChair = getListChairPicked.Split(' ').ToList();
             //Lấy ra thông tin lịch chiếu
-            ViewBag.LichChieu = db.getData( $"SELECT lc.MaLC, p.HinhAnh, lc.MaPC, lpc.TenLPC, FORMAT(lc.NgayLC, 'MM/dd/yyyy h:mm:ss tt'), p.TenPhim, ght.TenGHT, xc.GioXC " +
+            ViewBag.LichChieu = db.getData($"SELECT lc.MaLC, p.HinhAnh, lc.MaPC, lpc.TenLPC, FORMAT(lc.NgayLC, 'MM/dd/yyyy h:mm:ss tt'), p.TenPhim, ght.TenGHT, xc.GioXC " +
                                             $"FROM LICHCHIEU lc, PHIM p, LOAIPC lpc, GIOIHANTUOI ght, PHONGCHIEU pc, XUATCHIEU xc " +
                                             $"WHERE lc.MaPhim = p.MaPhim " +
                                             $"AND p.MaGHT = ght.MaGHT " +
@@ -129,8 +129,8 @@ namespace CNPMNC_REPORT1.Controllers
             ViewBag.ChietKhau = db.getData($"SELECT LOAIKH.ChietKhau FROM KHACHHANG, LOAIKH WHERE KHACHHANG.MaLoaiKH = LOAIKH.MaLoaiKH AND KHACHHANG.TenTKKH = '{getUsername}'");
             ViewBag.Noti = "Bạn là khách hàng đặc biệt.";
             //Lấy ra số tiền phải trả
-            double convertMoney = Convert.ToDouble(getTotalMoney.Split(' ').ToList()[0])*1000;
-            ViewBag.Money = convertMoney - convertMoney*(Convert.ToDouble(ViewBag.ChietKhau[0][0]));
+            double convertMoney = Convert.ToDouble(getTotalMoney.Split(' ').ToList()[0]) * 1000;
+            ViewBag.Money = convertMoney - convertMoney * (Convert.ToDouble(ViewBag.ChietKhau[0][0]));
 
             ViewBag.ListChair = getListChairPicked;
             return View(listChair);
