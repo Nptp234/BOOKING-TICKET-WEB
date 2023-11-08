@@ -69,17 +69,18 @@ namespace CNPMNC_REPORT1.Controllers
                     bool isAdd = data.insertHD(TongGia, tentk);
                     if (isAdd)
                     {
-                        bool isAddCT = false;
-                        ViewBag.GetMaVP = data.getData($"SELECT vp.MaVe FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH=kh.MaKH AND kh.TenTKKH='{tentk}' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
+                        bool isAddCT = false, isUpdateLM = false;
+                        ViewBag.GetMaVP = data.getData($"SELECT vp.MaVe, p.MaPhim FROM VEPHIM vp, KHACHHANG kh, LICHCHIEU lc, PHIM p WHERE vp.MaKH=kh.MaKH AND kh.TenTKKH='{tentk}' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN' AND vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim");
                         //ViewBag.GetMaVeHD = data.getData($"SELECT MAX(MaHD) FROM HOADON");
 
                         foreach (var b in ViewBag.GetMaVP)
                         {
                             int mave = int.Parse(b[0]);
+                            int maphim = int.Parse(b[1]);
                             //ViewBag.GetSLVP = data.getData($"SELECT COUNT(MaVG) FROM VE_GHE WHERE MaVe = {mave} AND TrangThaiVG = N'CHƯA THANH TOÁN'");
                             //int slvp = int.Parse(ViewBag.GetSLVP[0][0]);
                             isAddCT = data.insertCTHD(mave, 1, ThanhTien);
-
+                            isUpdateLM = data.updateLuotMua(maphim);
                         }
 
                         if (isAddCT)

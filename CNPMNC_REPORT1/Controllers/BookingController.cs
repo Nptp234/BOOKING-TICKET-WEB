@@ -127,8 +127,14 @@ namespace CNPMNC_REPORT1.Controllers
             string getUsername = Session["Username"] as string;
 
             ViewBag.ChietKhau = db.getData($"SELECT LOAIKH.ChietKhau FROM KHACHHANG, LOAIKH WHERE KHACHHANG.MaLoaiKH = LOAIKH.MaLoaiKH AND KHACHHANG.TenTKKH = '{getUsername}'");
-            ViewBag.Noti = "Bạn là khách hàng đặc biệt.";
+
+            double getChietKhau = Convert.ToDouble(ViewBag.ChietKhau[0][0]);
+            
             //Lấy ra số tiền phải trả
+            if (getChietKhau != 0)
+            {
+                ViewBag.Noti = "Bạn là khách hàng đặc biệt.";
+            }
             double convertMoney = Convert.ToDouble(getTotalMoney.Split(' ').ToList()[0]) * 1000;
             ViewBag.Money = convertMoney - convertMoney * (Convert.ToDouble(ViewBag.ChietKhau[0][0]));
 

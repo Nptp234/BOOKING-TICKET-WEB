@@ -182,14 +182,14 @@ INSERT INTO GIOIHANTUOI values ('P18', N'Trên 18 tuổi')
 INSERT INTO PHIM VALUES
 (N'ÁN MẠNG Ở VENICE', 
 N'Dựa trên tiểu thuyết Halloween Party của nhà văn Agatha Christie, hành trình phá án của thám tử Hercule Poirot tiếp tục được đưa lên màn ảnh rộng.',
-'20230915',103,0,0,'anmangovenice.png',
+GETDATE(),103,0,0,'anmangovenice.png',
 'https://www.youtube.com/watch?v=EL8FdLQFUhc',50000,3)
 
 INSERT INTO PHIM VALUES
 (N'THE NUN', N'Là phần phim tiếp nối câu chuyện năm 2019 của The Nun, phim lấy bối cảnh nước Pháp năm 1956, 
 		cùng cái chết bí ẩn của một linh mục, một giai thoại đáng sợ và ám ảnh sẽ mở ra tiếp tục xoay 
 		quanh nhân vật chính - Sơ Irene. Liệu Sơ Irene có nhận ra, đây chính là hồn ma nữ tu Valak từng 
-		có cuộc chiến “sống còn” với cô không lâu trước đây.','20230908',110,10,0,
+		có cuộc chiến “sống còn” với cô không lâu trước đây.',GETDATE(),110,0,0,
 		'thenun.png','https://www.youtube.com/watch?v=vab6sPIceuU',50000,4)
 	
 INSERT INTO PHIM VALUES
@@ -199,7 +199,7 @@ INSERT INTO PHIM VALUES
 		vũ khí người Anh với đội quân của riêng mình. Hắn đã thành công đánh cắp va li chứa kíp nổ trước khi
 		Biệt Đội Đánh Thuê kịp tìm đến. Nếu kíp nổ rơi vào tay Ocelot, gã sẽ hủy diệt cả thế giới. 
 		Sau khi nhiệm vụ tóm gọn Rahmat thất bại, cả đội tiếp tục hành trình trên con thuyền Jantara, 
-		nơi bước ngoặt thực sự của câu chuyện xảy ra, và một sự thật gây sốc về Ocelot được hé lộ…','20230922',103,10,0,'bddt4.png',
+		nơi bước ngoặt thực sự của câu chuyện xảy ra, và một sự thật gây sốc về Ocelot được hé lộ…',GETDATE(),103,10,0,'bddt4.png',
 		'https://www.youtube.com/watch?v=P5zcuOefk1A',50000,4)
 
 INSERT INTO PHIM VALUES
@@ -208,7 +208,7 @@ INSERT INTO PHIM VALUES
 		Tomohiko sử dụng các kỹ thuật tiên tiến của mình để nâng cấp dự án. Tuy nhiên, khi Tomohiko đeo kính
 		VR và bước vào thế giới ảo, trời đột nhiên trở nên tối tăm và một người phụ nữ bí ẩn xuất hiện. 
 		Những cái chết bí ẩn xảy ra với nhân viên công ty công nghệ VR. Có một nỗi sợ hãi chưa từng có 
-		đang chờ đợi giữa thực tế và thế giới ảo.','20230908',107,10,0,'hoaquy.png',
+		đang chờ đợi giữa thực tế và thế giới ảo.',GETDATE(),107,10,0,'hoaquy.png',
 		'https://www.youtube.com/watch?v=WUuMNNqzEO0',50000,4)
 
 INSERT INTO PHIM VALUES
@@ -219,7 +219,7 @@ INSERT INTO PHIM VALUES
 		đòi nợ” Il-young - người phụ nữ hướng ngoại, luôn suy nghĩ tích cực về cuộc sống dù đang ở trong 
 		hoàn cảnh khó khăn của một bà mẹ đơn thân. Khác biệt về tính cách lẫn ngoại hình khiến cả hai trở 
 		thành “trái dấu hút nhau”. Sự “trái dấu” này đã đẩy đưa cuộc tình của họ đến vô vàn tình huống 
-		“cười ra nước mắt” nhưng cũng không kém phần cảm xúc.','20230915',119,0,0,
+		“cười ra nước mắt” nhưng cũng không kém phần cảm xúc.',GETDATE()+1,119,10,0,
 		'ndtd.png','https://www.youtube.com/watch?v=zlPzyxdhQbI',50000,3)
 
 INSERT INTO PHIM VALUES
@@ -229,26 +229,25 @@ INSERT INTO PHIM VALUES
 		trò để đạt được mục đích của mình, cho đến khi chính bản thân họ lại 
 		thành con mồi mới cho những kẻ trên mạng, những người sẵn sàng lao vào
 		tấn công người khác chỉ vì “Không ưa con đó.”',
-		'20230922',119,0,0,'phattructiep.png','https://www.youtube.com/watch?v=REgmCauEHDM',50000,4)
+		GETDATE()+1,119,10,0,'phattructiep.png','https://www.youtube.com/watch?v=REgmCauEHDM',50000,4)
 
 INSERT INTO PHIM VALUES
 (N'THE NUN II', N'Là phần phim tiếp nối câu chuyện năm 2019 của The Nun, phim lấy bối cảnh nước Pháp năm 1956, 
 		cùng cái chết bí ẩn của một linh mục, một giai thoại đáng sợ và ám ảnh sẽ mở ra tiếp tục xoay 
 		quanh nhân vật chính - Sơ Irene. Liệu Sơ Irene có nhận ra, đây chính là hồn ma nữ tu Valak từng 
 		có cuộc chiến “sống còn” với cô không lâu trước đây.',
-		'20230915',91,0,0,'thenun2.png','https://www.youtube.com/watch?v=QF-oyCwaArU',50000,4)
+		GETDATE()+1,91,0,0,'thenun2.png','https://www.youtube.com/watch?v=QF-oyCwaArU',50000,4)
 
 INSERT INTO PHIM VALUES
 (N'ĐẤT RỪNG PHƯƠNG NAM', N'Sau bao ngày chờ đợi, dự án điện ảnh gợi ký ức tuổi thơ của nhiều thế hệ người Việt chính thức 
 		tung hình ảnh đầu tiên đầy cảm xúc. First look poster khắc họa hình ảnh đối lập: bé An đang ôm 
 		chặt mẹ giữa một khung cảnh chạy giặc loạn lạc. Cùng chờ đợi và theo dõi thêm hành trình bé An đi
 		tìm cha khắp nam kỳ lục tỉnh cùng các người bạn đồng hành nhé!',
-		'20231020',110,0,0,'drpn.png','https://www.youtube.com/watch?v=hzyg3lvFPvk',50000,3)
+		GETDATE()+1,110,0,0,'drpn.png','https://www.youtube.com/watch?v=hzyg3lvFPvk',50000,3)
 
 INSERT INTO PHIM VALUES
-(N'ARGYLLE SIÊU ĐIỆP VIÊN', N'Argylle là ai? Duy nhất 1 cách có thể tìm ra câu trả lời. ARGYLLE SIÊU ĐIỆP VIÊN | Dự Kiến Khởi Chiếu - Mùng 1 Tết 10.02.2024','20241002',
-95,0,0,
-'angylle.png','https://www.youtube.com/watch?v=7mgu9mNZ8Hk',50000,2)
+(N'ARGYLLE SIÊU ĐIỆP VIÊN', N'Argylle là ai? Duy nhất 1 cách có thể tìm ra câu trả lời. ARGYLLE SIÊU ĐIỆP VIÊN | Dự Kiến Khởi Chiếu - Mùng 1 Tết 10.02.2024',
+GETDATE(),95,0,0,'angylle.png','https://www.youtube.com/watch?v=7mgu9mNZ8Hk',50000,2)
 
 INSERT INTO THELOAIP VALUES (N'Hành động', N'Phim có tính chất bạo lực và hành động mãn nhãn')
 INSERT INTO THELOAIP VALUES (N'Giải trí', N'Phim có tính chất giải trí cao')
@@ -453,7 +452,7 @@ select cthd.* from HOADON hd, CHITIETHD cthd where hd.MaHD=1 and hd.MaHD=cthd.Ma
 
 SELECT vp.MaVe FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH=kh.MaKH AND kh.TenTKKH='phuoc' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'
 
-SELECT * FROM VE_GHE WHERE MaVe = 1 AND TrangThaiVG = N'CHƯA THANH TOÁN'
+SELECT MaVe FROM VE_GHE WHERE MaVe = 1
 
 select vp.NgayDat, vp.GiaVe, lc.NgayLC, p.TenPhim, vp.MaVe from HOADON hd, CHITIETHD cthd, VEPHIM vp, LICHCHIEU lc, PHIM p where hd.MaHD=1 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe AND vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim
 
@@ -480,3 +479,34 @@ SELECT* FROM VEPHIM
 SELECT* FROM VE_GHE
 SELECT* FROM HOADON
 SELECT* FROM CHITIETHD
+select cthd.* from VEPHIM vp, HOADON hd, VE_GHE vg, CHITIETHD cthd where hd.MaHD=1 and vg.MaVe=1 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe and vp.MaVe=vg.MaVe
+
+SELECT * FROM PHIM WHERE NgayCongChieu <= GETDATE()
+
+SELECT * FROM PHIM WHERE NgayCongChieu > GETDATE()
+
+SELECT * FROM PHIM WHERE LuotMua >= 10
+
+SELECT vp.MaVe, p.MaPhim FROM VEPHIM vp, KHACHHANG kh, LICHCHIEU lc, PHIM p WHERE vp.MaKH=kh.MaKH AND kh.TenTKKH='phuoc' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN' AND vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim
+
+UPDATE PHIM SET LuotMua=LuotMua+1 WHERE MaPhim = 5
+
+SELECT kh.TenTKKH, kh.EmailKH, kh.MatKhauKH, lkh.TenLKH FROM KHACHHANG kh, LOAIKH lkh WHERE kh.MaLoaiKH=lkh.MaLoaiKH
+
+SELECT CONVERT(date, vp.NgayDat) FROM VEPHIM vp, KHACHHANG kh WHERE kh.MaKH=vp.MaKH AND kh.TenTKKH='phuoc' GROUP BY CONVERT(date, vp.NgayDat) ORDER BY CONVERT(date, vp.NgayDat) DESC
+
+SELECT vp.MaVe, p.TenPhim, pc.TenPC, STRING_AGG(vg.TenGheVG, ''), CONVERT(date, vp.NgayDat)
+FROM VEPHIM vp, KHACHHANG kh, LICHCHIEU lc, PHIM p, PHONGCHIEU pc, VE_GHE vg
+WHERE kh.TenTKKH='phuoc' 
+AND vp.MaKH=kh.MaKH 
+AND vp.MaLC=lc.MaLC 
+AND lc.MaPhim=p.MaPhim
+AND pc.MaPC=lc.MaPC
+AND vp.MaVe=vg.MaVe
+GROUP BY vp.MaVe, p.TenPhim, pc.TenPC, vp.NgayDat 
+ORDER BY vp.NgayDat DESC
+
+UPDATE KHACHHANG SET EmailKH=asd WHERE TenTKKH=asd UPDATE KHACHHANG SET MatKhauKH=asd WHERE TenTKKH=asd
+
+
+
