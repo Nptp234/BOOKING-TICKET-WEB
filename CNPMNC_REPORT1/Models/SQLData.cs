@@ -1909,5 +1909,107 @@ namespace CNPMNC_REPORT1.Models
 
             return isUpdate;
         }
+
+        public bool insertComment(int? idphim, int? idkh, string bltext)
+        {
+            bool isAdd = false;
+
+            if (idphim != null && bltext != null && idkh != null)
+            {
+                //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                //Đối tượng câu truy vấn thêm dữ liệu sql
+                string sql = "INSERT INTO BINHLUAN VALUES (@idphim, @idkh, @bltext, 'Active', GETDATE())  ";
+
+                //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+                connection.Open();
+
+                command.Parameters.AddWithValue("@idphim", idphim);
+                command.Parameters.AddWithValue("@idkh", idkh);
+                command.Parameters.AddWithValue("@bltext", bltext);
+
+                int result = command.ExecuteNonQuery();
+
+                if (result > 0)
+                {
+                    isAdd = true;
+                }
+                else isAdd = false;
+
+            }
+
+            return isAdd;
+        }
+
+        public int getMaKH(string tentkkh)
+        {
+            int ma_loai = 0;
+
+            //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //Đối tượng câu truy vấn thêm dữ liệu sql
+            string sql = "SELECT * FROM KHACHHANG WHERE TenTKKH = @tentkkh";
+
+            //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+            connection.Open();
+
+            command.Parameters.AddWithValue("@tentkkh", tentkkh);
+
+            SqlDataReader sqlDataReader = command.ExecuteReader();
+
+            if (sqlDataReader.HasRows)
+            {
+                //gán giá trị cột MaLPC cho biến ma_loai
+                if (sqlDataReader.Read())
+                {
+                    ma_loai = sqlDataReader.GetInt32(0);
+                }
+            }
+            else ma_loai = 0;
+
+            return ma_loai;
+        }
+
+        public bool deleteComment(int? idbl)
+        {
+            bool isDelete = false;
+
+            if (idbl != null)
+            {
+                //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                //Đối tượng câu truy vấn thêm dữ liệu sql
+                string sql = "DELETE FROM BINHLUAN WHERE MaBL=@idbl";
+
+                //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+                connection.Open();
+
+                command.Parameters.AddWithValue("@idbl", idbl);
+
+                int result = command.ExecuteNonQuery();
+
+                if (result > 0)
+                {
+                    isDelete = true;
+                }
+                else isDelete = false;
+
+            }
+
+            return isDelete;
+        }
+
     }
 }
