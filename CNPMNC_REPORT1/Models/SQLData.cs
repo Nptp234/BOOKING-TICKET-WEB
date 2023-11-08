@@ -9,8 +9,35 @@ namespace CNPMNC_REPORT1.Models
 {
     public class SQLData
     {
-        public static string connectionString = "Server=localhost;Database=CNPMNC_DATA1;Trusted_Connection=True";
-        private int countTLP;
+        public static string connectionString = "Server=LAPTOP-FJ00A5PB\\SQLEXPRESS;Database=CNPMNC_DATA1;Trusted_Connection=True";
+        public List<Phim> GetPhimList(string sql)
+        {
+            ArrayList arrayList = getData(sql);
+            List<Phim> list = new List<Phim>();
+
+            foreach (ArrayList row in arrayList)
+            {
+                Phim phim = new Phim
+                {
+                    TenPhim = row[1].ToString(),
+                    MaPhim = row[0].ToString(),
+                    TomTatP = row[2].ToString(),
+                    NgayCongChieu = row[3].ToString(),
+                    ThoiLuongP = row[4].ToString(),
+                    LuotMua = row[5].ToString(),
+                    LuotThich = row[6].ToString(),
+                    HinhAnh = row[7].ToString(),
+                    Trailer = row[8].ToString(),
+                    GiaPhim = row[9].ToString(),
+                    MaGHT = row[10].ToString(),
+                // Điền các thuộc tính khác tương ứng với cột trong kết quả truy vấn
+            };
+
+                list.Add(phim);
+            }
+
+            return list;
+        }
 
         public ArrayList getData(String sql)
         {
