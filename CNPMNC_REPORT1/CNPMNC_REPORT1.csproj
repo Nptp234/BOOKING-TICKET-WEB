@@ -269,6 +269,7 @@
     <Content Include="Views\Store\IndexForNull.cshtml" />
     <Content Include="Views\Home\LoginPageNV.cshtml" />
     <Content Include="Views\Home\AccountPage.cshtml" />
+    <Content Include="Views\Home\PointRule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

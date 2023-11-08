@@ -21,7 +21,11 @@
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 </head>
 <style>
 
@@ -54,7 +58,6 @@
             flex-basis: 60%;
             border: 2px solid white;
             padding: 20px;
-            
         }
 
             .film_info .film_info_container > h2 {
@@ -161,6 +164,39 @@
     .download {
         display: none;
     }
+
+    /*COMMENT CSS*/
+    .date {
+        font-size: 11px
+    }
+
+    .comment-text {
+        font-size: 12px
+    }
+
+    .fs-12 {
+        font-size: 12px
+    }
+
+    .shadow-none {
+        box-shadow: none
+    }
+
+    .name {
+        color: #007bff
+    }
+
+    .cursor:hover {
+        color: blue
+    }
+
+    .cursor {
+        cursor: pointer
+    }
+
+    .textarea {
+        resize: none
+    }
 </style>
 
 <div class="container section_filmdetail" style="background-color: #2C3333; min-height: 100vh; display: flex; align-items: center; ">
@@ -184,13 +220,13 @@
                         <span class="l-value">@a[4] Phút</span>
                     </div>
                     @*<div class="film-overview">
-            <span class="l-title">Lượt mua:</span>
-            <span class="l-value">@a[5]</span>
-        </div>
-        <div class="film-overview">
-            <span class="l-title">Lượt thích:</span>
-            <span class="l-value">@a[6]</span>
-        </div>*@
+                            <span class="l-title">Lượt mua:</span>
+                            <span class="l-value">@a[5]</span>
+                        </div>
+                        <div class="film-overview">
+                            <span class="l-title">Lượt thích:</span>
+                            <span class="l-value">@a[6]</span>
+                        </div>*@
                     <div class="film-overview">
                         <span class="l-title">Độ tuổi: </span>
                         <span class="l-value">@a[13]</span>
@@ -201,7 +237,7 @@
                     </div>
                     <p style="color: #fff; font-size: 16px"></p>
 
-                    <a  class="cart-btn fontsize14" style="width: 100%; text-align: center;" href="@Url.Action("LichChieu", "Booking", new { maphim = a[0]})">Mua vé</a>
+                    <a class="cart-btn fontsize14" style="width: 100%; text-align: center;" href="@Url.Action("LichChieu", "Booking", new { maphim = a[0]})">Mua vé</a>
                 </div>
             </div>
         }
@@ -221,11 +257,74 @@
     </div>
 </div>
 
+<div class="empty_box"></div>
+
+<div class="d-flex flex-column comment-section" style="background-color: white; padding-right: 120px; padding-left: 120px;">
+    
+        @if (ViewBag.getBL != null)
+        {
+            <div class="bg-white p-2" style=" height: 350px; overflow: scroll;">
+                @foreach (var bl in ViewBag.getBL)
+                {
+                    <div class="d-flex flex-row user-info">
+                        <img class="rounded-circle" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" width="40">
+                        <div class="d-flex flex-column justify-content-start ml-2">
+                            <span class="d-block font-weight-bold name">@bl[1]</span>
+                            <span class="date text-black-50">@bl[2]</span>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <p class="comment-text" style="font-size: 20px;">@bl[0]</p>
+                    </div>
+
+                    if (Session["isLogined"]=="true")
+                    {
+                        string tentk = (string)Session["Username"];
+                        string tentkbl = (string)bl[1];
+                        if (tentk == tentkbl)
+                        {
+                            <form action="@Url.Action("FilmDetail","Home")" method="post">
+                                <input name="IDPhim" style="display: none;" value="@ViewBag.getFilmById123[0][0]" />
+                                <input name="IDBL" value="@bl[3]" style="display:none" />
+                                <div class="bg-white" style="margin-bottom: 20px;">
+                                        <button name="status" value="Delete" class="d-flex flex-row fs-12" style="background-color: white; border: 0;">
+                                            <div class="like p-2 cursor"><i class="bi bi-trash-fill"></i><span class="ml-1">Delete</span></div>
+                                        </button>
+                                    </div>
+                            </form>
+                        } 
+                     }
+
+                }
+            </div>
+    
+        }
+</div>
+    
+    @if (Session["isLogined"] == "true")
+    {
+        <form action="@Url.Action("FilmDetail","Home")" method="post">
+            <input name="IDPhim" style="display: none;" value="@ViewBag.getFilmById123[0][0]" />
+            <div class="bg-light p-2">
+                <p class="smaller_content" style="color:red;">@ViewBag.ThongBao</p>
+                <div class="d-flex flex-row align-items-start">
+                    <img class="rounded-circle" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" width="40">
+                    <textarea class="form-control ml-1 shadow-none textarea" name="GhiChu"></textarea>
+                </div>
+                <div class="mt-2 text-right">
+                    <button name="status" value="Post" class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
+                </div>
+            </div>
+        </form>
+    }
+
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script type="text/javascript">
 
-   
+
 
     document.addEventListener('DOMContentLoaded', function () {
         const scrollButton = document.getElementById('scrollButton');
