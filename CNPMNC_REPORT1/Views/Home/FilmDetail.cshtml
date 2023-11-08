@@ -197,6 +197,11 @@
     .textarea {
         resize: none
     }
+
+    /*COMMENT SECTION*/
+
+
+
 </style>
 
 <div class="container section_filmdetail" style="background-color: #2C3333; min-height: 100vh; display: flex; align-items: center; ">
@@ -259,115 +264,136 @@
 
 <div class="empty_box"></div>
 
-<div class="d-flex flex-column comment-section" style="background-color: white; padding-right: 120px; padding-left: 120px;">
-    
-        @if (ViewBag.getBL != null)
-        {
-            <div class="bg-white p-2" style=" height: 350px; overflow: scroll;">
-                @foreach (var bl in ViewBag.getBL)
-                {
-                    <div class="d-flex flex-row user-info">
-                        <img class="rounded-circle" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" width="40">
-                        <div class="d-flex flex-column justify-content-start ml-2">
-                            <span class="d-block font-weight-bold name">@bl[1]</span>
-                            <span class="date text-black-50">@bl[2]</span>
-                        </div>
-                    </div>
-                    <div class="mt-2">
-                        <p class="comment-text" style="font-size: 20px;">@bl[0]</p>
-                    </div>
+<style>
 
-                    if (Session["isLogined"]=="true")
-                    {
-                        string tentk = (string)Session["Username"];
-                        string tentkbl = (string)bl[1];
-                        if (tentk == tentkbl)
-                        {
-                            <form action="@Url.Action("FilmDetail","Home")" method="post">
-                                <input name="IDPhim" style="display: none;" value="@ViewBag.getFilmById123[0][0]" />
-                                <input name="IDBL" value="@bl[3]" style="display:none" />
-                                <div class="bg-white" style="margin-bottom: 20px;">
-                                        <button name="status" value="Delete" class="d-flex flex-row fs-12" style="background-color: white; border: 0;">
-                                            <div class="like p-2 cursor"><i class="bi bi-trash-fill"></i><span class="ml-1">Delete</span></div>
-                                        </button>
-                                    </div>
-                            </form>
-                        } 
-                     }
-
-                }
-            </div>
-    
-        }
-</div>
-    
-    @if (Session["isLogined"] == "true")
-    {
-        <form action="@Url.Action("FilmDetail","Home")" method="post">
-            <input name="IDPhim" style="display: none;" value="@ViewBag.getFilmById123[0][0]" />
-            <div class="bg-light p-2">
-                <p class="smaller_content" style="color:red;">@ViewBag.ThongBao</p>
-                <div class="d-flex flex-row align-items-start">
-                    <img class="rounded-circle" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" width="40">
-                    <textarea class="form-control ml-1 shadow-none textarea" name="GhiChu"></textarea>
-                </div>
-                <div class="mt-2 text-right">
-                    <button name="status" value="Post" class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
-                </div>
-            </div>
-        </form>
+    .comments {
+        margin-top: 5%;
+        margin-left: 20px;
     }
 
-</div>
+    .darker {
+        border: 1px solid #ecb21f;
+        background-color: black;
+        float: right;
+        border-radius: 5px;
+        padding-left: 40px;
+        padding-right: 30px;
+        padding-top: 10px;
+    }
+
+    .comment {
+        border: 1px solid rgba(16, 46, 46, 1);
+        background-color: rgba(16, 46, 46, 0.973);
+        float: left;
+        border-radius: 5px;
+        padding-left: 40px;
+        padding-right: 30px;
+        padding-top: 10px;
+        min-width: 80%;
+    }
+
+        .comment h4, .comment span, .darker h4, .darker span {
+            display: inline;
+        }
+
+        .comment p, .comment span, .darker p, .darker span {
+            color: rgb(184, 183, 183);
+        }
+
+    h1, h4 {
+        color: white;
+        font-weight: bold;
+    }
+
+    label {
+        color: rgb(212, 208, 208);
+    }
+
+    #align-form {
+        margin-top: 20px;
+    }
+
+    .form-group p a {
+        color: white;
+    }
+
+    #checkbx {
+        background-color: black;
+    }
+
+    #darker img {
+        margin-right: 15px;
+        position: static;
+    }
+
+    .form-group input, .form-group textarea {
+        background-color: black;
+        border: 1px solid rgba(16, 46, 46, 1);
+        border-radius: 12px;
+    }
+
+    form {
+        border: 1px solid rgba(16, 46, 46, 1);
+        background-color: rgba(16, 46, 46, 0.973);
+        border-radius: 5px;
+        padding: 20px;
+    }
+</style>
+<section style="background-color: black;">
+    <div class="container">
+        @* List comments *@
+        <div class="row">
+            <div class="col-sm-7 col-md-9 col-12 pb-4">
+                <h1>Comments</h1>
+                @foreach (var bl in ViewBag.getBL)
+                {
+          
+                <div class="comment mt-2 text-justify float-left">
+                    <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="30" height="30">
+                    <h4>@bl[1]</h4>
+                    <span>@DateTime.Parse(bl[2]).ToString("MMM dd, yyyy HH:mm:ss tt")</span>
+                    <br>
+                    <p>@bl[0]</p>
+                    @if (Session["Username"] as string == bl[1])
+                    {
+                        <a href="@Url.Action("DeleteComment", "Home", new { mabl = bl[3], maphim = ViewBag.getFilmById123[0][0]})" style="color: white">Xoá bình luận</a>
+                    }
+                </div>
+                    
+                }
+
+            </div>
+        </div>
+        <div class="row">
+            @* Post comment *@
+            <form action="@Url.Action("FilmDetail","Home")" method="post" style="border: none; background-color:  inherit">
+                <h4 style="color: white">Leave your comment here</h4>
+                <input name="IDPhim" style="display: none;" value="@ViewBag.getFilmById123[0][0]" />
+                <div class="bg-light p-2" style="border-radius: 10px">
+                    <p class="smaller_content" style="color:red;">@ViewBag.ThongBao</p>
+                    <div class="d-flex flex-row align-items-start">
+                        <img class="rounded-circle" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" width="40">
+                        <textarea id="inputComment" class="form-control ml-1 shadow-none textarea" name="GhiChu" placeholder="Đăng nhập để có thể bình luận phim" required></textarea>
+                    </div>
+                    <div class="mt-2 text-right">
+                        <button id="btnSubmit" name="status" value="Post" class="btn btn-info" type="submit">Post comment</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@if (Session["Username"] == null)
+{
+    <script>
+        var getbtnSubmit = document.getElementById("btnSubmit");
+        getbtnSubmit.disabled = true;
 
-<script type="text/javascript">
-
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const scrollButton = document.getElementById('scrollButton');
-        const targetElement = document.getElementById('targetElement'); // Đổi thành phần bạn muốn cuộn đến
-
-        scrollButton.addEventListener('click', function () {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-        });
-    });
-    (function () {
-        var delay = false;
-
-        $(document).on('mousewheel DOMMouseScroll', function (event) {
-            event.preventDefault();
-            if (delay) return;
-
-            delay = true;
-            setTimeout(function () { delay = false }, 200)
-
-            var wd = event.originalEvent.wheelDelta || -event.originalEvent.detail;
-
-            var a = document.getElementsByClassName('section_filmdetail');
-            if (wd < 0) {
-                for (var i = 0; i < a.length; i++) {
-                    var t = a[i].getClientRects()[0].top;
-                    if (t >= 40) break;
-                }
-            }
-            else {
-                for (var i = a.length - 1; i >= 0; i--) {
-                    var t = a[i].getClientRects()[0].top;
-                    if (t < -20) break;
-                }
-            }
-
-            if (i >= 0 && i < a.length) {
-                $('html,body').animate({
-                    scrollTop: a[i].offsetTop
-                });
-            }
-        });
-    })();
-</script>
-
-
+        var inputComment = document.getElementById("inputComment");
+        inputComment.disabled = true;
+    </script>
+}
 
