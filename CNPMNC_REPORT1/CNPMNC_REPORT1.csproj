@@ -273,6 +273,7 @@
     <Content Include="Views\Store\IndexForNull.cshtml" />
     <Content Include="Views\Home\SearchResult.cshtml" />
     <Content Include="Views\Home\LoginPageNV.cshtml" />
+    <Content Include="Views\Home\AccountPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

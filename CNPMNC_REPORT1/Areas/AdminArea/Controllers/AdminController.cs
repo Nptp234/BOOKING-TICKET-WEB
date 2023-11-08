@@ -597,15 +597,25 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                         int getMaLKH = data.getMaLoaiKH(LoaiKH);
                         if (getMaLKH != 0)
                         {
-                            bool isSaved = data.saveKH(TenKH, MatKhau, Email, DiemThuong, TrangThaiKH, getMaLKH);
-                            if (!isSaved)
+                            bool isCheck = data.checkDataUsername(TenKH);
+                            if (isCheck)
                             {
-                                ViewBag.ThongBaoLuu = "Lỗi lưu không thành công hoặc phòng chiếu đã tồn tại!";
-                                ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
-                                ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
+                                bool isSaved = data.saveKH(TenKH, MatKhau, Email, DiemThuong, TrangThaiKH, getMaLKH);
+                                if (!isSaved)
+                                {
+                                    ViewBag.ThongBaoLuu = "Lỗi lưu không thành công hoặc phòng chiếu đã tồn tại!";
+                                    ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
+                                    ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
+                                }
+                                else
+                                {
+                                    ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
+                                    ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
+                                }
                             }
                             else
                             {
+                                ViewBag.ThongBaoLuu = "Lỗi tồn tại tên khách hàng!";
                                 ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
                                 ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
                             }

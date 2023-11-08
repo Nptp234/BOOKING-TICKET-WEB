@@ -1843,5 +1843,71 @@ namespace CNPMNC_REPORT1.Models
 
             return isUpdate;
         }
+
+        public bool updateLuotMua(int? maphim)
+        {
+            bool isUpdate = false;
+
+            //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            //Đối tượng câu truy vấn thêm dữ liệu sql
+            string sql = "UPDATE PHIM SET LuotMua=LuotMua+1 WHERE MaPhim = @maphim";
+
+            //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+            connection.Open();
+
+            command.Parameters.AddWithValue("@maphim", maphim);
+
+            int result = command.ExecuteNonQuery();
+
+            if (result > 0)
+            {
+                isUpdate = true;
+            }
+            else isUpdate = false;
+
+            connection.Close();
+
+            return isUpdate;
+        }
+
+        public bool updateKH(string name, string email, string pass)
+        {
+            bool isUpdate = false;
+
+            if (name != null && email != null && pass != null)
+            {
+                //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                //Đối tượng câu truy vấn thêm dữ liệu sql
+                string sql = "UPDATE KHACHHANG SET EmailKH=@email WHERE TenTKKH=@name UPDATE KHACHHANG SET MatKhauKH=@pass WHERE TenTKKH=@name";
+
+                //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+                SqlCommand command = new SqlCommand(sql, connection);
+
+                //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+                connection.Open();
+
+                command.Parameters.AddWithValue("@name", name);
+                command.Parameters.AddWithValue("@email", email);
+                command.Parameters.AddWithValue("@pass", pass);
+
+                int result = command.ExecuteNonQuery();
+
+                if (result > 0)
+                {
+                    isUpdate = true;
+                }
+                else isUpdate = false;
+
+            }
+
+            return isUpdate;
+        }
     }
 }
