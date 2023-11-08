@@ -1,0 +1,18 @@
+﻿@model List<CNPMNC_REPORT1.Models.Phim>
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <a onclick="keepSearchResultBlocked()" href="@Url.Action("FilmDetail", "Home", new { IDPhim = item.MaPhim})" class="row search_result">
+            <div class="col" style="overflow: hidden ; max-width: 100px">
+                <img style="height: auto; width: 100%; object-fit: cover" src="/img_phim/@item.HinhAnh" alt="Alternate Text" />
+            </div>
+            <div class="col">
+                <h4>@item.TenPhim</h4>
+                <span class="">Thời lượng: @item.ThoiLuongP phút</span>
+            </div>
+        </a>
+    }
+}
+

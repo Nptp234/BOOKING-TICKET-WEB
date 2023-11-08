@@ -8,6 +8,7 @@ using CNPMNC_REPORT1.Models;
 using System.Net;
 using System.Net.Mail;
 using System.Collections;
+using Unidecode.NET;
 
 namespace CNPMNC_REPORT1.Controllers
 {
@@ -249,6 +250,20 @@ namespace CNPMNC_REPORT1.Controllers
         public ActionResult PointRule()
         {
             return View();
+        }
+        
+        public ActionResult SearchResult(string searchValue = "")
+        {
+            if (searchValue == "")
+            {
+                List<Phim> GetPhimList = null;
+                return PartialView(GetPhimList);
+            } else
+            {
+                //string normalizedSearch = searchValue.Unidecode().ToLower();
+                List<Phim> GetPhimList = db.GetPhimList($"SELECT * FROM PHIM WHERE TenPhim like N'%{searchValue}%'");
+                return PartialView(GetPhimList);
+            }
         }
     }
 }
