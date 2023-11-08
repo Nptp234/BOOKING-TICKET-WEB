@@ -58,11 +58,8 @@ namespace CNPMNC_REPORT1.Controllers
                 if (db.getData($"SELECT * FROM KHACHHANG WHERE TenTKKH = '{Username}' AND MatKhauKH = '{Password}'").Count >= 1)
                 {
                     Session["isLogined"] = "true";
-                    if (Session["isLogined"] == "true")
-                    {
-                        Session["Username"] = Username;
-                        return RedirectToAction("Index", "Home");
-                    }
+                    Session["Username"] = Username;
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -156,6 +153,11 @@ namespace CNPMNC_REPORT1.Controllers
             }
             return View();
         }
+        public ActionResult DeleteComment(string mabl, string maphim)
+        {
+            db.getData($"DELETE FROM BINHLUAN where MaBL = {mabl}");
+            return RedirectToAction("FilmDetail", "Home", new { IDPhim = maphim });
+        }
         [HttpPost]
         public ActionResult FilmDetail(int? IDPhim, string GhiChu, int? IDBL, string status)
         {
@@ -185,7 +187,7 @@ namespace CNPMNC_REPORT1.Controllers
                     }
 
                 }
-            }else if (status == "Delete")
+            } else if (status == "Delete")
             {
                 bool isDelete = db.deleteComment(IDBL);
                 if (isDelete)
