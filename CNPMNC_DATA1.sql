@@ -456,7 +456,7 @@ SELECT MaVe FROM VE_GHE WHERE MaVe = 1
 
 select vp.NgayDat, vp.GiaVe, lc.NgayLC, p.TenPhim, vp.MaVe from HOADON hd, CHITIETHD cthd, VEPHIM vp, LICHCHIEU lc, PHIM p where hd.MaHD=1 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe AND vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim
 
-select cthd.* from VEPHIM vp, HOADON hd, VE_GHE vg, CHITIETHD cthd where hd.MaHD=1 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe and vp.MaVe=vg.MaVe
+select cthd.* from VEPHIM vp, HOADON hd, VE_GHE vg, CHITIETHD cthd where hd.MaHD=1 and vg.MaVe=1 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe and vp.MaVe=vg.MaVe
 
 --Truy xuất dữ liệu từ các bảng
 SELECT* FROM LOAIKH
@@ -479,7 +479,6 @@ SELECT* FROM VEPHIM
 SELECT* FROM VE_GHE
 SELECT* FROM HOADON
 SELECT* FROM CHITIETHD
-select cthd.* from VEPHIM vp, HOADON hd, VE_GHE vg, CHITIETHD cthd where hd.MaHD=1 and vg.MaVe=1 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe and vp.MaVe=vg.MaVe
 
 SELECT * FROM PHIM WHERE NgayCongChieu <= GETDATE()
 
