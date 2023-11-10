@@ -131,40 +131,45 @@
 
             }
         }
-        <div class="col-md-3 p-3 py-5" style="height: 450px; width: 100%; ">
-            <h3 class="header-text">
-                Vé đã đặt
-            </h3>
-            <br />
-            <div class="date_container" style="height: 330px; width: 100%; overflow: scroll; ">
-                @if (ViewBag.GetDate != null)
-                {
-                    foreach (var item in ViewBag.GetDate)
-                    {
-                        <div class="col">
-                            <span class="date" style="font-weight: bold; margin-bottom: 15px;">@item[0]</span>
-                            <br />
-                            @if (ViewBag.GetVP != null)
-                            {
-                                foreach (var item1 in ViewBag.GetVP)
-                                {
-                                    if (item1[4] == item[0])
-                                    {
-                                        <div style="display: flex; flex-direction: row;">
-                                            <input class="form-control" style="margin: 5px;" value="@item1[0]" readonly />
-                                            <input class="form-control" style="margin: 5px;" value="@item1[1]" readonly />
-                                            <input class="form-control" style="margin: 5px;" value="@item1[2]" readonly />
-                                            <input class="form-control" style="margin: 5px;" value="@item1[3]" readonly />
-                                        </div>
-                                    }
-
-                                }
-                            }
-                        </div>
-                    }
-                }
+    <div class="col-md-3 p-3 py-5  rounded bg-white mt-5 mb-5" style="width: 100%; margin:0;">
+        <h3 class="header-text">
+            Vé đã đặt
+        </h3>
+        <br />
+        <div class="date_container" style="height: 330px; width: 100%; overflow: scroll; ">
+            <div style="display: flex; flex-direction: row;">
+                
             </div>
+            @if (ViewBag.GetDate != null)
+            {
+                foreach (var item in ViewBag.GetDate)
+                {
+                    <div class="col">
+                        <span class="date" style="font-weight: bold; margin-bottom: 15px;">@item[0]</span>
+                        <br />
+                        @if (ViewBag.GetVP != null)
+                        {
+                            foreach (var item1 in ViewBag.GetVP)
+                            {
+                                if (item1[4] == item[0])
+                                {
+                                    <div style="display: flex; flex-direction: row;">
+                                        <input class="form-control" style="margin: 5px;" value="@item1[0]" readonly />
+                                        <input class="form-control" style="margin: 5px;" value="@item1[1]" readonly />
+                                        <input class="form-control" style="margin: 5px;" value="@item1[2]" readonly />
+                                        <input class="form-control" style="margin: 5px;" value="@item1[3]" readonly />
+                                        <input class="form-control" style="margin: 5px;" value="@DateTime.Parse(item1[5]).ToString("dd/MM/yyyy")" readonly />
+                                        <input class="form-control" style="margin: 5px;" value="@DateTime.ParseExact(item1[6], "HH:mm:ss", CultureInfo.InvariantCulture).ToString("HH:mm")" readonly />
+                                    </div>
+                                }
+
+                            }
+                        }
+                    </div>
+                }
+            }
         </div>
+    </div>
     </div>
 </div>
 

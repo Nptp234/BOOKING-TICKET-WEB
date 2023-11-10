@@ -19,9 +19,9 @@ namespace CNPMNC_REPORT1.Controllers
         public ActionResult Index(string Logout)
         {
             //Lấy danh sách phim đang khởi chiếu
-            ViewBag.NowShowing = db.getData("SELECT * FROM PHIM WHERE NgayCongChieu <= GETDATE()");
+            ViewBag.NowShowing = db.getData("SELECT * FROM PHIM WHERE CONVERT(date, NgayCongChieu) = CONVERT(date, GETDATE())");
             //Lấy danh sách phim sắp khởi chiếu
-            ViewBag.ComingSoon = db.getData("SELECT * FROM PHIM WHERE NgayCongChieu > GETDATE()");
+            ViewBag.ComingSoon = db.getData("SELECT * FROM PHIM WHERE CONVERT(date, NgayCongChieu) = CONVERT(date, GETDATE()+1)");
             //Lấy danh sách phim xem nhiều nhất
             ViewBag.MostWatching = db.getData("SELECT * FROM PHIM WHERE LuotMua >= 10");
 
@@ -201,18 +201,19 @@ namespace CNPMNC_REPORT1.Controllers
             SQLData data = new SQLData();
             string tentk = Session["Username"].ToString();
 
-            ViewBag.GetDate = data.getData($"SELECT CONVERT(date, vp.NgayDat) FROM VEPHIM vp, KHACHHANG kh WHERE kh.MaKH=vp.MaKH AND kh.TenTKKH='{tentk}' GROUP BY CONVERT(date, vp.NgayDat) ORDER BY CONVERT(date, vp.NgayDat) DESC");
+            ViewBag.GetDate = data.getData($"SELECT vp.NgayDat FROM VEPHIM vp, KHACHHANG kh WHERE kh.MaKH=vp.MaKH AND kh.TenTKKH='{tentk}' GROUP BY vp.NgayDat ORDER BY CONVERT(date, vp.NgayDat) DESC");
             ViewBag.GetKH = data.getData($"SELECT kh.TenTKKH, kh.EmailKH, kh.MatKhauKH, lkh.TenLKH, lkh.ChietKhau FROM KHACHHANG kh, LOAIKH lkh WHERE kh.MaLoaiKH=lkh.MaLoaiKH AND kh.TenTKKH='{tentk}'");
 
-            ViewBag.GetVP = data.getData($"SELECT vp.MaVe, p.TenPhim, pc.TenPC, STRING_AGG(vg.TenGheVG, ''), CONVERT(date, vp.NgayDat) " +
-                                        $"FROM VEPHIM vp, KHACHHANG kh, LICHCHIEU lc, PHIM p, PHONGCHIEU pc, VE_GHE vg " +
+            ViewBag.GetVP = data.getData($"SELECT vp.MaVe, p.TenPhim, pc.TenPC, STRING_AGG(vg.TenGheVG, ''), vp.NgayDat, lc.NgayLC, xc.GioXC " +
+                                        $"FROM VEPHIM vp, KHACHHANG kh, LICHCHIEU lc, PHIM p, PHONGCHIEU pc, VE_GHE vg, XUATCHIEU xc " +
                                         $"WHERE kh.TenTKKH='{tentk}' " +
                                         $"AND vp.MaKH=kh.MaKH " +
                                         $"AND vp.MaLC=lc.MaLC " +
                                         $"AND lc.MaPhim=p.MaPhim " +
                                         $"AND pc.MaPC=lc.MaPC " +
                                         $"AND vp.MaVe=vg.MaVe " +
-                                        $"GROUP BY vp.MaVe, p.TenPhim, pc.TenPC, vp.NgayDat " +
+                                        $"AND lc.MaXC=xc.MaXC " +
+                                        $"GROUP BY vp.MaVe, p.TenPhim, pc.TenPC, vp.NgayDat, lc.NgayLC, xc.GioXC " +
                                         $"ORDER BY vp.NgayDat DESC");
 
             return View();
