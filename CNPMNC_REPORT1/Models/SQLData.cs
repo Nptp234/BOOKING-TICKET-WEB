@@ -39,6 +39,37 @@ namespace CNPMNC_REPORT1.Models
             return list;
         }
 
+        public bool checkName(string nameCol, string nameTable, string text)
+        {
+            bool isChecked = false;
+
+            //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            string sql = $"SELECT * FROM {nameTable} WHERE {nameCol} = @text";
+
+            //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+            SqlCommand command = new SqlCommand(sql, connection);
+
+            //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+            connection.Open();
+
+            command.Parameters.AddWithValue("@text", text);
+
+            SqlDataReader sqlDataReader = command.ExecuteReader();
+
+            if (sqlDataReader.HasRows)
+            {
+                isChecked = false;
+            }
+            else isChecked = true;
+
+
+            connection.Close();
+
+            return isChecked;
+        }
+
         public ArrayList getData(String sql)
         {
             ArrayList listData = new ArrayList();
@@ -862,7 +893,7 @@ namespace CNPMNC_REPORT1.Models
             return isUpdate;
         }
 
-        public bool saveKHType(string name, string des)
+        public bool saveKHType(string name, double des)
         {
             bool isSaved = false;
 
@@ -896,7 +927,7 @@ namespace CNPMNC_REPORT1.Models
             return isSaved;
         }
 
-        public bool updateKHType(int? code, string name, string des)
+        public bool updateKHType(int? code, string name, double des)
         {
             bool isUpdate = false;
 

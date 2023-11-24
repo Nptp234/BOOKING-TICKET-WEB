@@ -74,6 +74,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                             ViewBag.DSF = data.getData("SELECT * FROM PHIM");
                             ViewBag.DSGHTP = data.getData("SELECT * FROM GIOIHANTUOI");
                         }
+
                     }
                     else
                     {
@@ -219,7 +220,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                         ArrayList listfilmtype = data.getData($"SELECT * FROM GIOIHANTUOI WHERE TenGHT=N'{TenGHT}'");
                         if (listfilmtype.Count == 0)
                         {
-                            bool isSaved = data.saveAgeLimit(TenGHT, MoTaGHT);
+                            bool isSaved = data.saveAgeLimit(TenGHT.Trim(), MoTaGHT);
                             if (!isSaved)
                             {
                                 @ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
@@ -244,7 +245,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                 {
                     if (TenGHT != null && MoTaGHT != null)
                     {
-                        bool isUpdate = data.updateAgeLimit(MaGHT, TenGHT, MoTaGHT);
+                        bool isUpdate = data.updateAgeLimit(MaGHT, TenGHT.Trim(), MoTaGHT);
                         if (!isUpdate)
                         {
                             ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
@@ -477,7 +478,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult KHType(int? MaLKH, string TenLKH, string CKLKH, string status)
+        public ActionResult KHType(int? MaLKH, string TenLKH, double CKLKH, string status)
         {
             SQLData data = new SQLData();
 
@@ -487,19 +488,28 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                 {
                     if (status == "Add")
                     {
-                        bool isSaved = data.saveKHType(TenLKH, CKLKH);
-                        if (!isSaved)
+                        bool isCheckName = data.checkName("TenLKH", "LOAIKH", TenLKH.Trim());
+                        if (isCheckName)
                         {
-                            ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
+                            bool isSaved = data.saveKHType(TenLKH, CKLKH/100);
+                            if (!isSaved)
+                            {
+                                ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
+                                ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
+                            }
+                            else ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
+                        }
+                        else
+                        {
+                            ViewBag.ThongBaoLuu = "Trùng tên loại!";
                             ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
                         }
-                        else ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
                     }
                     else if (status == "Update")
                     {
                         if (MaLKH != null)
                         {
-                            bool isUpdate = data.updateKHType(MaLKH, TenLKH, CKLKH);
+                            bool isUpdate = data.updateKHType(MaLKH, TenLKH, CKLKH/100);
                             if (!isUpdate)
                             {
                                 ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
@@ -598,7 +608,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                         if (getMaLKH != 0)
                         {
                             bool isCheck = data.checkDataUsername(TenKH);
-                            if (isCheck)
+                            if (isCheck && MatKhau.Length > 8)
                             {
                                 bool isSaved = data.saveKH(TenKH, MatKhau, Email, DiemThuong, TrangThaiKH, getMaLKH);
                                 if (!isSaved)
@@ -615,7 +625,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                             }
                             else
                             {
-                                ViewBag.ThongBaoLuu = "Lỗi tồn tại tên khách hàng!";
+                                ViewBag.ThongBaoLuu = "Lỗi trùng tên hoặc mật khẩu ngắn hơn 8!";
                                 ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
                                 ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
                             }
@@ -680,16 +690,27 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                 {
                     if (TenNV != null && MatKhauNV != null && EmailNV != null && TrangThaiNV != null)
                     {
-                        bool isSaved = data.saveNV(TenNV, MatKhauNV, EmailNV, TrangThaiNV);
-                        if (!isSaved)
+                        bool isCheckEmail = data.checkName("Email", "NHANVIEN", EmailNV.Trim());
+
+                        if (isCheckEmail && MatKhauNV.Length>8)
                         {
-                            ViewBag.ThongBaoLuu = "Lỗi lưu không thành công hoặc đã tồn tại!";
-                            ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
+                            bool isSaved = data.saveNV(TenNV, MatKhauNV, EmailNV, TrangThaiNV);
+                            if (!isSaved)
+                            {
+                                ViewBag.ThongBaoLuu = "Lỗi lưu không thành công hoặc đã tồn tại!";
+                                ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
+                            }
+                            else
+                            {
+                                ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
+                            }
                         }
                         else
                         {
+                            ViewBag.ThongBaoLuu = "Lỗi trùng Email hoặc mật khẩu không hợp lệ!";
                             ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
                         }
+
                     }
 
                 }
@@ -742,25 +763,37 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                 {
                     if (status == "Add")
                     {
-                        bool isSaved = data.saveChairType(TenLG, GiaGhe);
-                        if (!isSaved)
+                        bool isCheckName = data.checkName("TenLG", "LOAIGHE", TenLG.Trim());
+                        if (isCheckName)
                         {
-                            ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
+                            bool isSaved = data.saveChairType(TenLG, GiaGhe);
+                            if (!isSaved)
+                            {
+                                ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
+                                ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
+                            }
+                            else ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
+                        }
+                        else
+                        {
+                            ViewBag.ThongBaoLuu = "Trùng tên ghế!";
                             ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
                         }
-                        else ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
                     }
                     else if (status == "Update")
                     {
                         if (MaLG != null)
                         {
-                            bool isUpdate = data.updateChairType(MaLG, TenLG, GiaGhe);
+                            bool isUpdate = data.updateChairType(MaLG, TenLG.Trim(), GiaGhe);
                             if (!isUpdate)
                             {
-                                ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
+                                ViewBag.ThongBaoLuu = "Trùng tên ghế!";
                                 ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
                             }
-                            else ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
+                            else
+                            {
+                                ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
+                            }
                         }
                         else
                         {
@@ -795,13 +828,22 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                 {
                     if (status == "Add")
                     {
-                        bool isSaved = data.saveXC(CaXC, GioXC);
-                        if (!isSaved)
+                        bool isCheckName = data.checkName("CaXC", "XUATCHIEU", CaXC.Trim());
+                        if (isCheckName)
                         {
-                            ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
+                            bool isSaved = data.saveXC(CaXC.Trim(), GioXC);
+                            if (!isSaved)
+                            {
+                                ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
+                                ViewBag.GetXC = data.getData("SELECT* FROM XUATCHIEU");
+                            }
+                            else ViewBag.GetXC = data.getData("SELECT* FROM XUATCHIEU");
+                        }
+                        else
+                        {
+                            ViewBag.ThongBaoLuu = "Lỗi trùng ca chiếu!";
                             ViewBag.GetXC = data.getData("SELECT* FROM XUATCHIEU");
                         }
-                        else ViewBag.GetXC = data.getData("SELECT* FROM XUATCHIEU");
                     }
                     else if (status == "Update")
                     {

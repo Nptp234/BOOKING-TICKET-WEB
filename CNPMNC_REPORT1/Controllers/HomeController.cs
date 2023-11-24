@@ -19,9 +19,9 @@ namespace CNPMNC_REPORT1.Controllers
         public ActionResult Index(string Logout)
         {
             //Lấy danh sách phim đang khởi chiếu
-            ViewBag.NowShowing = db.getData("SELECT * FROM PHIM WHERE CONVERT(date, NgayCongChieu) = CONVERT(date, GETDATE())");
+            ViewBag.NowShowing = db.getData("SELECT * FROM PHIM WHERE NgayCongChieu = CONVERT(date, GETDATE())");
             //Lấy danh sách phim sắp khởi chiếu
-            ViewBag.ComingSoon = db.getData("SELECT * FROM PHIM WHERE CONVERT(date, NgayCongChieu) = CONVERT(date, GETDATE()+1)");
+            ViewBag.ComingSoon = db.getData("SELECT * FROM PHIM WHERE NgayCongChieu > CONVERT(date, GETDATE())");
             //Lấy danh sách phim xem nhiều nhất
             ViewBag.MostWatching = db.getData("SELECT * FROM PHIM WHERE LuotMua >= 10");
 

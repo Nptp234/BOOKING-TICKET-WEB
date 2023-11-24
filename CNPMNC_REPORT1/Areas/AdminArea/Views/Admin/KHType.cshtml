@@ -46,7 +46,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Chiết khấu: </span>
             </div>
-            <input type="number" min="0" max="100" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="CKLKH" placeholder="/100" required>
+            <input type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="CKLKH" placeholder="/100" required>
         </div>
 
         @*button xác nhận*@
@@ -77,8 +77,8 @@
                     <form action="@Url.Action("KHType", "Admin")" method="post">
                     <tr>
                         <th scope="row"><input name="MaLKH" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[0]" readonly required></th>
-                        <td><input name="TenLKH" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[1]" required></td>
-                        <td><input name="CKLKH" type="number" min="0" max="100" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" placeholder="/100" required></td>
+                        <td><input name="TenLKH" type="text" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[1]" required></td>
+                        <td><input name="CKLKH" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" placeholder="/100" required></td>
                         <td>
                             <button type="submit" class="btn btn-outline-info" name="status" value="Update">Cập nhật</button>
                         </td>

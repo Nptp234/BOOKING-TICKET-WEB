@@ -36,7 +36,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Gía ghế: </span>
             </div>
-            <input type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="GiaGhe" required>
+            <input type="number" min="1" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" name="GiaGhe" required>
         </div>
 
         @*button xác nhận*@
@@ -67,8 +67,8 @@
                     <form action="@Url.Action("LoaiGhe", "Admin")" method="post">
                     <tr>
                         <th scope="row"><input name="MaLG" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[0]" readonly required></th>
-                        <td><input name="TenLG" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[1]" required></td>
-                        <td><input name="GiaGhe" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" required></td>
+                        <td><input name="TenLG" type="text" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[1]" required></td>
+                        <td><input name="GiaGhe" type="number" min="1" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" required></td>
                         <td>
                             <button type="submit" class="btn btn-outline-info" name="status" value="Update">Cập nhật</button>
                         </td>

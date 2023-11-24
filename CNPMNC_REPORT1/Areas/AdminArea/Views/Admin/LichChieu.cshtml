@@ -5,11 +5,6 @@
 }
 
 
-@{
-    ViewBag.Title = "KhachHang";
-    Layout = "~/Areas/AdminArea/Views/Shared/_AdminMasterLayout.cshtml";
-}
-
 <link href="~/Areas/AdminArea/Content/customermanager_style.css" rel="stylesheet" />
 <nav class="header_nav">
     <a class="top_content">LICHCHIEU MANAGER</a>
@@ -18,7 +13,7 @@
 <div class="container">
 
     <br />
-    <p class="smaller_content">Quản lý khách hàng</p>
+    <p class="smaller_content">Quản lý lịch chiếu</p>
     <p class="smaller_content" style="color:red;">@ViewBag.ThongBaoLuu</p>
 
     @*nút thêm*@
@@ -50,7 +45,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">Số lượng vé đặt: </span>
             </div>
-            <input type="number" class="form-control" name="SLVeDat" value="0" required>
+            <input type="number" class="form-control" name="SLVeDat" value="0" min="0" max="10" required>
         </div>
 
         @*ca xc*@
@@ -135,13 +130,13 @@
                 {
                     <form action="@Url.Action("LichChieu", "Admin")" method="post">
                     <tr>
-                        <th scope="row"><input name="MaLC" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[0]" readonly required></th>
+                        <th scope="row"><input name="MaLC" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis; padding:5px;" value="@item[0]" readonly required></th>
                         <td><input name="NgayLC" type="datetime" class="form-control" style="overflow: hidden; text-overflow: ellipsis; width: 300px;" value="@item[1]" required></td>
-                        <td><input name="TrangThaiLC" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" required></td>
-                        <td><input name="SLVeDat" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[3]" required></td>
-                        <td><input name="CaXCDetail" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[4]" required></td>
-                        <td><input name="MaPCDetail" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[5]" required></td>
-                        <td><input name="MaPhimDetail" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[6]" required></td>
+                        <td><input name="TrangThaiLC" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis; padding: 5px;" value="@item[2]" required></td>
+                        <td><input name="SLVeDat" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis; padding: 5px;" value="@item[3]" required></td>
+                        <td><input name="CaXCDetail" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis; padding: 5px;" value="@item[4]" required></td>
+                        <td><input name="MaPCDetail" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis; padding: 5px;" value="@item[5]" required></td>
+                        <td><input name="MaPhimDetail" type="number" min="0" class="form-control" style="overflow: hidden; text-overflow: ellipsis; padding: 5px;" value="@item[6]" required></td>
                         <td>
                             <button type="submit" class="btn btn-outline-info" name="status" value="Update">Cập nhật</button>
                         </td>
