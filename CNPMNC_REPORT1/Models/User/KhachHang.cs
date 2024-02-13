@@ -15,6 +15,9 @@ namespace CNPMNC_REPORT1.Models.User
         public string TrangThaiTKKH { get; set; }
         public string MaLoaiKH { get; set; }
         public string UserType { get { return "KhachHang"; } }
+        public string UsernameUS { get { return TenTKKH; } set { UsernameUS = TenTKKH; } }
+        public string PasswordUS { get { return MatKhauKH; } set { PasswordUS = MatKhauKH; } }
+        public string EmailUS { get { return EmailKH; } set { EmailUS = EmailKH; } }
 
         public KhachHang() { }
 

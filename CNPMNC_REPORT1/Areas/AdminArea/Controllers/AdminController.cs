@@ -220,14 +220,14 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult FilmType()
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             ViewBag.DSTLF = data.getData("SELECT * FROM THELOAIP");
             return View();
         }
         [HttpPost]
         public ActionResult FilmType(int? MaTL,string TenLF, string MoTaLF, string status)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             if (ModelState.IsValid)
             {
                 if (status == "Add")
@@ -286,7 +286,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult AgeLimit()
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             if (data.getData("SELECT * FROM GIOIHANTUOI")!=null)
             {
                 ViewBag.DSGHT = data.getData("SELECT * FROM GIOIHANTUOI");
@@ -296,7 +296,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         [HttpPost]
         public ActionResult AgeLimit(int? MaGHT,string TenGHT,string MoTaGHT, string status)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             if (ModelState.IsValid)
             {
                 if (status == "Add")
@@ -355,7 +355,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult Room()
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             ViewBag.ListLcuaPC = data.getData("SELECT * FROM LOAIPC");
 
             if (data.getData("SELECT * FROM PHONGCHIEU") != null)
@@ -369,7 +369,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         [HttpPost]
         public ActionResult Room(int? MaPC, string TenPC, int? SoLuongGT, int? SoLuongGV, string LoaiPC,int? MaLPC, string status)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
 
             if (ModelState.IsValid)
             {
@@ -432,7 +432,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult RoomType()
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             if (data.getData("SELECT * FROM LOAIPC")!=null)
             {
                 ViewBag.DSLPC = data.getData("SELECT * FROM LOAIPC");
@@ -443,7 +443,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         [HttpPost]
         public ActionResult RoomType(int? MaLPC, string TenLPC, string MoTaLPC, string status)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
 
             if (ModelState.IsValid)
             {
@@ -488,7 +488,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult TheLoaiVaPhim()
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             if (data.getData("SELECT * FROM TL_P") != null)
             {
                 ViewBag.DSTLVP = data.getData("SELECT * FROM TL_P");
@@ -498,7 +498,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         [HttpPost]
         public ActionResult TheLoaiVaPhim(int? MaTLP, int? MaPhim, int? MaTL, string status)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
 
             if (ModelState.IsValid)
             {
@@ -559,14 +559,14 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult KHType()
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             ViewBag.GetLKH = data.getData("SELECT* FROM LOAIKH");
             return View();
         }
         [HttpPost]
         public ActionResult KHType(int? MaLKH, string TenLKH, double CKLKH, string status)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
 
             if (ModelState.IsValid)
             {
@@ -621,14 +621,14 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult NVType()
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
             return View();
         }
         [HttpPost]
         public ActionResult NVType(int? MaLNV, string TenLNV, string status)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
 
             if (ModelState.IsValid)
             {
@@ -674,7 +674,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult KhachHang()
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
             ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
             return View();
@@ -682,7 +682,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         [HttpPost]
         public ActionResult KhachHang(int? MaKH, string TenKH, string MatKhau, string Email, int? DiemThuong, string TrangThaiKH, string LoaiKH, int? MaLKHDetail, string status)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
 
             if (ModelState.IsValid)
             {
@@ -761,14 +761,14 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult NhanVien()
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             ViewBag.GetNV = data.getData("SELECT * FROM NHANVIEN");
             return View();
         }
         [HttpPost]
         public ActionResult NhanVien(int? MaNV, string TenNV, string MatKhauNV, string EmailNV, string TrangThaiNV, string status)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
 
             if (ModelState.IsValid)
             {
@@ -834,14 +834,14 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult LoaiGhe()
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             ViewBag.GetLG = data.getData("SELECT* FROM LOAIGHE");
             return View();
         }
         [HttpPost]
         public ActionResult LoaiGhe(int? MaLG, string TenLG, int? GiaGhe, string status)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
 
             if (ModelState.IsValid)
             {
@@ -899,14 +899,14 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult XuatChieu()
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             ViewBag.GetXC = data.getData("SELECT* FROM XUATCHIEU");
             return View();
         }
         [HttpPost]
         public ActionResult XuatChieu(int? MaXC, string CaXC, string GioXC, string status)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
 
             if (ModelState.IsValid)
             {
@@ -961,7 +961,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult LichChieu()
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             ViewBag.GetXC = data.getData("SELECT CaXC FROM XUATCHIEU");
             ViewBag.GetPC = data.getData("SELECT TenPC FROM PHONGCHIEU");
             ViewBag.GetPhim = data.getData("SELECT TenPhim FROM PHIM");
@@ -971,7 +971,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         [HttpPost]
         public ActionResult LichChieu(int? MaLC, string NgayLC, string TrangThaiLC, int? SLVeDat, string CaXC, string MaPC, string MaPhim, int? CaXCDetail, int? MaPhimDetail, int? MaPCDetail, string status)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
 
             if (ModelState.IsValid)
             {
@@ -1049,7 +1049,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult ReportHD(string status)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
 
             ViewBag.GetHD = data.getData("SELECT * FROM HOADON");
 
@@ -1100,7 +1100,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult HDDetail(int? MaHD)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             ViewBag.GetCTHD = data.getData($"select cthd.* from HOADON hd, CHITIETHD cthd where hd.MaHD={MaHD} and hd.MaHD=cthd.MaHD");
             ViewBag.GetCTVP = data.getData($"select vp.NgayDat, vp.GiaVe, lc.NgayLC, p.TenPhim, vp.MaVe from HOADON hd, CHITIETHD cthd, VEPHIM vp, LICHCHIEU lc, PHIM p where hd.MaHD={MaHD} and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe AND vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim");
 

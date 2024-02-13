@@ -5,7 +5,7 @@ using System.Web;
 
 namespace CNPMNC_REPORT1.Models.User
 {
-    public class NhanVien
+    public class NhanVien : UserAccount
     {
         public string MaNV { get; set; }
         public string HoTenNV { get; set; }
@@ -13,6 +13,10 @@ namespace CNPMNC_REPORT1.Models.User
         public string MatKhauNV { get; set; }
         public string TrangThaiTKNV { get; set; }
         public string UserType { get { return "NhanVien"; } }
+        public string UsernameUS { get { return HoTenNV; } set { UsernameUS = HoTenNV; } }
+        public string PasswordUS { get { return MatKhauNV; } set { PasswordUS = MatKhauNV; } }
+        public string EmailUS { get { return Email; } set { EmailUS = Email; } }
+
 
         public NhanVien() { }
 

@@ -189,7 +189,7 @@
     <Compile Include="Factory\FactoryLoaiPhim\LoaiPhimFactory.cs" />
     <Compile Include="Factory\FactoryPhim\CreateAllPhim.cs" />
     <Compile Include="Models\LoaiPhim.cs" />
-    <Compile Include="Models\SQLData.cs" />
+    <Compile Include="Models\SQLData123.cs" />
     <Compile Include="Models\User\KhachHang.cs" />
     <Compile Include="Models\User\NhanVien.cs" />
     <Compile Include="Models\User\UserAccount.cs" />
@@ -214,7 +214,6 @@
     <Compile Include="SQLFolder\SQLLoaiP.cs" />
     <Compile Include="SQLFolder\SQLObject.cs" />
     <Compile Include="SQLFolder\SQLConnection.cs" />
-    <Compile Include="Models\SQL\SQLData.cs" />
     <Compile Include="Models\YoutubeLink.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLFolder\SQLPhim.cs" />

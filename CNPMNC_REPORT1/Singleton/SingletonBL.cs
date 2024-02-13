@@ -1,4 +1,5 @@
 ﻿using CNPMNC_REPORT1.Models;
+using CNPMNC_REPORT1.SQLData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,6 @@ namespace CNPMNC_REPORT1.Factory.FactoryBL
 
         private SingletonBL()
         {
-            // Logic tạo danh sách phim
             SQLConnection db = SQLConnection.Instance;
             string query = "SELECT * FROM BINHLUAN;";
             db.OpenConnection();

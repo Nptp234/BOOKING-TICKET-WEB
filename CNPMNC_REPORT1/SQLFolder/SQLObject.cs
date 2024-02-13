@@ -9,6 +9,7 @@ namespace CNPMNC_REPORT1.SQLData
     public abstract class SQLObject
     {
         protected SQLConnection sQLConnection;
+
         protected bool ThucHienTruyVan(string query)
         {
             sQLConnection.OpenConnection();
@@ -20,6 +21,17 @@ namespace CNPMNC_REPORT1.SQLData
                 return true;
             }
             else return false;
+        }
+
+        public List<T> LayDS<T>(string sql) where T : new()
+        {
+            List<T> ds = new List<T>();
+
+            sQLConnection.OpenConnection();
+            ds = sQLConnection.Select<T>(sql);
+            sQLConnection.CloseConnection();
+
+            return ds;
         }
     }
 }

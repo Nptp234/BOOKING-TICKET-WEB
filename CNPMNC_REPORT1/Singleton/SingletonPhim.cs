@@ -1,4 +1,5 @@
 ﻿using CNPMNC_REPORT1.Models;
+using CNPMNC_REPORT1.SQLData;
 using System;
 using System.Collections.Generic;
 using System.Linq;

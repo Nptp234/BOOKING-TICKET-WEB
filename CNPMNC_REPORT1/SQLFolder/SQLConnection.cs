@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace CNPMNC_REPORT1.Models
+namespace CNPMNC_REPORT1.SQLData
 {
     public class SQLConnection
     {

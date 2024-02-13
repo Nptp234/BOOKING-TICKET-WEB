@@ -13,7 +13,7 @@ namespace CNPMNC_REPORT1.Controllers
 {
     public class StoreController : Controller
     {
-        SQLData data = new SQLData();
+        SQLData123 data = new SQLData123();
         // GET: Store
         public ActionResult Index()
         {

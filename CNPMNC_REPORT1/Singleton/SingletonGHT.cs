@@ -1,5 +1,6 @@
 ﻿using CNPMNC_REPORT1.Factory.FactoryGHT;
 using CNPMNC_REPORT1.Models;
+using CNPMNC_REPORT1.SQLData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,6 @@ namespace CNPMNC_REPORT1.Singleton
 
         private SingletonGHT()
         {
-            // Logic tạo danh sách phim
             SQLConnection db = SQLConnection.Instance;
             string query = "SELECT * FROM GIOIHANTUOI;";
             db.OpenConnection();

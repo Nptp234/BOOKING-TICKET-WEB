@@ -351,3 +351,8 @@ D:\1. MTKPM\CNPMNC_REPORT1\CNPMNC_REPORT1\bin\System.Security.AccessControl.xml
 D:\1. MTKPM\CNPMNC_REPORT1\CNPMNC_REPORT1\bin\System.Security.Cryptography.Xml.xml
 D:\1. MTKPM\CNPMNC_REPORT1\CNPMNC_REPORT1\bin\System.Security.Principal.Windows.xml
 D:\1. MTKPM\CNPMNC_REPORT1\CNPMNC_REPORT1\bin\System.Text.Encoding.CodePages.xml
+D:\1. MTKPM\CNPMNC_REPORT1\CNPMNC_REPORT1\bin\selenium-manager\linux\selenium-manager
+D:\1. MTKPM\CNPMNC_REPORT1\CNPMNC_REPORT1\bin\selenium-manager\macos\selenium-manager
+D:\1. MTKPM\CNPMNC_REPORT1\CNPMNC_REPORT1\bin\selenium-manager\windows\selenium-manager.exe
+D:\1. MTKPM\CNPMNC_REPORT1\CNPMNC_REPORT1\bin\WebDriver.dll
+D:\1. MTKPM\CNPMNC_REPORT1\CNPMNC_REPORT1\bin\WebDriver.xml

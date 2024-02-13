@@ -22,6 +22,7 @@ namespace CNPMNC_REPORT1.Controllers
         PhimFactory factoryPhim;
         BinhLuanFactory factoryBL;
         GHTFactory factoryGHT;
+        SQLData123 db = new SQLData123();
 
         public ActionResult Index(string Logout)
         {
@@ -50,9 +51,9 @@ namespace CNPMNC_REPORT1.Controllers
             return View();
         }
 
-        public ActionResult LoginPage(string Username, string Password)
+        public ActionResult LoginPage(string Username, string Password, string status)
         {
-            SQLUser sQLUser = new SQLUser();
+            SQLUser sQLUser = SQLUser.Instance;
             UserAccount userAccount;
 
             if (Username == "admin" && Password == "adminpad")
@@ -63,20 +64,23 @@ namespace CNPMNC_REPORT1.Controllers
             else
             {
                 Session["isLoginedQL"] = "false";
-                userAccount = new KhachHang();
 
-                bool check = sQLUser.KiemTraThongTinDangNhap(Username, Password, userAccount.UserType);
-
-                if (check)
+                if (status == "Check")
                 {
-                    Session["isLogined"] = "true";
-                    userAccount.UserName = Username;
+                    userAccount = new KhachHang();
 
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ViewBag.ThongBao = "Error Login!";
+                    bool check = sQLUser.KiemTraThongTinDangNhap(Username, Password, userAccount.UserType);
+
+                    if (check)
+                    {
+                        Session["isLogined"] = "true";
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ViewBag.ThongBao = "Error Login!";
+                    }
                 }
             }
             return View();
@@ -252,7 +256,7 @@ namespace CNPMNC_REPORT1.Controllers
 
         public ActionResult AccountPage()
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             string tentk = Session["Username"].ToString();
 
             ViewBag.GetDate = data.getData($"SELECT vp.NgayDat FROM VEPHIM vp, KHACHHANG kh WHERE kh.MaKH=vp.MaKH AND kh.TenTKKH='{tentk}' GROUP BY vp.NgayDat ORDER BY CONVERT(date, vp.NgayDat) DESC");
@@ -275,7 +279,7 @@ namespace CNPMNC_REPORT1.Controllers
         [HttpPost]
         public ActionResult AccountPage(string TenTK, string Email, string Pass)
         {
-            SQLData data = new SQLData();
+            SQLData123 data = new SQLData123();
             
             if (Email != null && Pass != null)
             {

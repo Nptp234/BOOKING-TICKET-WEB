@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CNPMNC_REPORT1.Models;
+using CNPMNC_REPORT1.Models.User;
 using CNPMNC_REPORT1.SQLData;
 using Newtonsoft.Json;
 
@@ -14,12 +15,12 @@ namespace CNPMNC_REPORT1.Controllers
     public class BookingController : Controller
     {
         // GET: Booking
-        SQLObject db;
+        SQLData123 db = new SQLData123();
+        SQLUser sQLUser = SQLUser.Instance;
+
         public ActionResult LichChieu(string maphim = "1", string ngay = "")
         {
-            db = new SQLPhim();
-
-            if (Session["Username"] == null)
+            if ( sQLUser.GetUser() == null)
             {
                 return RedirectToAction("LoginPage", "Home");
             }
