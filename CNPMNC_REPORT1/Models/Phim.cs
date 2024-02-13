@@ -7,32 +7,50 @@ namespace CNPMNC_REPORT1.Models
 {
     public class Phim
     {
-		string maPhim;
-		string tenPhim;
-		string tomTatP;
-        string ngayCongChieu;
-        string thoiLuongP;
-        string luotMua;
-        string luotThich;
-        string hinhAnh;
-        string trailer;
-        string giaPhim;
-        string maGHT;
+        public string MaPhim { get; set; }
+        public string TenPhim { get; set; }
+        public string TomTatP { get; set; }
+        public string NgayCongChieu { get; set; }
+        public string ThoiLuongP { get; set; }
+        public string LuotMua { get; set; }
+        public string LuotThich { get; set; }
+        public string HinhAnh { get; set; }
+        public string Trailer { get; set; }
+        public string GiaPhim { get; set; }
+        public string MaGHT { get; set; }
+        public string TenGHTP { get; set; }
 
-        public Phim()
+        public Phim() { }
+
+        public Phim(string tenPhim, string tomTatP, string ngayCongChieu, string thoiLuongP, string luotMua, string luotThich, string hinhAnh, string trailer, string giaPhim, string maGHT)
         {
+            TenPhim = tenPhim;
+            TomTatP = tomTatP;
+            NgayCongChieu = ngayCongChieu;
+            ThoiLuongP = thoiLuongP;
+            LuotMua = luotMua;
+            LuotThich = luotThich;
+            HinhAnh = hinhAnh;
+            Trailer = trailer;
+            GiaPhim = giaPhim;
+            MaGHT = maGHT;
+            TenGHTP = "";
         }
 
-        public string MaPhim { get => maPhim; set => maPhim = value; }
-        public string TenPhim { get => tenPhim; set => tenPhim = value; }
-        public string TomTatP { get => tomTatP; set => tomTatP = value; }
-        public string NgayCongChieu { get => ngayCongChieu; set => ngayCongChieu = value; }
-        public string ThoiLuongP { get => thoiLuongP; set => thoiLuongP = value; }
-        public string LuotMua { get => luotMua; set => luotMua = value; }
-        public string LuotThich { get => luotThich; set => luotThich = value; }
-        public string HinhAnh { get => hinhAnh; set => hinhAnh = value; }
-        public string Trailer { get => trailer; set => trailer = value; }
-        public string GiaPhim { get => giaPhim; set => giaPhim = value; }
-        public string MaGHT { get => maGHT; set => maGHT = value; }
+        public Phim(string maPhim, string tenPhim, string tomTatP, string ngayCongChieu, string thoiLuongP, string luotMua, string luotThich, string hinhAnh, string trailer, string giaPhim, string maGHT)
+        {
+            MaPhim = maPhim;
+            TenPhim = tenPhim;
+            TomTatP = tomTatP;
+            NgayCongChieu = ngayCongChieu;
+            ThoiLuongP = thoiLuongP;
+            LuotMua = luotMua;
+            LuotThich = luotThich;
+            HinhAnh = hinhAnh;
+            Trailer = trailer;
+            GiaPhim = giaPhim;
+            MaGHT = maGHT;
+            TenGHTP = "";
+        }
     }
 }

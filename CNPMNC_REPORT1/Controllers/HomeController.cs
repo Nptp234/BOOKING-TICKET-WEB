@@ -5,25 +5,40 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using CNPMNC_REPORT1.Models;
+using CNPMNC_REPORT1.Factory;
 using System.Net;
 using System.Net.Mail;
 using System.Collections;
 using Unidecode.NET;
+using CNPMNC_REPORT1.Factory.FactoryBL;
+using CNPMNC_REPORT1.Factory.FactoryGHT;
+using CNPMNC_REPORT1.SQLData;
+using CNPMNC_REPORT1.Models.User;
 
 namespace CNPMNC_REPORT1.Controllers
 {
     public class HomeController : Controller
     {
+        PhimFactory factoryPhim;
+        BinhLuanFactory factoryBL;
+        GHTFactory factoryGHT;
 
-        SQLData db = new SQLData();
         public ActionResult Index(string Logout)
         {
+            SingletonPhim singletonPhim = SingletonPhim.Instance;
+            singletonPhim.ResetInstance();
+
             //Lấy danh sách phim đang khởi chiếu
-            ViewBag.NowShowing = db.getData("SELECT * FROM PHIM WHERE NgayCongChieu = CONVERT(date, GETDATE())");
+            factoryPhim = new NowShowingFilmFactory();
+            ViewBag.NowShowing = factoryPhim.CreatePhim();
+
             //Lấy danh sách phim sắp khởi chiếu
-            ViewBag.ComingSoon = db.getData("SELECT * FROM PHIM WHERE NgayCongChieu > CONVERT(date, GETDATE())");
+            factoryPhim = new ComingSoonFilmFactory();
+            ViewBag.ComingSoon = factoryPhim.CreatePhim();
+
             //Lấy danh sách phim xem nhiều nhất
-            ViewBag.MostWatching = db.getData("SELECT * FROM PHIM WHERE LuotMua >= 10");
+            factoryPhim = new MostWatchingFilmFactory();
+            ViewBag.MostWatching = factoryPhim.CreatePhim();
 
             if (Logout == "true")
             {
@@ -35,30 +50,28 @@ namespace CNPMNC_REPORT1.Controllers
             return View();
         }
 
-        public ActionResult LoginPage()
-        {
-            return View();
-        }
-        [HttpPost]
         public ActionResult LoginPage(string Username, string Password)
         {
-            
+            SQLUser sQLUser = new SQLUser();
+            UserAccount userAccount;
+
             if (Username == "admin" && Password == "adminpad")
             {
                 Session["isLoginedQL"] = "true";
-                if (Session["isLoginedQL"] == "true")
-                {
-                    return RedirectToAction("ReportHD", "Admin", new { area = "AdminArea" });
-                }
+                return RedirectToAction("ReportHD", "Admin", new { area = "AdminArea" });
             }
             else
             {
                 Session["isLoginedQL"] = "false";
-                //Không cần kiểm tra Username và Password là null do thẻ input đã có thuộc tính required
-                if (db.getData($"SELECT * FROM KHACHHANG WHERE TenTKKH = '{Username}' AND MatKhauKH = '{Password}'").Count >= 1)
+                userAccount = new KhachHang();
+
+                bool check = sQLUser.KiemTraThongTinDangNhap(Username, Password, userAccount.UserType);
+
+                if (check)
                 {
                     Session["isLogined"] = "true";
-                    Session["Username"] = Username;
+                    userAccount.UserName = Username;
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -132,35 +145,68 @@ namespace CNPMNC_REPORT1.Controllers
             
             return View();
         }
-        public ActionResult FilmDetail(int? IDPhim)
+
+        public ActionResult FilmDetail(string MaPhim)
         {
-            if (IDPhim != null)
+            if (MaPhim != null)
             {
                 Console.OutputEncoding = Encoding.GetEncoding("UTF-8");
 
-                ViewBag.getFilmById123 = db.getData($"SELECT * FROM PHIM p, GIOIHANTUOI ght WHERE p.MaPhim={IDPhim} AND p.MaGHT=ght.MaGHT");
-                ViewBag.getBL = db.getData($"SELECT bl.GhiChu, kh.TenTKKH, bl.NgayTao, bl.MaBL FROM BINHLUAN bl, PHIM p, KHACHHANG kh WHERE bl.MaPhim=p.MaPhim AND bl.MaKH=kh.MaKH AND p.MaPhim={IDPhim} ORDER BY bl.NgayTao DESC");
+                SingletonPhim singletonPhim = SingletonPhim.Instance;
+                List<Phim> lsPhim = singletonPhim.CreatePhim();
 
-                //Get Linked Youtube Embed
-                string input = ViewBag.getFilmById123[0][8];
-                string delimiter = "https://www.youtube.com/watch?v=";
-                string[] tokens = input.Split(new string[] { delimiter }, StringSplitOptions.None);
-                if (tokens.Count() > 0)
+                int maPhim = lsPhim.FindIndex(x => x.MaPhim == MaPhim);
+
+                if (maPhim != -1)
                 {
-                    ViewBag.GetEmbedLink = "https://www.youtube.com/embed/" + tokens[1].Trim();
+                    Phim phim = lsPhim[maPhim];
+
+                    //lấy link youtube trailer
+                    YoutubeLink youtube = new YoutubeLink();
+
+                    string youtubeLink = phim.Trailer;
+                    string embedLink = youtube.GetEmbedLink(youtubeLink);
+
+                    ViewBag.EmbedLink = embedLink;
+
+                    //lấy danh sách bình luận
+                    factoryBL = new CreateBLWithFilm(MaPhim);
+                    List<BinhLuan> dsBL = factoryBL.CreateBL();
+
+                    ViewBag.BinhLuan = dsBL;
+
+                    //xác định giới hạn tuổi
+                    factoryGHT = new CreateAllGHT();
+                    List<GioiHanTuoi> dsGHT = factoryGHT.CreateGHT();
+
+                    int number;
+                    if (int.TryParse(phim.MaGHT, out number)==false)
+                    {
+                        return View(phim);
+                    }
+                    else
+                    {
+                        int maGHT = int.Parse(phim.MaGHT);
+                        foreach (GioiHanTuoi GHT in dsGHT)
+                        {
+                            if (int.Parse(GHT.MaGHT) == maGHT)
+                            {
+                                phim.TenGHTP = GHT.TenGHT;
+                            }
+                        }
+                    }
+
+                    return View(phim);
                 }
-                return View();
             }
             return View();
         }
-        public ActionResult DeleteComment(string mabl, string maphim)
-        {
-            db.getData($"DELETE FROM BINHLUAN where MaBL = {mabl}");
-            return RedirectToAction("FilmDetail", "Home", new { IDPhim = maphim });
-        }
+
         [HttpPost]
-        public ActionResult FilmDetail(int? IDPhim, string GhiChu, int? IDBL, string status)
+        public ActionResult FilmDetail(string IDPhim, string GhiChu, string IDBL, string status)
         {
+            SQLBinhLuan sQLBinhLuan = new SQLBinhLuan();
+            BinhLuan bl = new BinhLuan();
             if (status == "Post")
             {
                 if (IDPhim != null && GhiChu != null)
@@ -168,32 +214,38 @@ namespace CNPMNC_REPORT1.Controllers
                     Console.OutputEncoding = Encoding.GetEncoding("UTF-8");
 
                     string tentk = Session["Username"].ToString();
-                    int makh = db.getMaKH(tentk);
-                    if (makh != 0)
+
+                    if (tentk != null)
                     {
-                        bool isAdd = db.insertComment(IDPhim, makh, GhiChu);
+                        DateTime now = DateTime.Now;
+                        bl.NgayTao = now.ToString();
+                        bl.MaPhim = IDPhim;
+                        bl.TenTK = tentk;
+                        bl.GhiChu = GhiChu;
+                        bl.TrangThai = "Active";
+
+                        bool isAdd = sQLBinhLuan.ThemBL(bl);
                         if (isAdd)
                         {
-                            return RedirectToAction("FilmDetail", "Home", new { IDPhim = IDPhim });
+                            return RedirectToAction("FilmDetail", "Home", new { MaPhim = IDPhim });
                         }
                         else
-                        {
                             ViewBag.ThongBao = "Error Add!";
-                        }
                     }
                     else
-                    {
-                        ViewBag.ThongBao = "Error MaKH = 0";
-                    }
+                        ViewBag.ThongBao = "Error TenTK = null!";
 
                 }
-            } else if (status == "Delete")
+            } 
+            else if (status == "Delete")
             {
-                bool isDelete = db.deleteComment(IDBL);
+                bool isDelete = sQLBinhLuan.XoaBL(IDBL);
                 if (isDelete)
                 {
                     return RedirectToAction("FilmDetail", "Home", new { IDPhim = IDPhim });
                 }
+                else
+                    ViewBag.ThongBao = "Error Delete!";
             }
             return View();
         }

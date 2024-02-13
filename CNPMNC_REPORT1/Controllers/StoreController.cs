@@ -29,13 +29,17 @@ namespace CNPMNC_REPORT1.Controllers
             string tentk = Session["Username"].ToString();
             ViewBag.GetDSVP = data.getData($"SELECT p.TenPhim, p.HinhAnh, vp.GiaVe, lc.NgayLC, vp.NgayDat, vp.MaVe FROM VEPHIM vp, LICHCHIEU lc, PHIM p, KHACHHANG kh WHERE vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim AND kh.MaKH=vp.MaKH AND kh.TenTKKH='{tentk}' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
             ViewBag.GetCountVP = data.getData($"SELECT COUNT(*) FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH = kh.MaKH AND kh.TenTKKH = '{tentk}' AND TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
+            
             ArrayList list = ViewBag.GetDSVP;
             if (list.Count != 0)
             {
                 return RedirectToAction("Index", "Store");
             }
+
             return View();
         }
+
+
         [HttpPost]
         public ActionResult Index(string status, int? MaVe, int? TongGia, int? ThanhTien)
         {
@@ -58,6 +62,10 @@ namespace CNPMNC_REPORT1.Controllers
                         ViewBag.GetDSVP = data.getData($"SELECT p.TenPhim, p.HinhAnh, vp.GiaVe, lc.NgayLC, vp.NgayDat, vp.MaVe FROM VEPHIM vp, LICHCHIEU lc, PHIM p, KHACHHANG kh WHERE vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim AND kh.MaKH=vp.MaKH AND kh.TenTKKH='{tentk}' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
                         ViewBag.GetCountVP = data.getData($"SELECT COUNT(*) FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH = kh.MaKH AND kh.TenTKKH = '{tentk}' AND TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
 
+                        if (ViewBag.GetDSVP == null)
+                        {
+                            return RedirectToAction("IndexForNull", "Store");
+                        }
                     }
                 }
             }

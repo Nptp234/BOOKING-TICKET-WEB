@@ -88,14 +88,14 @@
         <h3 style="text-align: center; width: 100%;">SEARCH YOUR FAVORITE FILM</h3>
 
         <div class="input-group mb-3">
-            <input onkeyup="ShowSearchResult()" id="SearchBar" style="height:42px" type="text" class="form-control search_bar" placeholder="Input your favorite film's name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <input onkeyup="ShowSearchResult()" id="SearchBar" style="height:42px;" type="text" class="form-control search_bar" placeholder="Input your favorite film's name" aria-label="Recipient's username" aria-describedby="basic-addon2">
             <div class="input-group-append">
                 <a class="btn btn-outline-secondary" ><i class="bi bi-search"></i></a>
             </div>
         </div>
 
-        <div style="position: relative">
-            <div class="container search_result_container" id="SearchResult">
+        <div style="position: relative;">
+            <div class="container search_result_container" id="SearchResult" style="height: fit-content; max-height: 500px; min-height: 0px;">
                 <!-- content here -->
             </div>
         </div>
@@ -118,19 +118,19 @@
                                 @foreach (var item in ViewBag.NowShowing)
                                 {
                                     <div class="col-lg-4 col-md-4 col-sm-6 cardfilm" style="margin-bottom: 25px;">
-                                        <a href="@Url.Action("FilmDetail", "Home", new { IDPhim = item[0]})" class="fh5co-card-item image-popup">
+                                        <a href="@Url.Action("FilmDetail", "Home", new { MaPhim = item.MaPhim })" class="fh5co-card-item image-popup">
                                             <figure>
-                                                <img src="~/img_phim/@item[7]" alt="Image" class="img-responsive">
+                                                <img src="~/img_phim/@item.HinhAnh" alt="Image" class="img-responsive">
                                             </figure>
                                             <div class="fh5co-text">
-                                                <h2>@item[1]</h2>
-                                                <p>@item[2]</p>
+                                                <h2>@item.TenPhim</h2>
+                                                <p>@item.TomTatP</p>
                                             </div>
                                             <div class="fh5co-text" style="width: fit-content; background-color: #2C3333; padding: 10px 10px; color: white; ">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                                                 </svg>
-                                                <span style=" font-size: 18px; margin-left: 10px"> @CNPMNC_REPORT1.Models.ConvertNumber.ConvertNumberToAbbreviation(item[5]) lượt mua</span>
+                                                <span style=" font-size: 18px; margin-left: 10px"> @CNPMNC_REPORT1.Models.ConvertNumber.ConvertNumberToAbbreviation() lượt mua</span>
                                             </div>
                                         </a>
                                     </div>
@@ -184,19 +184,19 @@
                                 @foreach (var item in ViewBag.ComingSoon)
                                 {
                                     <div class="col-lg-4 col-md-4 col-sm-6 cardfilm" style="margin-bottom: 25px;">
-                                        <a href="@Url.Action("FilmDetail", "Home", new { IDPhim = item[0]})" class="fh5co-card-item image-popup">
+                                        <a href="@Url.Action("FilmDetail", "Home", new { MaPhim = item.MaPhim })" class="fh5co-card-item image-popup">
                                             <figure>
-                                                <img src="~/img_phim/@item[7]" alt="Image" class="img-responsive">
+                                                <img src="~/img_phim/@item.HinhAnh" alt="Image" class="img-responsive">
                                             </figure>
                                             <div class="fh5co-text">
-                                                <h2>@item[1]</h2>
-                                                <p>@item[2]</p>
+                                                <h2>@item.TenPhim</h2>
+                                                <p>@item.TomTatP</p>
                                             </div>
                                             <div class="fh5co-text" style="width: fit-content; background-color: #2C3333; padding: 10px 10px; color: white; ">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                                                 </svg>
-                                                <span style=" font-size: 18px; margin-left: 10px"> @CNPMNC_REPORT1.Models.ConvertNumber.ConvertNumberToAbbreviation(item[5]) lượt mua</span>
+                                                <span style=" font-size: 18px; margin-left: 10px"> @CNPMNC_REPORT1.Models.ConvertNumber.ConvertNumberToAbbreviation(item.LuotMua) lượt mua</span>
                                             </div>
                                         </a>
                                     </div>
@@ -306,19 +306,19 @@
                                 @foreach (var item in ViewBag.MostWatching)
                                 {
                                     <div class="col-lg-4 col-md-4 col-sm-6 cardfilm" style="margin-bottom: 25px;">
-                                        <a href="@Url.Action("FilmDetail", "Home", new { IDPhim = item[0]})" class="fh5co-card-item image-popup">
+                                        <a href="@Url.Action("FilmDetail", "Home", new { MaPhim = item.MaPhim })" class="fh5co-card-item image-popup">
                                             <figure>
-                                                <img src="~/img_phim/@item[7]" alt="Image" class="img-responsive">
+                                                <img src="~/img_phim/@item.HinhAnh" alt="Image" class="img-responsive">
                                             </figure>
                                             <div class="fh5co-text">
-                                                <h2>@item[1]</h2>
-                                                <p>@item[2]</p>
+                                                <h2>@item.TenPhim</h2>
+                                                <p>@item.TomTatP</p>
                                             </div>
                                             <div class="fh5co-text" style="width: fit-content; background-color: #2C3333; padding: 10px 10px; color: white; ">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
                                                 </svg>
-                                                <span style=" font-size: 18px; margin-left: 10px"> @CNPMNC_REPORT1.Models.ConvertNumber.ConvertNumberToAbbreviation(item[5]) lượt mua</span>
+                                                <span style=" font-size: 18px; margin-left: 10px"> @CNPMNC_REPORT1.Models.ConvertNumber.ConvertNumberToAbbreviation(item.LuotMua) lượt mua</span>
                                             </div>
                                         </a>
                                     </div>

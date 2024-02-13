@@ -7,32 +7,39 @@ using System.Collections; // Sử dụng Lớp ArrayList để lưu kết quả
 using System.Data.SqlClient;// Sử dụng các lớp tương tác CSDL
 using CNPMNC_REPORT1.Models;
 using System.IO;
+using CNPMNC_REPORT1.SQLData;
+using CNPMNC_REPORT1.Factory;
+using CNPMNC_REPORT1.Factory.FactoryLoaiPhim;
+using CNPMNC_REPORT1.Factory.FactoryPhim;
+using CNPMNC_REPORT1.Factory.FactoryGHT;
 
 namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 {
     public class AdminController : Controller
     {
+        private string LogError = "";
 
-        // GET: AdminArea/Admin
-        
 
         public ActionResult Film()
         {
-            SQLData data = new SQLData();
-            ViewBag.DSGHTP = data.getData("SELECT * FROM GIOIHANTUOI");
-            ViewBag.DSLPP = data.getData("SELECT * FROM THELOAIP");
+            LoaiPhimFactory loaiPhimFactory = new CreateAllLP();
+            PhimFactory phimFactory = new CreateAllPhim();
+            GHTFactory ghtFactory = new CreateAllGHT();
 
-            if (data.getData("SELECT * FROM PHIM") != null)
-            {
-                ViewBag.DSF = data.getData("SELECT * FROM PHIM");
-            }
+            ViewBag.DSGHTP = ghtFactory.CreateGHT();
+            ViewBag.DSLPP = loaiPhimFactory.CreateLoaiP();
+            ViewBag.DSF = phimFactory.CreatePhim();
+            ViewBag.ThongBao = LogError;
 
             return View();
         }
+
         [HttpPost]
-        public ActionResult Film(int? MaP, string TenF, string MoTaF, string NgayCC, int? ThoiLuongP, string HinhAnhP, string TrailerP, string GHTP, int? GiaP, int? MaGHT, HttpPostedFileBase HinhAnhFile, HttpPostedFileBase HinhAnhFiledetail1, string HinhAnhFiledetail2, string status)
+        public ActionResult Film(string MaP, string TenF, string MoTaF, string NgayCC, string ThoiLuongP, string HinhAnhP, string TrailerP, string GHTP, string GiaP, string MaGHT, HttpPostedFileBase HinhAnhFile, HttpPostedFileBase HinhAnhFiledetail1, string HinhAnhFiledetail2, string status)
         {
-            SQLData data = new SQLData();
+            SQLPhim sqlPhim = new SQLPhim();
+            SQLGioiHanTuoi sqlGHT = new SQLGioiHanTuoi();
+
             if (ModelState.IsValid)
             {
                 if (status == "Add")
@@ -45,86 +52,165 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                             var path = Path.Combine(Server.MapPath("~/img_phim"), fileName);
                             HinhAnhFile.SaveAs(path);
 
-                            int getMaGHT = data.getMaGHT(GHTP);
-                            if (getMaGHT != 0)
+                            string maGHT = sqlGHT.ChuyenTen_Ma(GHTP);
+
+                            if (maGHT != "")
                             {
-                                bool isSaved = data.saveFilm(TenF, MoTaF, NgayCC, ThoiLuongP, fileName, TrailerP, GiaP, getMaGHT);
+                                Phim phim = new Phim(TenF, MoTaF, NgayCC, ThoiLuongP, "0", "0", fileName, TrailerP, GiaP, maGHT);
+                                bool isSaved = sqlPhim.ThemPhim(phim);
                                 if (!isSaved)
                                 {
-                                    ViewBag.ThongBaoLuu = "Lỗi lưu không thành công hoặc phim đã tồn tại!";
-                                    ViewBag.DSF = data.getData("SELECT * FROM PHIM");
-                                    ViewBag.DSGHTP = data.getData("SELECT * FROM GIOIHANTUOI");
+                                    LogError = "Lỗi lưu không thành công hoặc phim đã tồn tại!";
+                                    return RedirectToAction("Film", "Admin");
                                 }
                                 else
                                 {
-                                    ViewBag.DSF = data.getData("SELECT * FROM PHIM");
-                                    ViewBag.DSGHTP = data.getData("SELECT * FROM GIOIHANTUOI");
+                                    return RedirectToAction("Film", "Admin");
                                 }
                             }
                             else
                             {
-                                ViewBag.ThongBaoLuu = "Lỗi không tồn tại giới hạn tuổi!";
-                                ViewBag.DSF = data.getData("SELECT * FROM PHIM");
-                                ViewBag.DSGHTP = data.getData("SELECT * FROM GIOIHANTUOI");
+                                LogError = "Lỗi không tồn tại giới hạn tuổi!";
+                                return RedirectToAction("Film", "Admin");
                             }
                         }
                         else
                         {
-                            ViewBag.ThongBaoLuu = "Lỗi không tồn tại!";
-                            ViewBag.DSF = data.getData("SELECT * FROM PHIM");
-                            ViewBag.DSGHTP = data.getData("SELECT * FROM GIOIHANTUOI");
+                            LogError = "Lỗi không tồn tại hình ảnh!";
+                            return RedirectToAction("Film", "Admin");
                         }
 
                     }
                     else
                     {
-                        ViewBag.ThongBaoLuu = "Lỗi hinhanh ko tồn tại!";
-                        ViewBag.DSF = data.getData("SELECT * FROM PHIM");
-                        ViewBag.DSGHTP = data.getData("SELECT * FROM GIOIHANTUOI");
+                        ViewBag.ThongBaoLuu = "Lỗi null dữ liệu!";
+                        return RedirectToAction("Film", "Admin");
                     }
                 }
                 else if (status == "Update")
                 {
+                    PhimFactory phimFactory = new CreateAllPhim();
+                    List<Phim> dsPhim = phimFactory.CreatePhim();
+
                     if (TenF != null && MoTaF != null && NgayCC != null && TrailerP != null && ThoiLuongP != null && MaGHT != null && GiaP != null)
                     {
-                        if (HinhAnhFiledetail1 == null)
+                        if (HinhAnhFiledetail1 != null)
                         {
-                            
-                            bool isUpdate = data.updateFilm(MaP, TenF, MoTaF, NgayCC, ThoiLuongP, HinhAnhFiledetail2, TrailerP, GiaP, MaGHT);
-                            if (!isUpdate)
+                            List<string> changedFields = new List<string>();
+
+                            int maPhim = dsPhim.FindIndex(x => x.MaPhim == MaP);
+
+                            if (maPhim != -1)
                             {
-                                ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
-                                ViewBag.DSTLF = data.getData("SELECT * FROM PHIM");
-                            }
-                            else
-                            {
-                                ViewBag.DSTLF = data.getData("SELECT * FROM PHIM");
+                                Phim phim = dsPhim[maPhim];
+
+                                var fileName1 = Path.GetFileName(HinhAnhFiledetail1.FileName);
+                                var path1 = Path.Combine(Server.MapPath("~/img_phim"), fileName1);
+                                HinhAnhFiledetail1.SaveAs(path1);
+
+                                if (phim.TenPhim != TenF)
+                                {
+                                    changedFields.Add("TenPhim");
+                                }
+                                if (phim.TomTatP != MoTaF)
+                                {
+                                    changedFields.Add("TomTatP");
+                                }
+                                if (phim.NgayCongChieu != NgayCC)
+                                {
+                                    changedFields.Add("NgayCongChieu");
+                                }
+                                if (phim.ThoiLuongP != ThoiLuongP)
+                                {
+                                    changedFields.Add("ThoiLuongP");
+                                }
+                                if (phim.HinhAnh != fileName1)
+                                {
+                                    changedFields.Add("HinhAnh");
+                                }
+                                if (phim.Trailer != TrailerP)
+                                {
+                                    changedFields.Add("Trailer");
+                                }
+                                if (phim.GiaPhim != GiaP)
+                                {
+                                    changedFields.Add("GiaPhim");
+                                }
+                                if (phim.MaGHT != MaGHT)
+                                {
+                                    changedFields.Add("MaGHT");
+                                }
+
+                                // Cập nhật dữ liệu cho phim
+                                bool updateResult = false;
+
+                                foreach (var field in changedFields)
+                                {
+                                    // Dựa vào tên cột đã thay đổi (field) để cập nhật dữ liệu cho phim
+                                    switch (field)
+                                    {
+                                        case "TenPhim":
+                                            phim.TenPhim = TenF;
+                                            updateResult = sqlPhim.CapNhatP(MaP, "TenPhim", phim.TenPhim);
+                                            break;
+                                        case "TomTatP":
+                                            phim.TomTatP = MoTaF;
+                                            updateResult = sqlPhim.CapNhatP(MaP, "TomTatP", phim.TomTatP);
+                                            break;
+                                        case "NgayCongChieu":
+                                            phim.NgayCongChieu = NgayCC;
+                                            updateResult = sqlPhim.CapNhatP(MaP, "NgayCongChieu", phim.NgayCongChieu);
+                                            break;
+                                        case "ThoiLuongP":
+                                            phim.ThoiLuongP = ThoiLuongP;
+                                            updateResult = sqlPhim.CapNhatP(MaP, "ThoiLuongP", phim.ThoiLuongP);
+                                            break;
+                                        case "HinhAnh":
+                                            phim.HinhAnh = fileName1;
+                                            updateResult = sqlPhim.CapNhatP(MaP, "HinhAnh", phim.HinhAnh);
+                                            break;
+                                        case "Trailer":
+                                            phim.Trailer = TrailerP;
+                                            updateResult = sqlPhim.CapNhatP(MaP, "Trailer", phim.Trailer);
+                                            break;
+                                        case "GiaPhim":
+                                            phim.GiaPhim = GiaP;
+                                            updateResult = sqlPhim.CapNhatP(MaP, "GiaPhim", phim.GiaPhim);
+                                            break;
+                                        case "MaGHT":
+                                            phim.MaGHT = MaGHT;
+                                            updateResult = sqlPhim.CapNhatP(MaP, "MaGHT", phim.MaGHT);
+                                            break;
+                                        default:
+                                            LogError = "Không có thay đổi dữ liệu!";
+                                            break;
+                                    }
+                                }
+
+                                if (updateResult)
+                                {
+                                    // Cập nhật thành công
+                                    return RedirectToAction("Film", "Admin");
+                                }
+                                else
+                                {
+                                    // Cập nhật thất bại
+                                    LogError = "Cập nhật thất bại!";
+                                    return RedirectToAction("Film", "Admin");
+                                }
+
                             }
                         }
                         else
                         {
-                            var fileName1 = Path.GetFileName(HinhAnhFiledetail1.FileName);
-                            var path1 = Path.Combine(Server.MapPath("~/img"), fileName1);
-                            HinhAnhFiledetail1.SaveAs(path1);
-
-                            
-                            bool isUpdate = data.updateFilm(MaP, TenF, MoTaF, NgayCC, ThoiLuongP, fileName1, TrailerP, GiaP, MaGHT);
-                            if (!isUpdate)
-                            {
-                                ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
-                                ViewBag.DSTLF = data.getData("SELECT * FROM PHIM");
-                            }
-                            else
-                            {
-                                ViewBag.DSTLF = data.getData("SELECT * FROM PHIM");
-                            }
+                            LogError = "null image!";
+                            return RedirectToAction("Film", "Admin");
                         }
                         
                     }
                     else
                     {
                         ViewBag.ThongBaoLuu = $"Lỗi null {MaP},{TenF},{MoTaF},{NgayCC},{ThoiLuongP},{TrailerP},{GiaP},{MaGHT}!";
-                        ViewBag.DSTLF = data.getData("SELECT * FROM PHIM");
                     }
                 }
                 else ViewBag.ThongBaoLuu = "Lỗi model!";

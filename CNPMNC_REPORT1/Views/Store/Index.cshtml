@@ -283,8 +283,10 @@
                             sum = sum + int.Parse(a1[2]);
                         }
                     }
-                }
-                @if (sum != 0)
+
+
+}
+                @if (sum > 0)
                 {
                     <div class="col text-right"> @sum VND </div>
                 }
@@ -305,7 +307,7 @@
 
             <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                 <div class="col">TOTAL PRICE</div>
-                @{
+                @*{
                     int sum1 = 0;
                     if (ViewBag.GetDSVP != null)
                     {
@@ -314,10 +316,10 @@
                             sum1 = sum1 + int.Parse(a1[2]);
                         }
                     }
-                }
-                @if (sum1 != 0)
+                }*@
+                @if (sum > 0)
                 {
-                    <div class="col text-right"> @sum1 VND </div>
+                    <div class="col text-right"> @sum VND </div>
                 }
                 else
                 {
@@ -328,22 +330,22 @@
 
             <form action="@Url.Action("Index","Store")" method="post">
 
-                @if (sum1 != 0)
+                @if (sum > 0)
                 {
-                    <input name="TongGia" value="@sum1" style="display: none;" />
+                    <input name="TongGia" value="@sum" style="display: none;" />
                 }
                 else
                 {
                     <input name="TongGia" value="0" style="display: none;" />
                 }
 
-                @if (ViewBag.GetDSVP != null)
+                @if (ViewBag.GetDSVP == null)
                 {
-                    <input name="ThanhTien" value="@ViewBag.GetDSVP[0][2]" style="display: none;" />
+                    <input name="ThanhTien" value="0" style="display: none;" />
                 }
                 else
                 {
-                    <input name="ThanhTien" value="0" style="display: none;" />
+                    <input name="ThanhTien" value="@ViewBag.GetDSVP[0][2]" style="display: none;" />
                 }
 
                 <button name="status" value="ThanhToan" type="submit" class="btn" style="font-weight: bold;">BUY</button>

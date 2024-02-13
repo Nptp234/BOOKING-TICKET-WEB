@@ -1,22 +1,13 @@
 ﻿
 @{
-    ViewBag.Title = "FilmDetail";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    //Get Date
-    string dateString = ViewBag.getFilmById123[0][3];
-    string result = "";
-    if (dateString.Length != 0)
-    {
-        DateTime dateTime = DateTime.Parse(dateString);
 
-        // Chuyển đổi thành ngày chỉ (bỏ qua phần giờ, phút, giây)
-        DateTime dateOnly = dateTime.Date;
+    string date = Model.NgayCongChieu;
+    string[] item = date.Split(' ')[0].Split('/');
 
-        // Định dạng lại thành chuỗi
-        result = dateOnly.ToString("dd/MM/yyyy");
-    }
-
-
+    string day = item[0];
+    string month = item[1];
+    string year = item[2];
 }
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -205,65 +196,55 @@
 </style>
 
 <div class="container section_filmdetail" style="background-color: #2C3333; min-height: 100vh; display: flex; align-items: center; ">
-    @if (ViewBag.getFilmById123 != null)
-    {
-        foreach (var a in ViewBag.getFilmById123)
-        {
-            <div class="film_info" style="display: flex; flex-direction: row; margin: 0; padding-top: 100px;">
-                <div class="film_img_container">
-                    <img src="~/img_phim/@a[7]" alt="Alternate Text" />
-                </div>
 
-                <div class="film_info_container">
-                    <h2>@a[1]</h2>
-                    <div class="film-overview">
-                        <span class="l-title">Khởi chiếu:</span>
-                        <span class="l-value">@result</span>
-                    </div>
-                    <div class="film-overview">
-                        <span class="l-title">Thời lượng:</span>
-                        <span class="l-value">@a[4] Phút</span>
-                    </div>
-                    @*<div class="film-overview">
-                            <span class="l-title">Lượt mua:</span>
-                            <span class="l-value">@a[5]</span>
-                        </div>
-                        <div class="film-overview">
-                            <span class="l-title">Lượt thích:</span>
-                            <span class="l-value">@a[6]</span>
-                        </div>*@
-                    <div class="film-overview">
-                        <span class="l-title">Độ tuổi: </span>
-                        <span class="l-value">@a[13]</span>
-                    </div>
-                    <div class="film-overview">
-                        <span class="l-title">Mô tả:</span>
-                        <span class="l-value">@a[2]</span>
-                    </div>
-                    <p style="color: #fff; font-size: 16px"></p>
 
-                    <a class="cart-btn fontsize14" style="width: 100%; text-align: center;" href="@Url.Action("LichChieu", "Booking", new { maphim = a[0]})">Mua vé</a>
-                </div>
+    <div class="film_info" style="display: flex; flex-direction: row; margin: 0; padding-top: 100px;">
+        <div class="film_img_container">
+            <img src="~/img_phim/@Model.HinhAnh" alt="Alternate Text" />
+        </div>
+
+        <div class="film_info_container">
+            <h2>@Model.TenPhim</h2>
+            <div class="film-overview">
+                <span class="l-title">Khởi chiếu:</span>
+                <span class="l-value">@day/@month/@year</span>
             </div>
-        }
-    }
+            <div class="film-overview">
+                <span class="l-title">Thời lượng:</span>
+                <span class="l-value">@Model.ThoiLuongP Phút</span>
+            </div>
+            <div class="film-overview">
+                <span class="l-title">Giới hạn tuổi: </span>
+                <span class="l-value">@Model.MaGHT</span>
+            </div>
+            <div class="film-overview">
+                <span class="l-title">Mô tả:</span>
+                <span class="l-value">@Model.TomTatP</span>
+            </div>
+            <p style="color: #fff; font-size: 16px"></p>
+
+            <a class="cart-btn fontsize14" style="width: 100%; text-align: center;" href="@Url.Action("LichChieu", "Booking", new { maphim = Model.MaPhim})">Mua vé</a>
+        </div>
+    </div>
+
 </div>
 
 <div class="empty_box"></div>
 
 
 <div id="targetElement" class="container section_filmdetail">
-    <!-- 4:3 aspect ratio -->
+
     <h1 style="color: white; text-align:center">TRAILER</h1>
     <div style="padding: 15px; border: 5px solid black; border-radius: 50px; ">
         <div class="embed-responsive embed-responsive-4by3" style="width: 1300px; height: 500px; border-radius: 30px; box-shadow: 0 0 0 15px;">
-            <iframe class="embed-responsive-item" width="500" height="500" src="@ViewBag.GetEmbedLink" title="@ViewBag.getFilmById123[0][1]" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <iframe class="embed-responsive-item" width="500" height="500" src="@ViewBag.EmbedLink" title="@Model.TenPhim" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
     </div>
 </div>
 
 <div class="empty_box"></div>
 
+<!-- COMMENT -->
 <style>
 
     .comments {
@@ -339,36 +320,15 @@
         padding: 20px;
     }
 </style>
+
 <section style="background-color: black;">
     <div class="container">
-        @* List comments *@
-        <div class="row">
-            <div class="col-sm-7 col-md-9 col-12 pb-4">
-                <h1>Comments</h1>
-                @foreach (var bl in ViewBag.getBL)
-                {
-          
-                <div class="comment mt-2 text-justify float-left">
-                    <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="30" height="30">
-                    <h4>@bl[1]</h4>
-                    <span>@DateTime.Parse(bl[2]).ToString("MMM dd, yyyy HH:mm:ss tt")</span>
-                    <br>
-                    <p>@bl[0]</p>
-                    @if (Session["Username"] as string == bl[1])
-                    {
-                        <a href="@Url.Action("DeleteComment", "Home", new { mabl = bl[3], maphim = ViewBag.getFilmById123[0][0]})" style="color: white">Xoá bình luận</a>
-                    }
-                </div>
-                    
-                }
 
-            </div>
-        </div>
+        @* Post comment *@
         <div class="row">
-            @* Post comment *@
             <form action="@Url.Action("FilmDetail","Home")" method="post" style="border: none; background-color:  inherit">
                 <h4 style="color: white">Leave your comment here</h4>
-                <input name="IDPhim" style="display: none;" value="@ViewBag.getFilmById123[0][0]" />
+                <input name="IDPhim" style="display: none;" value="@Model.MaPhim" />
                 <div class="bg-light p-2" style="border-radius: 10px">
                     <p class="smaller_content" style="color:red;">@ViewBag.ThongBao</p>
                     <div class="d-flex flex-row align-items-start">
@@ -377,10 +337,33 @@
                     </div>
                     <div class="mt-2 text-right">
                         <button id="btnSubmit" name="status" value="Post" class="btn btn-info" type="submit">Post comment</button>
-
                     </div>
                 </div>
             </form>
+        </div>
+
+        @* List comments *@
+        <div class="row">
+            <div class="col-sm-7 col-md-9 col-12 pb-4">
+                <h1>Comments</h1>
+                @foreach (var bl in ViewBag.BinhLuan)
+                {
+
+                    <div class="comment mt-2 text-justify float-left">
+                        <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="30" height="30">
+                        <h4>@bl.TenTK</h4>
+                        <span>@DateTime.Parse(bl.NgayTao).ToString("MMM dd, yyyy HH:mm:ss tt")</span>
+                        <br>
+                        <p>@bl.GhiChu</p>
+                        if (Session["Username"] as string == bl[1])
+                        {
+                            <a href="@Url.Action("DeleteComment", "Home", new { mabl = bl[3], maphim = ViewBag.getFilmById123[0][0]})" style="color: white">Xoá bình luận</a>
+                        }
+                    </div>
+
+                }
+
+            </div>
         </div>
     </div>
 </section>

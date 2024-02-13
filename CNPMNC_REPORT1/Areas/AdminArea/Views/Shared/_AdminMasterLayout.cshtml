@@ -15,10 +15,10 @@
             <div class="category_container" style="max-height: 100%; min-height: fit-content; background: #2C3333;">
                 <a id="qldonhang" href="#" class="menu_header">ADMINISTRATOR</a>
 
-                <a id="CustomerManager" href="@Url.Action("ReportHD", "Admin")" class="menu_category">Báo cáo thống kê</a>
 
                 @if (Session["isLoginedQL"] == "true")
                 {
+                    <a id="CustomerManager" href="@Url.Action("ReportHD", "Admin")" class="menu_category">Báo cáo thống kê</a>
                     <a id="CustomerManager" href="@Url.Action("NhanVien", "Admin")" class="menu_category">Nhân viên</a>
 
                     @*<a id="StaffManager" href="@Url.Action("NVType", "Admin")" class="menu_category">Loại nhân viên</a>*@

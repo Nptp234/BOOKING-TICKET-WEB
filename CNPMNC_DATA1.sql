@@ -27,18 +27,12 @@ CREATE TABLE KHACHHANG(
 	MaLoaiKH INT REFERENCES LOAIKH(MaLoaiKH)
 )
 
---CREATE TABLE LAOINV(
---	MaLoaiNV INT IDENTITY(1,1) PRIMARY KEY,
---	TenLoaiNV NVARCHAR(100) NOT NULL
---)
-
 CREATE TABLE NHANVIEN(
 	MaNV INT IDENTITY(1,1) PRIMARY KEY,
 	HoTenNV NVARCHAR(100) NOT NULL,
 	Email VARCHAR(35) NOT NULL,
 	MatKhauNV VARCHAR(30) NOT NULL,
 	TrangThaiTKNV NVARCHAR(25) NOT NULL
-	--MaLoaiNV INT REFERENCES LAOINV(MaLoaiNV)
 )
 
 CREATE TABLE THELOAIP(
@@ -93,7 +87,6 @@ CREATE TABLE PHONGCHIEU(
 	MaLPC INT REFERENCES LOAIPC(MaLPC)
 )
 
---chưa làm
 CREATE TABLE GHECUAPC(
 	MaPC INT REFERENCES PHONGCHIEU(MaPC),
 	MaGhe INT REFERENCES LOAIGHE(MaGhe),
@@ -118,16 +111,10 @@ CREATE TABLE LICHCHIEU(
 	MaPhim INT REFERENCES PHIM(MaPhim)
 )
 
---CREATE TABLE LICHCHIEU_PHONG (
---	MALC_P INT IDENTITY(1, 1) PRIMARY KEY,
---	MaLC INT REFERENCES LICHCHIEU(MaLC)
---	MaPC INT REFERENCES PHONGCHIEU(MaPC),
---)
-
 CREATE TABLE BINHLUAN(
 	MaBL INT IDENTITY(1,1) PRIMARY KEY,
 	MaPhim INT REFERENCES PHIM(MaPhim),
-	MaKH INT REFERENCES KHACHHANG(MaKH),
+	TenTK VARCHAR(25),
 	GhiChu NVARCHAR(MAX) NOT NULL,
 	TrangThai NVARCHAR(30) NOT NULL,
 	NgayTao DATETIME NOT NULL
@@ -182,7 +169,8 @@ INSERT INTO GIOIHANTUOI values ('P18', N'Trên 18 tuổi')
 
 INSERT INTO PHIM VALUES
 (N'ÁN MẠNG Ở VENICE', 
-N'Dựa trên tiểu thuyết Halloween Party của nhà văn Agatha Christie, hành trình phá án của thám tử Hercule Poirot tiếp tục được đưa lên màn ảnh rộng.',
+N'Dựa trên tiểu thuyết Halloween Party của nhà văn Agatha Christie, hành trình 
+phá án của thám tử Hercule Poirot tiếp tục được đưa lên màn ảnh rộng.',
 GETDATE(),103,0,0,'anmangovenice.png',
 'https://www.youtube.com/watch?v=EL8FdLQFUhc',50000,3)
 
@@ -247,8 +235,168 @@ INSERT INTO PHIM VALUES
 		GETDATE()+1,110,0,0,'drpn.png','https://www.youtube.com/watch?v=hzyg3lvFPvk',50000,3)
 
 INSERT INTO PHIM VALUES
-(N'ARGYLLE SIÊU ĐIỆP VIÊN', N'Argylle là ai? Duy nhất 1 cách có thể tìm ra câu trả lời. ARGYLLE SIÊU ĐIỆP VIÊN | Dự Kiến Khởi Chiếu - Mùng 1 Tết 10.02.2024',
+(N'ARGYLLE SIÊU ĐIỆP VIÊN', N'Argylle là ai? Duy nhất 1 cách có thể tìm ra câu trả lời. 
+ARGYLLE SIÊU ĐIỆP VIÊN | Dự Kiến Khởi Chiếu - Mùng 1 Tết 10.02.2024',
 GETDATE(),95,0,0,'angylle.png','https://www.youtube.com/watch?v=7mgu9mNZ8Hk',50000,2)
+
+INSERT INTO PHIM VALUES
+(N'BÍ MẬT CỦA ĐỊA NGỤC', N'Trên hành trình khám phá một hang động mới, 
+một nhóm thám tử đối diện với những bí ẩn kinh hoàng của địa ngục: 
+những thế lực siêu nhiên và những bí mật về quá khứ đen tối.',
+GETDATE(),108,0,0,'bimatcuadianguc.png','https://www.youtube.com/watch?v=X5GDdXm6H28',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'THẢM HỌA TẠI BIỆT THỰ AMITYVILLE', N'Bí ẩn về ngôi biệt thự 
+Amityville tiếp tục khi một gia đình mới chuyển đến và phải đối mặt 
+với những hiện tượng siêu nhiên đáng sợ.',
+GETDATE(),109,0,0,'thamhoataibietthuamityville.png','https://www.youtube.com/watch?v=rdoAoBwWUVc',50000,3)
+
+INSERT INTO PHIM VALUES
+(N'NGÀY TẾT QUỶ DỮ', N'Trong một thị trấn nhỏ, vào đêm giao thừa, 
+những sự kiện kỳ quái và tai hại bắt đầu diễn ra, làm sáng tỏ những bí 
+mật đen tối của cộng đồng.',
+GETDATE(),102,0,0,'ngaytetquydu.png','https://www.youtube.com/watch?v=byTx5l8N49o',50000,3)
+
+INSERT INTO PHIM VALUES
+(N'CUỘC CHIẾN CHỐNG THẦN BÍ', N'Một nhóm các chiến binh 
+huyền thoại hợp lực để chống lại sự tàn phá của một thế lực tà ác từ 
+thế giới khác, trước khi nó hủy diệt mọi sinh vật trên trái đất.',
+GETDATE(),101,0,0,'cuocchienchongthanbi.png','https://www.youtube.com/watch?v=JVcN6ZrlYIc',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'VÒNG XOÁY TỬ THẦN', N'Khi một người đàn ông bí ẩn xuất hiện và 
+đề xuất một trò chơi nguy hiểm, mọi người trong một thị trấn nhỏ 
+phải đối mặt với những quyết định đầy tính mạng.',
+GETDATE(),102,0,0,'vongxoaytuthan.png','https://www.youtube.com/watch?v=Sy2kP4qQX9Q',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'CUỘC SỐNG SỐ 9', N'Trong một tương lai không xa, con người 
+sống trong một thế giới hoàn toàn số hóa. Nhưng khi một số người bắt 
+đầu mất tính toàn vẹn, một cuộc phiêu lưu để tìm hiểu sự thật bắt đầu.',
+GETDATE(),103,0,0,'cuocsongso9.png','https://www.youtube.com/watch?v=Jp89C72Ywvk',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'THÁM TỬ HOÀNG GIA: VÙNG ĐẤT BÍ ẨN', N'Thám tử Sherlock Holmes và 
+cộng sự Dr. Watson bắt đầu một cuộc điều tra kỳ bí vào một vùng đất xa 
+xôi, nơi bí mật đen tối đang chờ đợi.',
+GETDATE(),104,0,0,'thamtuhoangia_vungdatbiann.png','https://www.youtube.com/watch?v=IwbbB2hyXdE',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'NỖI SỢ KINH HOÀNG', N'Khi một phóng viên điều tra bí 
+ẩn về một khu rừng huyền bí, cô phát hiện ra sự tồn tại của một thế lực 
+tà ác cổ xưa, và cuộc sống của cô đang bị đe dọa.',
+GETDATE(),105,0,0,'noiso_kinhhoang.png','https://www.youtube.com/watch?v=hF5tYgdCp8Y',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'TÀN TÍCH BÍ ẨN', N'Khi một nhóm khảo cổ học phát hiện 
+ra một nghĩa trang cổ đại, họ không ngờ rằng họ đã mở khóa một lời 
+nguyền đen tối từ thời xa xưa.',
+GETDATE(),106,0,0,'tantichbiann.png','https://www.youtube.com/watch?v=3dz-r7Z7Eoo',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'NGÀY PHỤ NỮ THẦN BÍ', N'Khi một phụ nữ bí ẩn xuất hiện trong 
+một thị trấn nhỏ, mọi người bắt đầu nhận ra rằng cô có một quyền 
+năng siêu nhiên đặc biệt, nhưng cũng mang theo một mối đe dọa đáng sợ.',
+GETDATE(),107,0,0,'ngayphunuthanbi.png','https://www.youtube.com/watch?v=rCcbG6f5dE4',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'ÁNH SÁNG ĐEN TỐI', N'Khi một loạt các vụ án mạng kỳ lạ xảy ra, 
+một nhóm thám tử phải đối mặt với một kẻ thù siêu nhiên vô cùng nguy hiểm.',
+GETDATE(),108,0,0,'anhsangdento.png','https://www.youtube.com/watch?v=hZvQsh3u9Fg',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'CỔNG TRUY CẬP HUYỀN BÍ', N'Khi một cỗ máy thời gian được phát 
+hiện, một nhóm nhà khoa học vô tình mở ra một cánh cửa tới những thế giới 
+song song, nhưng cũng mở cánh cửa cho một thế lực tà ác khủng khiếp.',
+GETDATE(),109,0,0,'congtruycaphuyenbi.png','https://www.youtube.com/watch?v=UWk5YdTrCpM',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'THỊ TRẤN ÁM ẢNH', N'Khi một nhóm người dân phát hiện ra rằng họ bị 
+mắc kẹt trong một vòng lặp thời gian đen tối, họ phải tìm cách để thoát 
+ra trước khi bị mất hết mọi hi vọng.',
+GETDATE(),110,0,0,'thitranam_athanh.png','https://www.youtube.com/watch?v=J_3Fm6zUhfo',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'CUỘC CHIẾN ẨN DANH', N'Khi một loạt các vụ án mạng bí ẩn 
+xảy ra, một thám tử tài ba phải đối mặt với một kẻ thù tinh ranh và đầy bí ẩn.',
+GETDATE(),111,0,0,'cuocchien_andanh.png','https://www.youtube.com/watch?v=jrUAXxTy_Rw',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'BIỆT ĐỘI SỨ GIẢ', N'Sau khi một người ngoài hành tinh tà ác tấn công 
+trái đất, một nhóm các anh hùng không tưởng được tập hợp để chống lại họ và cứu thế giới.',
+GETDATE(),112,0,0,'bietdoisugia.png','https://www.youtube.com/watch?v=wF_gfu5N-y0',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'BÓNG ĐÊM KHIẾN ÁM ẢNH', N'Khi một loạt các vụ án mạng kinh hoàng xảy ra trong một
+khu phố yên bình, một nhóm thám tử phải đối mặt với một thế lực tà ác đang rình rập trong bóng tối.',
+GETDATE(),113,0,0,'bongdemkienamanh.png','https://www.youtube.com/watch?v=7D_xiLvJf3o',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'THÀNH PHỐ ÁM ẢNH', N'Khi một thành phố bị bao phủ bởi bóng tối và sự tuyệt vọng, 
+một nhóm anh hùng không lấy gì làm ngại ngần đứng lên chống lại thế lực tà ác.',
+GETDATE(),114,0,0,'thanhphoamanh.png','https://www.youtube.com/watch?v=MYrFYh2iXI0',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'TÀN TÍCH CỦA QUỶ', N'Khi một nhóm khảo cổ học khám phá một ngôi mộ cổ, họ không 
+ngờ rằng họ đã mở ra một lời nguyền cổ xưa đầy nguy hiểm và đẫm máu.',
+GETDATE(),115,0,0,'tantichcuaquy.png','https://www.youtube.com/watch?v=dZIcX0nrTsw',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'HUYỀN BÍ SÂN CHƠI', N'Khi một nhóm trẻ em khám phá một công viên bỏ hoang, 
+họ phát hiện ra rằng nơi đây đang ẩn chứa những bí mật tăm tối và nguy hiểm.',
+GETDATE(),116,0,0,'huyenbisancoi.png','https://www.youtube.com/watch?v=2Tl1tkTkB-Y',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'CUỘC CHIẾN TRONG BÓNG TỐI', N'Khi một thế lực tà ác từ thế giới ngầm bắt đầu 
+tấn công thế giới loài người, một nhóm anh hùng phải đứng lên chống lại họ để bảo vệ sự tồn vong của loài người.',
+GETDATE(),117,0,0,'cuocchientrongbongtoi.png','https://www.youtube.com/watch?v=vH6B1CnWLZM',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'CUỘC SỐNG TRONG HUYỀN BÍ', N'Khi một nhóm người sống trong một thế 
+giới huyền bí nơi mọi điều kỳ diệu đều có thể xảy ra, họ phải đối mặt với những nguy hiểm đáng sợ để bảo vệ sự tồn vong của họ.',
+GETDATE(),118,0,0,'cuocsongtronghuyenbi.png','https://www.youtube.com/watch?v=CMi58fhp0YI',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'THÀNH PHỐ ĐEN TỐI', N'Khi một thế lực tà ác từ thế giới ngầm trỗi 
+dậy và bắt đầu lan tràn ra thế giới loài người, một nhóm anh hùng phải đứng lên 
+chống lại họ để bảo vệ sự tồn vong của loài người.',
+GETDATE(),119,0,0,'thanhphodento.png','https://www.youtube.com/watch?v=7PPS-TREtQg',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'CUỘC SỐNG TRONG BÓNG TỐI', N'Khi một nhóm người sống trong 
+một thế giới bị che phủ bởi bóng tối, họ phải tìm cách để thoát khỏi sự hiểm nguy 
+và bảo vệ sự tồn vong của mình.',
+GETDATE(),120,0,0,'cuocsongtrongbongtoi.png','https://www.youtube.com/watch?v=Z1bXEKTmFy8',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'CUỘC CHIẾN TRONG BÓNG ĐÊM', N'Khi một thế lực tà ác từ thế 
+giới ngầm bắt đầu tấn công thế giới loài người vào ban đêm, một nhóm 
+anh hùng phải đứng lên chống lại họ để bảo vệ sự tồn vong của loài người.',
+GETDATE(),121,0,0,'cuocchientrongbongdem.png','https://www.youtube.com/watch?v=hbdIWw9kcwQ',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'ĐƯỜNG HUYỀN BÍ', N'Khi một nhóm nhà thám hiểm bước vào một khu 
+rừng bí ẩn, họ không ngờ rằng họ sẽ phải đối mặt với những nguy hiểm 
+đáng sợ từ những thế lực siêu nhiên.',
+GETDATE(),122,0,0,'duonghuyenbi.png','https://www.youtube.com/watch?v=pLs2dWeqPmM',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'CUỘC CHIẾN ẨN DANH II', N'Khi một loạt các vụ án mạng bí ẩn xảy ra, 
+một thám tử tài ba phải đối mặt với một kẻ thù tinh ranh và 
+đầy bí ẩn một lần nữa.',
+GETDATE(),123,0,0,'cuocchien_andanh2.png','https://www.youtube.com/watch?v=3l_Lo3Y5TVQ',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'BÓNG TỐI KÝ ỨC', N'Khi một người phụ nữ mất trí nhớ bắt đầu 
+tìm hiểu về quá khứ của mình, cô phát hiện ra rằng có những 
+bí mật đen tối mà ai đó đang cố gắng che giấu.',
+GETDATE(),124,0,0,'bongtoikyuc.png','https://www.youtube.com/watch?v=PkBiZzT8pI0',50000,4)
+
+INSERT INTO PHIM VALUES
+(N'KHO BÁU TRONG RỪNG SÂU', N'Khi một nhóm trẻ em phát hiện ra một 
+kho báu bí ẩn ở một khu rừng sâu, họ không ngờ rằng họ sẽ phải đối mặt 
+với những nguy hiểm đáng sợ từ những thế lực siêu nhiên.',
+GETDATE(),125,0,0,'khobautrongrungsau.png','https://www.youtube.com/watch?v=OzNAP6egLaQ',50000,4)
 
 INSERT INTO THELOAIP VALUES (N'Hành động', N'Phim có tính chất bạo lực và hành động mãn nhãn')
 INSERT INTO THELOAIP VALUES (N'Giải trí', N'Phim có tính chất giải trí cao')
@@ -267,42 +415,19 @@ INSERT INTO TL_P VALUES (7,1)
 INSERT INTO TL_P VALUES (8,2)
 INSERT INTO TL_P VALUES (8,1)
 
--- Lấy danh sách tất cả các bảng
-SELECT table_name
-FROM information_schema.tables
-WHERE table_type = 'BASE TABLE'
-
---Dữ liệu thử, xóa khi chạy chính
-update phim
-set LuotThich = 11234
-where MaPhim = 2
-
---Thêm XUẤT CHIẾU
 INSERT INTO XUATCHIEU VALUES ('CA 1', '7:00:00')
 INSERT INTO XUATCHIEU VALUES ('CA 2', '10:30:00')
 INSERT INTO XUATCHIEU VALUES ('CA 3', '14:00:00')
 INSERT INTO XUATCHIEU VALUES ('CA 4', '17:30:00')
 INSERT INTO XUATCHIEU VALUES ('CA 5', '21:00:00') -- Ca chiếu lúc 9h là ca đêm cuối cùng, chiếu tới 0:30 hôm sau
 
---Thêm LOẠI PHÒNG CHIẾU là 2D, mô tả là Phòng 2D
 INSERT INTO LOAIPC VALUES ('2D', N'Phòng chiếu 2D')
---Thêm LOẠI PHÒNG CHIẾU là 3D, mô tả là Phòng 3D
 INSERT INTO LOAIPC VALUES ('3D', N'Phòng chiếu 3D')
 
---Thêm PHÒNG CHIẾU 1, 50 ghế thường, 10 ghế vip, loại phòng 2D
 INSERT INTO PHONGCHIEU VALUES (N'PHÒNG CHIẾU 1', 70, 10, 1) 
---Thêm PHÒNG CHIẾU 2, 50 ghế thường, 10 ghế vip, loại phòng 3D
 INSERT INTO PHONGCHIEU VALUES (N'PHÒNG CHIẾU 2', 70, 20, 2) 
---Thêm PHÒNG CHIẾU 2, 50 ghế thường, 10 ghế vip, loại phòng 2D
 INSERT INTO PHONGCHIEU VALUES (N'PHÒNG CHIẾU 3', 50, 10, 1) 
---Thêm PHÒNG CHIẾU 2, 50 ghế thường, 10 ghế vip, loại phòng 3D
 INSERT INTO PHONGCHIEU VALUES (N'PHÒNG CHIẾU 4', 50, 10, 2) 
-
-
---Truy xuất lịch chiếu theo mã phim
-SELECT DISTINCT XUATCHIEU.GioXC FROM LICHCHIEU, PHONGCHIEU, LOAIPC, XUATCHIEU WHERE MaPhim = 1 AND LOAIPC.TenLPC = '2D' AND XUATCHIEU.MaXC = LICHCHIEU.MaXC AND LICHCHIEU.MaPC = PHONGCHIEU.MaPC AND PHONGCHIEU.MaLPC = LOAIPC.MaLPC AND LICHCHIEU.NgayLC = '2023-10-20' ORDER BY GioXC ASC
-
-SELECT DISTINCT XUATCHIEU.GioXC FROM LICHCHIEU, PHONGCHIEU, LOAIPC, XUATCHIEU WHERE MaPhim = 1 AND LOAIPC.TenLPC = '3D' AND XUATCHIEU.MaXC = LICHCHIEU.MaXC AND LICHCHIEU.MaPC = PHONGCHIEU.MaPC AND PHONGCHIEU.MaLPC = LOAIPC.MaLPC AND LICHCHIEU.NgayLC = '2023-10-20' ORDER BY GioXC ASC
 
 INSERT INTO LICHCHIEU VALUES(GETDATE(), 'ENABLE', 0, 1, 1, 1)
 --Thêm LICHCHIEU vào ngày 20-10-2023, 'ENABLE', số vé là 0, Ca chiếu 2, Phòng 1(2D), Mã phim 2
@@ -341,20 +466,6 @@ INSERT INTO LICHCHIEU VALUES(GETDATE(), 'ENABLE', 0, 1, 4, 1)
 INSERT INTO LOAIKH VALUES ('Normal', 0.0)
 INSERT INTO LOAIKH VALUES ('VIP', 10/100.0)
 INSERT INTO NHANVIEN VALUES (N'Phước', 'phuoc1@gmail.com', 12345678, 'ACTIVE')
-INSERT INTO KHACHHANG VALUES ('demo_khachhang', '123456', 'dfzdfg@gmail.com', 0, 'ACTIVE', 1);
-INSERT INTO KHACHHANG VALUES ('demo_khachhang1', '123456', 'dfzdfg@gmail.com', 0, 'ACTIVE', 2);
-
-INSERT INTO VEPHIM VALUES (GETDATE(), N'CHƯA THANH TOÁN', N'CHƯA HẾT HẠN', 6, 6*50000, 1, 1);
-INSERT INTO VEPHIM VALUES (GETDATE(), N'CHƯA THANH TOÁN', N'CHƯA HẾT HẠN', 1, 1*50000, 2, 1);
-
-INSERT INTO VE_GHE VALUES (1, 'C1', N'CHƯA THANH TOÁN')
-INSERT INTO VE_GHE VALUES (1, 'C2', N'CHƯA THANH TOÁN')
-INSERT INTO VE_GHE VALUES (1, 'C3', N'CHƯA THANH TOÁN')
-INSERT INTO VE_GHE VALUES (1, 'C4', N'CHƯA THANH TOÁN')
-INSERT INTO VE_GHE VALUES (1, 'C5', N'CHƯA THANH TOÁN')
-INSERT INTO VE_GHE VALUES (1, 'C6', N'CHƯA THANH TOÁN')
-INSERT INTO VE_GHE VALUES (2, 'C6', N'CHƯA THANH TOÁN')
-
 
 --Truy xuất dữ liệu từ các bảng
 SELECT* FROM LOAIKH
@@ -376,162 +487,3 @@ SELECT* FROM VEPHIM
 SELECT* FROM VE_GHE
 SELECT* FROM HOADON
 SELECT* FROM CHITIETHD
-
-SELECT LICHCHIEU.*, PHONGCHIEU.SLGheThuong, PHONGCHIEU.SLGheVIP, XUATCHIEU.GioXC, LOAIPC.TenLPC FROM LICHCHIEU, XUATCHIEU, PHIM, PHONGCHIEU, LOAIPC WHERE LOAIPC.TenLPC = '3D' AND LOAIPC.MaLPC = PHONGCHIEU.MaLPC AND PHONGCHIEU.MaPC = LICHCHIEU.MaPC AND PHIM.MaPhim = LICHCHIEU.MaPhim AND LICHCHIEU.MaXC = XUATCHIEU.MaXC AND LICHCHIEU.NgayLC = '2023-10-23' AND LICHCHIEU.MaPhim = 1 AND XUATCHIEU.GioXC = '7:00:00'
-
-SELECT VE_GHE.* FROM VEPHIM, VE_GHE WHERE VEPHIM.MaLC = 1 AND VEPHIM.MaVe = VE_GHE.MaVe
-
-SELECT*
-FROM INFORMATION_SCHEMA.TABLES
-WHERE TABLE_TYPE='BASE TABLE'
-
---Dữ liệu thử, xóa khi chạy chính
-update phim
-set LuotThich = 11234
-where MaPhim = 2
-
-sELECT * FROM VE_GHE vg, GHECUAPC gpc WHERE vg.TenGheVG=gpc.TenGhePC AND vg.MaVe = 123;
-
-INSERT INTO LICHCHIEU VALUES ('2-2-2023', 'Active', 0, 1, 1 ,1)
-
---Thêm LICHCHIEU vào ngày 20-10-2023, 'ENABLE', số vé là 0, Ca chiếu 1, Phòng 4(3D), Mã phim 1
-INSERT INTO LICHCHIEU VALUES('20231027', 'ENABLE', 0, 1, 4, 1)
-
-
-INSERT INTO HOADON VALUES (GETDATE(), 50000, 50000, 0, 1, 1);
-INSERT INTO HOADON VALUES (GETDATE(), 60000, 60000, 0, 1, 1);
-INSERT INTO HOADON VALUES (GETDATE(), 55000, 55000, 0, 1, 1);
-INSERT INTO HOADON VALUES (GETDATE(), 500000, 500000, 0, 1, 1);
-
-INSERT INTO CHITIETHD VALUES (1, 5, 1, 120000);
-INSERT INTO CHITIETHD VALUES (2, 5, 1, 120000);
-INSERT INTO CHITIETHD VALUES (1, 6, 3, 120000);
-INSERT INTO CHITIETHD VALUES (1, 7, 2, 50000);
-INSERT INTO CHITIETHD VALUES (2, 7, 1, 50000);
-
-SELECT kh.TenTKKH, COUNT(*) as SLHD FROM HOADON hd, KHACHHANG kh WHERE hd.MaKH = kh.MaKH GROUP BY kh.TenTKKH
-
-select cthd.* from HOADON hd, CHITIETHD cthd, VEPHIM vp where hd.MaHD=5 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe
-
-SELECT p.TenPhim, p.HinhAnh, vp.GiaVe, lc.NgayLC, vp.NgayDat, vp.MaVe FROM VEPHIM vp, LICHCHIEU lc, PHIM p, KHACHHANG kh WHERE vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim AND kh.MaKH=vp.MaKH AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'
-
-DELETE FROM VE_GHE WHERE MaVe = 4 DELETE FROM VEPHIM WHERE MaVe = 4
-
-SELECT COUNT(*) FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH = kh.MaKH AND kh.TenTKKH = 'phuoc' AND TrangThaiThanhToan = N'CHƯA THANH TOÁN'
-
-SELECT p.TenPhim, p.HinhAnh, vp.GiaVe, lc.NgayLC, vp.NgayDat, vp.MaVe FROM VEPHIM vp, LICHCHIEU lc, PHIM p, KHACHHANG kh WHERE vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim AND kh.MaKH=vp.MaKH AND kh.TenTKKH='{tentk}' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'
-
-DECLARE @chietkhau FLOAT, @makh INT
-SELECT @chietkhau=lkh.ChietKhau FROM KHACHHANG kh, LOAIKH lkh WHERE kh.MaLoaiKH=lkh.MaLoaiKH AND kh.TenTKKH = 'phuoc'
-SELECT @makh = MaKH FROM KHACHHANG WHERE TenTKKH = 'phuoc'
-INSERT INTO HOADON VALUES (GETDATE(), 1000, 1000-(1000*@chietkhau), @chietkhau, @makh, 1)
-
-DECLARE @mahd INT
-SELECT @mahd=MAX(MaHD) FROM HOADON
-INSERT INTO CHITIETHD VALUES (2, @mahd, 1, 1)
-
-SELECT COUNT(vg.MaVG) FROM VEPHIM vp, VE_GHE vg WHERE vp.MaVe=vg.MaVe AND vp.MaKH = 1 AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'
-
-SELECT vp.MaVe FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH=kh.MaKH AND kh.TenTKKH='phuoc'
-
-UPDATE VEPHIM SET TrangThaiThanhToan = N'ĐÃ THANH TOÁN' WHERE MaVe = 1
-
-SELECT p.TenPhim, p.HinhAnh, vp.GiaVe, lc.NgayLC, vp.NgayDat, vp.MaVe FROM VEPHIM vp, LICHCHIEU lc, PHIM p, KHACHHANG kh WHERE vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim AND kh.MaKH=vp.MaKH AND kh.TenTKKH='phuoc' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'
-
-SELECT * FROM VE_GHE WHERE MaVe = 1
-
-
-select vp.NgayDat, vp.GiaVe, lc.NgayLC, p.TenPhim from HOADON hd, CHITIETHD cthd, VEPHIM vp, LICHCHIEU lc, PHIM p where hd.MaHD=1 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe AND vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim
-
-select vg.TenGheVG from VEPHIM vp, HOADON hd, VE_GHE vg, CHITIETHD cthd where hd.MaHD=1 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe and vp.MaVe=vg.MaVe
-
-select cthd.* from HOADON hd, CHITIETHD cthd where hd.MaHD=1 and hd.MaHD=cthd.MaHD
-
-SELECT vp.MaVe FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH=kh.MaKH AND kh.TenTKKH='phuoc' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'
-
-SELECT MaVe FROM VE_GHE WHERE MaVe = 1
-
-select vp.NgayDat, vp.GiaVe, lc.NgayLC, p.TenPhim, vp.MaVe from HOADON hd, CHITIETHD cthd, VEPHIM vp, LICHCHIEU lc, PHIM p where hd.MaHD=1 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe AND vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim
-
-select cthd.* from VEPHIM vp, HOADON hd, VE_GHE vg, CHITIETHD cthd where hd.MaHD=1 and vg.MaVe=1 and hd.MaHD=cthd.MaHD and vp.MaVe=cthd.MaVe and vp.MaVe=vg.MaVe
-
---Truy xuất dữ liệu từ các bảng
-SELECT* FROM LOAIKH
-SELECT* FROM KHACHHANG
---SELECT* FROM LAOINV
-SELECT* FROM NHANVIEN
-SELECT* FROM THELOAIP
-SELECT* FROM TL_P
-SELECT* FROM GIOIHANTUOI
-SELECT* FROM PHIM
-SELECT* FROM LOAIGHE
-SELECT* FROM GHECUAPC
-SELECT* FROM XUATCHIEU
-SELECT* FROM LOAIPC
-SELECT* FROM LICHCHIEU ORDER BY MaPhim asc, MaXC asc, MaPC asc
-SELECT* FROM PHONGCHIEU
-SELECT* FROM BINHLUAN
-SELECT* FROM YEUTHICH
-SELECT* FROM VEPHIM
-SELECT* FROM VE_GHE
-SELECT* FROM HOADON
-SELECT* FROM CHITIETHD
-
-SELECT * FROM PHIM WHERE NgayCongChieu <= GETDATE()
-
-SELECT * FROM PHIM WHERE NgayCongChieu > GETDATE()
-
-SELECT * FROM PHIM WHERE LuotMua >= 10
-
-SELECT vp.MaVe, p.MaPhim FROM VEPHIM vp, KHACHHANG kh, LICHCHIEU lc, PHIM p WHERE vp.MaKH=kh.MaKH AND kh.TenTKKH='phuoc' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN' AND vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim
-
-UPDATE PHIM SET LuotMua=LuotMua+1 WHERE MaPhim = 5
-
-SELECT kh.TenTKKH, kh.EmailKH, kh.MatKhauKH, lkh.TenLKH FROM KHACHHANG kh, LOAIKH lkh WHERE kh.MaLoaiKH=lkh.MaLoaiKH
-
-SELECT CONVERT(date, vp.NgayDat) FROM VEPHIM vp, KHACHHANG kh WHERE kh.MaKH=vp.MaKH AND kh.TenTKKH='phuoc' GROUP BY CONVERT(date, vp.NgayDat) ORDER BY CONVERT(date, vp.NgayDat) DESC
-
-SELECT vp.MaVe, p.TenPhim, pc.TenPC, STRING_AGG(vg.TenGheVG, ''), CONVERT(date, vp.NgayDat)
-FROM VEPHIM vp, KHACHHANG kh, LICHCHIEU lc, PHIM p, PHONGCHIEU pc, VE_GHE vg
-WHERE kh.TenTKKH='phuoc' 
-AND vp.MaKH=kh.MaKH 
-AND vp.MaLC=lc.MaLC 
-AND lc.MaPhim=p.MaPhim
-AND pc.MaPC=lc.MaPC
-AND vp.MaVe=vg.MaVe
-GROUP BY vp.MaVe, p.TenPhim, pc.TenPC, vp.NgayDat 
-ORDER BY vp.NgayDat DESC
-
-UPDATE KHACHHANG SET EmailKH=asd WHERE TenTKKH=asd UPDATE KHACHHANG SET MatKhauKH=asd WHERE TenTKKH=asd
-
-SELECT * FROM KHACHHANG
-
-SELECT * FROM PHIM WHERE CONVERT(date, NgayCongChieu) = CONVERT(date, GETDATE())
-
-SELECT bl.GhiChu, kh.TenTKKH, bl.NgayTao FROM BINHLUAN bl, PHIM p, KHACHHANG kh WHERE bl.MaPhim=p.MaPhim AND p.MaPhim=1
-
-INSERT INTO BINHLUAN VALUES (1, 1, N'Phim quá hay', 'Active', GETDATE())
-
-SELECT * FROM PHIM p, GIOIHANTUOI ght WHERE p.MaPhim=1 AND p.MaGHT=ght.MaGHT
-
-SELECT bl.GhiChu, kh.TenTKKH, bl.NgayTao, bl.MaBL FROM BINHLUAN bl, PHIM p, KHACHHANG kh WHERE bl.MaPhim=p.MaPhim AND bl.MaKH=kh.MaKH AND p.MaPhim=1 ORDER BY bl.NgayTao DESC
-
-SELECT * FROM PHIM WHERE NgayCongChieu = CONVERT(date, GETDATE())
-
-SELECT * FROM LICHCHIEU lc, XUATCHIEU xc
-
-SELECT * FROM PHIM WHERE NgayCongChieu > CONVERT(date, GETDATE())
-
-
-
-
-
-
-
-
-
-
-
-
-
-
