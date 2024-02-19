@@ -32,15 +32,15 @@ namespace CNPMNC_REPORT1.Controllers
 
             //Lấy danh sách phim đang khởi chiếu
             factoryPhim = new NowShowingFilmFactory();
-            ViewBag.NowShowing = factoryPhim.CreatePhim();
+            ViewBag.FilmNowShowing = factoryPhim.CreatePhim();
 
             //Lấy danh sách phim sắp khởi chiếu
             factoryPhim = new ComingSoonFilmFactory();
-            ViewBag.ComingSoon = factoryPhim.CreatePhim();
+            ViewBag.FilmComingSoon = factoryPhim.CreatePhim();
 
             //Lấy danh sách phim xem nhiều nhất
             factoryPhim = new MostWatchingFilmFactory();
-            ViewBag.MostWatching = factoryPhim.CreatePhim();
+            ViewBag.FilmMostWatching = factoryPhim.CreatePhim();
 
             if (Logout == "true")
             {
@@ -57,33 +57,26 @@ namespace CNPMNC_REPORT1.Controllers
             SQLUser sQLUser = SQLUser.Instance;
             UserAccount userAccount;
 
-            if (Username == "admin" && Password == "adminpad")
-            {
-                Session["isLoginedQL"] = "true";
-                return RedirectToAction("ReportHD", "Admin", new { area = "AdminArea" });
-            }
-            else
-            {
-                Session["isLoginedQL"] = "false";
+            Session["isLoginedQL"] = "false";
 
-                if (status == "Check")
+            if (status == "Check")
+            {
+                userAccount = new KhachHang();
+
+                bool check = sQLUser.KiemTraThongTinDangNhap(Username, Password, userAccount.UserType);
+
+                if (check)
                 {
-                    userAccount = new KhachHang();
+                    Session["isLogined"] = "true";
 
-                    bool check = sQLUser.KiemTraThongTinDangNhap(Username, Password, userAccount.UserType);
-
-                    if (check)
-                    {
-                        Session["isLogined"] = "true";
-
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        ViewBag.ThongBao = "Error Login!";
-                    }
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ViewBag.ThongBao = "Error Login!";
                 }
             }
+
             return View();
         }
 
@@ -97,33 +90,26 @@ namespace CNPMNC_REPORT1.Controllers
             SQLUser sQLUser = SQLUser.Instance;
             UserAccount userAccount;
 
-            if (Username == "admin" && Password == "adminpad")
-            {
-                Session["isLoginedQL"] = "true";
-                return RedirectToAction("ReportHD", "Admin", new { area = "AdminArea" });
-            }
-            else
-            {
-                Session["isLoginedQL"] = "false";
+            Session["isLoginedQL"] = "false";
 
-                if (status == "Check")
+            if (status == "Check")
+            {
+                userAccount = new NhanVien();
+
+                bool check = sQLUser.KiemTraThongTinDangNhap(Username, Password, userAccount.UserType);
+
+                if (check)
                 {
-                    userAccount = new NhanVien();
+                    Session["isLogined"] = "true";
 
-                    bool check = sQLUser.KiemTraThongTinDangNhap(Username, Password, userAccount.UserType);
-
-                    if (check)
-                    {
-                        Session["isLogined"] = "true";
-
-                        return RedirectToAction("Film", "Admin", new { area = "AdminArea" });
-                    }
-                    else
-                    {
-                        ViewBag.ThongBao = "Error Login!";
-                    }
+                    return RedirectToAction("Film", "Admin", new { area = "AdminArea" });
+                }
+                else
+                {
+                    ViewBag.ThongBao = "Error Login!";
                 }
             }
+
             return View();
         }
 
@@ -326,18 +312,25 @@ namespace CNPMNC_REPORT1.Controllers
         {
             return View();
         }
-        
+
         public ActionResult SearchResult(string searchValue = "")
         {
+            List<Phim> filteredPhimList = new List<Phim>();
+
+            // Lấy danh sách phim có sẵn
+            factoryPhim = new CreateAllPhim();
+            List<Phim> GetPhimList = factoryPhim.CreatePhim();
+
             if (searchValue == "")
             {
-                List<Phim> GetPhimList = null;
-                return PartialView(GetPhimList);
-            } else
+                filteredPhimList = null;
+                return PartialView(filteredPhimList);
+            }
+            else
             {
-                //string normalizedSearch = searchValue.Unidecode().ToLower();
-                List<Phim> GetPhimList = db.GetPhimList($"SELECT * FROM PHIM WHERE TenPhim like N'%{searchValue}%'");
-                return PartialView(GetPhimList);
+                // Lọc danh sách các phim có tên gần giống với searchValue
+                filteredPhimList = GetPhimList.Where(p => p.TenPhim.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+                return PartialView(filteredPhimList);
             }
         }
     }

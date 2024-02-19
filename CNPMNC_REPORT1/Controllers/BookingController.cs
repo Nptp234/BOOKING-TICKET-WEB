@@ -110,6 +110,9 @@ namespace CNPMNC_REPORT1.Controllers
 
         public ActionResult ShowTicket(string getIdLichChieu, string getListChairPicked = "", string getTotalMoney = "0")
         {
+            SQLUser sQLUser = SQLUser.Instance;
+            KhachHang kh = sQLUser.KH;
+
             //Lấy ra một mảng là những ghế được chọn
             List<string> listChair = getListChairPicked.Split(' ').ToList();
             //Lấy ra thông tin lịch chiếu
@@ -127,7 +130,7 @@ namespace CNPMNC_REPORT1.Controllers
 
             ViewBag.ChietKhau = db.getData($"SELECT LOAIKH.ChietKhau FROM KHACHHANG, LOAIKH WHERE KHACHHANG.MaLoaiKH = LOAIKH.MaLoaiKH AND KHACHHANG.TenTKKH = '{getUsername}'");
 
-            double getChietKhau = Convert.ToDouble(ViewBag.ChietKhau[0][0]);
+            double getChietKhau = Convert.ToDouble(sQLUser.LayChietKhauTuMaLoaiKH(kh.MaLoaiKH));
             
             //Lấy ra số tiền phải trả
             if (getChietKhau != 0)
@@ -135,8 +138,8 @@ namespace CNPMNC_REPORT1.Controllers
                 ViewBag.Noti = "Bạn là khách hàng đặc biệt.";
             }
             double convertMoney = Convert.ToDouble(getTotalMoney.Split(' ').ToList()[0]) * 1000;
-            ViewBag.Money = convertMoney - convertMoney * (Convert.ToDouble(ViewBag.ChietKhau[0][0]));
-
+            ViewBag.Money = convertMoney - convertMoney * (getChietKhau);
+            Session["Username"] = kh.TenTKKH;
             ViewBag.ListChair = getListChairPicked;
             return View(listChair);
         }

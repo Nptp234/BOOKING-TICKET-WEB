@@ -18,9 +18,15 @@ namespace CNPMNC_REPORT1.Factory
             SingletonPhim singletonPhim = SingletonPhim.Instance;
             List<Phim> lsPhim = singletonPhim.CreatePhim();
 
+            DateTime now = DateTime.Now.Date;
+
             foreach (Phim phim in lsPhim)
             {
-                if (convertDateTime.ConvertToDateTime(phim.NgayCongChieu, "yyyy-MM-dd").Date > DateTime.Now.Date)
+                // Chuyển đổi ngày công chiếu sang kiểu DateTime
+                DateTime ngayCongChieu = convertDateTime.ConvertToDateTime(phim.NgayCongChieu);
+
+                // So sánh ngày công chiếu với ngày hiện tại
+                if (ngayCongChieu > now)
                 {
                     dsPhim.Add(phim);
                 }

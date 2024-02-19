@@ -115,7 +115,7 @@
                     <div class="gtco-section" style="height: 500px; overflow: scroll; padding: 15px;">
                         <div class="gtco-container">
                             <div class="row">
-                                @foreach (var item in ViewBag.NowShowing)
+                                @foreach (var item in ViewBag.FilmNowShowing)
                                 {
                                     <div class="col-lg-4 col-md-4 col-sm-6 cardfilm" style="margin-bottom: 25px;">
                                         <a href="@Url.Action("FilmDetail", "Home", new { MaPhim = item.MaPhim })" class="fh5co-card-item image-popup">
@@ -181,7 +181,7 @@
                     <div class="gtco-section" style="height: 500px; overflow: scroll; padding: 15px;">
                         <div class="gtco-container">
                             <div class="row">
-                                @foreach (var item in ViewBag.ComingSoon)
+                                @foreach (var item in ViewBag.FilmComingSoon)
                                 {
                                     <div class="col-lg-4 col-md-4 col-sm-6 cardfilm" style="margin-bottom: 25px;">
                                         <a href="@Url.Action("FilmDetail", "Home", new { MaPhim = item.MaPhim })" class="fh5co-card-item image-popup">
@@ -303,7 +303,7 @@
                     <div class="gtco-section" style="height: 500px; overflow: scroll; padding: 15px;">
                         <div class="gtco-container">
                             <div class="row">
-                                @foreach (var item in ViewBag.MostWatching)
+                                @foreach (var item in ViewBag.FilmMostWatching)
                                 {
                                     <div class="col-lg-4 col-md-4 col-sm-6 cardfilm" style="margin-bottom: 25px;">
                                         <a href="@Url.Action("FilmDetail", "Home", new { MaPhim = item.MaPhim })" class="fh5co-card-item image-popup">

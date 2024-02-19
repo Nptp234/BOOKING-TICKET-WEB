@@ -202,103 +202,103 @@ namespace CNPMNC_REPORT1.Models
             return isChecked;
         }
 
-        //public bool saveFilm(string name, string des, string date, int? time, string img, string trailer, int? gia, int? codeght)
-        //{
-        //    bool isSaved = false;
+        public bool saveFilm(string name, string des, string date, int? time, string img, string trailer, int? gia, int? codeght)
+        {
+            bool isSaved = false;
 
-        //    //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
-        //    SqlConnection connection = new SqlConnection(connectionString);
+            //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+            SqlConnection connection = new SqlConnection(connectionString);
 
-        //    //Đối tượng câu truy vấn thêm dữ liệu sql
-        //    string sql = "INSERT INTO PHIM VALUES (@name, @des, @date, @time, 0, 0, @img, @trailer, @gia, @codeght)";
+            //Đối tượng câu truy vấn thêm dữ liệu sql
+            string sql = "INSERT INTO PHIM VALUES (@name, @des, @date, @time, 0, 0, @img, @trailer, @gia, @codeght)";
 
-        //    //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
-        //    SqlCommand command = new SqlCommand(sql, connection);
+            //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+            SqlCommand command = new SqlCommand(sql, connection);
 
-        //    //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
-        //    connection.Open();
+            //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+            connection.Open();
 
-        //    command.Parameters.AddWithValue("@name", name);
-        //    command.Parameters.AddWithValue("@des", des);
-        //    command.Parameters.AddWithValue("@date", date);
-        //    command.Parameters.AddWithValue("@time", time);
-        //    command.Parameters.AddWithValue("@img", img);
-        //    command.Parameters.AddWithValue("@trailer", trailer);
-        //    command.Parameters.AddWithValue("@gia", gia);
-        //    command.Parameters.AddWithValue("@codeght", codeght);
+            command.Parameters.AddWithValue("@name", name);
+            command.Parameters.AddWithValue("@des", des);
+            command.Parameters.AddWithValue("@date", date);
+            command.Parameters.AddWithValue("@time", time);
+            command.Parameters.AddWithValue("@img", img);
+            command.Parameters.AddWithValue("@trailer", trailer);
+            command.Parameters.AddWithValue("@gia", gia);
+            command.Parameters.AddWithValue("@codeght", codeght);
 
-        //    int result = command.ExecuteNonQuery();
+            int result = command.ExecuteNonQuery();
 
-        //    if (result > 0)
-        //    {
-        //        isSaved = true;
-        //    }
-        //    else isSaved = false;
+            if (result > 0)
+            {
+                isSaved = true;
+            }
+            else isSaved = false;
 
-        //    return isSaved;
-        //}
-        //public bool updateFilm(int? code, string name, string des, string date, int? time, string img, string trailer, int? gia, int? codeght)
-        //{
-        //    bool isUpdate = false;
+            return isSaved;
+        }
+        public bool updateFilm(int? code, string name, string des, string date, int? time, string img, string trailer, int? gia, int? codeght)
+        {
+            bool isUpdate = false;
 
-        //    //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
-        //    SqlConnection connection = new SqlConnection(connectionString);
+            //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
+            SqlConnection connection = new SqlConnection(connectionString);
 
-        //    //Đối tượng câu truy vấn thêm dữ liệu sql
-        //    string sql = "UPDATE PHIM SET TenPhim = @name, TomTatP = @des, NgayCongChieu = @date, ThoiLuongP = @time, HinhAnh = @img, Trailer = @trailer, GiaPhim = @gia, MaGHT = @codeght WHERE MaPhim = @code";
+            //Đối tượng câu truy vấn thêm dữ liệu sql
+            string sql = "UPDATE PHIM SET TenPhim = @name, TomTatP = @des, NgayCongChieu = @date, ThoiLuongP = @time, HinhAnh = @img, Trailer = @trailer, GiaPhim = @gia, MaGHT = @codeght WHERE MaPhim = @code";
 
-        //    //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
-        //    SqlCommand command = new SqlCommand(sql, connection);
+            //Đối tượng SqlCommand sẽ nhận thông tin là biến connection và câu lệnh sql truyền từ tham số hàm
+            SqlCommand command = new SqlCommand(sql, connection);
 
-        //    //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
-        //    connection.Open();
+            //Khai báo mở kết nối vào CSDL hay liên kết đến CSDL
+            connection.Open();
 
-        //    command.Parameters.AddWithValue("@code", code);
-        //    command.Parameters.AddWithValue("@name", name);
-        //    command.Parameters.AddWithValue("@des", des);
-        //    command.Parameters.AddWithValue("@date", date);
-        //    command.Parameters.AddWithValue("@time", time);
-        //    command.Parameters.AddWithValue("@img", img);
-        //    command.Parameters.AddWithValue("@trailer", trailer);
-        //    command.Parameters.AddWithValue("@gia", gia);
-        //    command.Parameters.AddWithValue("@codeght", codeght);
+            command.Parameters.AddWithValue("@code", code);
+            command.Parameters.AddWithValue("@name", name);
+            command.Parameters.AddWithValue("@des", des);
+            command.Parameters.AddWithValue("@date", date);
+            command.Parameters.AddWithValue("@time", time);
+            command.Parameters.AddWithValue("@img", img);
+            command.Parameters.AddWithValue("@trailer", trailer);
+            command.Parameters.AddWithValue("@gia", gia);
+            command.Parameters.AddWithValue("@codeght", codeght);
 
 
-        //    ArrayList listname = getData($"SELECT * FROM PHIM WHERE TenPhim = N'{name}'");
+            ArrayList listname = getData($"SELECT * FROM PHIM WHERE TenPhim = N'{name}'");
 
-        //    if (listname.Count == 0)
-        //    {
-        //        //xử lý sự kiện khi thay đổi tên
-        //        int result = command.ExecuteNonQuery();
+            if (listname.Count == 0)
+            {
+                //xử lý sự kiện khi thay đổi tên
+                int result = command.ExecuteNonQuery();
 
-        //        if (result > 0)
-        //        {
-        //            isUpdate = true;
-        //        }
-        //        else isUpdate = false;
-        //    }
-        //    else
-        //    {
-        //        //xử lý sự kiện khi không thay đổi tên
-        //        ArrayList listcheck = getData($"SELECT * FROM PHIM WHERE MaPhim = {code} and TenPhim = N'{name}'");
-        //        if (listcheck.Count == 1)
-        //        {
-        //            int result = command.ExecuteNonQuery();
+                if (result > 0)
+                {
+                    isUpdate = true;
+                }
+                else isUpdate = false;
+            }
+            else
+            {
+                //xử lý sự kiện khi không thay đổi tên
+                ArrayList listcheck = getData($"SELECT * FROM PHIM WHERE MaPhim = {code} and TenPhim = N'{name}'");
+                if (listcheck.Count == 1)
+                {
+                    int result = command.ExecuteNonQuery();
 
-        //            if (result > 0)
-        //            {
-        //                isUpdate = true;
-        //            }
-        //            else isUpdate = false;
-        //        }
-        //        else
-        //        {
-        //            isUpdate = false;
-        //        }
-        //    }
+                    if (result > 0)
+                    {
+                        isUpdate = true;
+                    }
+                    else isUpdate = false;
+                }
+                else
+                {
+                    isUpdate = false;
+                }
+            }
 
-        //    return isUpdate;
-        //}
+            return isUpdate;
+        }
 
 
         public int getMaGHT(string name)

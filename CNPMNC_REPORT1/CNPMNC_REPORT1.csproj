@@ -188,13 +188,16 @@
     <Compile Include="Factory\FactoryLoaiPhim\CreateAllLP.cs" />
     <Compile Include="Factory\FactoryLoaiPhim\LoaiPhimFactory.cs" />
     <Compile Include="Factory\FactoryPhim\CreateAllPhim.cs" />
+    <Compile Include="Factory\FactoryVP\VePhimFactory.cs" />
     <Compile Include="Models\LoaiPhim.cs" />
     <Compile Include="Models\SQLData123.cs" />
     <Compile Include="Models\User\KhachHang.cs" />
+    <Compile Include="Models\User\LoaiKH.cs" />
     <Compile Include="Models\User\LoaiNV.cs" />
     <Compile Include="Models\User\NhanVien.cs" />
     <Compile Include="Models\User\PhanQuyenNV.cs" />
     <Compile Include="Models\User\UserAccount.cs" />
+    <Compile Include="Models\VePhim\VeP.cs" />
     <Compile Include="Proxy\NVProxy\INhanVienProxy.cs" />
     <Compile Include="Proxy\NVProxy\NhanVienProxy.cs" />
     <Compile Include="Proxy\NVProxy\QuanLyHeThong.cs" />

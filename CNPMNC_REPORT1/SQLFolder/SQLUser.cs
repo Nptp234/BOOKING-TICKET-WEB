@@ -125,7 +125,7 @@ namespace CNPMNC_REPORT1.SQLData
             else return true;
         }
 
-        private List<PhanQuyenNV> LayDanhSachPhanQuyen(string maNV)
+        public List<PhanQuyenNV> LayDanhSachPhanQuyen(string maNV)
         {
             string query = $"SELECT * FROM PHANQUYENNV WHERE MaNV = '{maNV}'";
 
@@ -140,7 +140,7 @@ namespace CNPMNC_REPORT1.SQLData
             else return null;
         }
 
-        private string LayTenLoaiNhanVienTuMaLNV(string maLoaiNV)
+        public string LayTenLoaiNhanVienTuMaLNV(string maLoaiNV)
         {
             string query = $"SELECT TenLNV FROM LOAITKNV WHERE MaLNV = '{maLoaiNV}'";
 
@@ -151,6 +151,21 @@ namespace CNPMNC_REPORT1.SQLData
             if (lsLNV.Count > 0)
             {
                 return lsLNV[0].TenLNV;
+            }
+            else return null;
+        }
+
+        public string LayTenLoaiKhachHangTuMaLoaiKH(string maLoaiKH)
+        {
+            string query = $"SELECT TenLKH FROM LOAIKH WHERE MaLoaiKH = '{maLoaiKH}'";
+
+            List<LoaiKH> lsLKH = new List<LoaiKH>();
+
+            lsLKH = LayDS<LoaiKH>(query);
+
+            if (lsLKH.Count > 0)
+            {
+                return lsLKH[0].TenLKH;
             }
             else return null;
         }
@@ -184,6 +199,21 @@ namespace CNPMNC_REPORT1.SQLData
 
             // Trả về ds loại nhân viên
             return dsLNV;
+        }
+
+        public string LayChietKhauTuMaLoaiKH(string maLoaiKH)
+        {
+            string query = $"SELECT ChietKhau FROM LOAIKH WHERE MaLoaiKH = '{maLoaiKH}'";
+
+            List<LoaiKH> lsLKH = new List<LoaiKH>();
+
+            lsLKH = LayDS<LoaiKH>(query);
+
+            if (lsLKH.Count > 0)
+            {
+                return lsLKH[0].ChietKhau;
+            }
+            else return null;
         }
     }
 }
