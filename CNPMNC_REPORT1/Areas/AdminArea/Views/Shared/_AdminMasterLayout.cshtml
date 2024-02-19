@@ -10,38 +10,32 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="admin_container" >
+    <div class="admin_container">
         <div class="navbar_admin">
             <div class="category_container" style="max-height: 100%; min-height: fit-content; background: #2C3333;">
                 <a id="qldonhang" href="#" class="menu_header">ADMINISTRATOR</a>
 
+                @{
+                    var sQLUser = CNPMNC_REPORT1.SQLData.SQLUser.Instance;
+                    var nv = new CNPMNC_REPORT1.Models.User.NhanVien();
 
-                @if (Session["isLoginedQL"] == "true")
-                {
-                    <a id="CustomerManager" href="@Url.Action("ReportHD", "Admin")" class="menu_category">Báo cáo thống kê</a>
-                    <a id="CustomerManager" href="@Url.Action("NhanVien", "Admin")" class="menu_category">Nhân viên</a>
+                    nv = sQLUser.NV;
 
-                    @*<a id="StaffManager" href="@Url.Action("NVType", "Admin")" class="menu_category">Loại nhân viên</a>*@
+                    List<string> managedPages = new List<string>();
+                    var nvProxy = new CNPMNC_REPORT1.Proxy.NVProxy.NhanVienProxy(nv);
+
+                    managedPages = nvProxy.PhanLoaiTrangTheoLNV();
+
+                    if (Session["Admin"]==null)
+                    {
+
+                    }
+
+                    foreach (var page in managedPages)
+                    {
+                        <a href="@Url.Action(page, "Admin")" class="menu_category">@page</a>
+                    }
                 }
-
-                <a id="CustomerManager" href="@Url.Action("XuatChieu", "Admin")" class="menu_category">Xuất chiếu</a>
-                <a id="CustomerManager" href="@Url.Action("LichChieu", "Admin")" class="menu_category">Lịch chiếu</a>
-
-                <a id="CustomerManager" href="@Url.Action("LoaiGhe", "Admin")" class="menu_category">Loại ghế</a>
-
-                <a id="CustomerManager" href="@Url.Action("KhachHang", "Admin")" class="menu_category">Khách hàng</a>
-                <a id="StaffManager" href="@Url.Action("KHType", "Admin")" class="menu_category">Loại khách hàng</a>
-
-
-
-                <a id="qlhoadon" href="@Url.Action("Film", "Admin")" class="menu_category">Phim</a>
-                <a id="qlsanpham" href="@Url.Action("FilmType", "Admin")" class="menu_category">Thể loại phim</a>
-                <a id="qlsanpham" href="@Url.Action("TheLoaiVaPhim", "Admin")" class="menu_category">Thể loại và phim</a>
-
-                <a id="qlsanpham" href="@Url.Action("AgeLimit", "Admin")" class="menu_category">Giới hạn tuổi</a>
-
-                <a id="qlsanpham" href="@Url.Action("Room", "Admin")" class="menu_category">Phòng chiếu</a>
-                <a id="qlsanpham" href="@Url.Action("RoomType", "Admin")" class="menu_category">Loại phòng chiếu</a>
 
                 <a class="menu_category" href="~/Home/Index">Thoát</a>
             </div>
@@ -57,3 +51,29 @@
     </script>
 </body>
 </html>
+
+@*<a id="ReportHD" href="Url.Action("ReportHD", "Admin")" class="menu_category" style="display: none;">Báo cáo thống kê</a>
+
+    <a id="NhanVien" href="Url.Action("NhanVien", "Admin")" class="menu_category" style="display: none;">Nhân viên</a>
+<a id="StaffManager" href="@Url.Action("NVType", "Admin")" class="menu_category">Loại nhân viên</a>
+<a id="XuatChieu" href="Url.Action("XuatChieu", "Admin")" class="menu_category" style="display: none;">Xuất chiếu</a>
+
+<a id="LichChieu" href="Url.Action("LichChieu", "Admin")" class="menu_category" style="display: none;">Lịch chiếu</a>
+
+<a id="LoaiGhe" href="Url.Action("LoaiGhe", "Admin")" class="menu_category" style="display: none;">Loại ghế</a>
+
+<a id="KhachHang" href="Url.Action("KhachHang", "Admin")" class="menu_category" style="display: none;">Khách hàng</a>
+
+<a id="KHType" href="Url.Action("KHType", "Admin")" class="menu_category" style="display: none;">Loại khách hàng</a>
+
+<a id="Film" href="Url.Action("Film", "Admin")" class="menu_category" style="display: none;">Phim</a>
+
+<a id="FilmType" href="Url.Action("FilmType", "Admin")" class="menu_category" style="display: none;">Thể loại phim</a>
+
+<a id="TheLoaiVaPhim" href="Url.Action("TheLoaiVaPhim", "Admin")" class="menu_category" style="display: none;">Thể loại và phim</a>
+
+<a id="AgeLimit" href="Url.Action("AgeLimit", "Admin")" class="menu_category" style="display: none;">Giới hạn tuổi</a>
+
+<a id="Room" href="Url.Action("Room", "Admin")" class="menu_category" style="display: none;">Phòng chiếu</a>
+
+<a id="RoomType" href="Url.Action("RoomType", "Admin")" class="menu_category" style="display: none;">Loại phòng chiếu</a>*@

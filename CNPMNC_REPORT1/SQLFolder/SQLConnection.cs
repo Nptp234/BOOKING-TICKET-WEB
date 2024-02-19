@@ -3,6 +3,7 @@ using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -43,12 +44,20 @@ namespace CNPMNC_REPORT1.SQLData
 
         public void OpenConnection()
         {
-            this.connection.Open();
+            if (this.connection.State == ConnectionState.Closed)
+            {
+                this.connection.Open();
+            }
+            else CloseConnection();
         }
 
         public void CloseConnection()
         {
-            this.connection.Close();
+            if (connection.State == ConnectionState.Open)
+            {
+                this.connection.Close();
+            }
+            else OpenConnection();
         }
 
         public string GetConnectionString()

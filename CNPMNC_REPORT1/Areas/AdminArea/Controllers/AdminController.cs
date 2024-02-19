@@ -18,13 +18,15 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
     public class AdminController : Controller
     {
         private string LogError = "";
-
+        GHTFactory ghtFactory;
+        PhimFactory phimFactory;
+        LoaiPhimFactory loaiPhimFactory;
 
         public ActionResult Film()
         {
-            LoaiPhimFactory loaiPhimFactory = new CreateAllLP();
-            PhimFactory phimFactory = new CreateAllPhim();
-            GHTFactory ghtFactory = new CreateAllGHT();
+            loaiPhimFactory = new CreateAllLP();
+            phimFactory = new CreateAllPhim();
+            ghtFactory = new CreateAllGHT();
 
             ViewBag.DSGHTP = ghtFactory.CreateGHT();
             ViewBag.DSLPP = loaiPhimFactory.CreateLoaiP();
@@ -220,8 +222,12 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult FilmType()
         {
-            SQLData123 data = new SQLData123();
-            ViewBag.DSTLF = data.getData("SELECT * FROM THELOAIP");
+            //SQLData123 data = new SQLData123();
+            //ViewBag.DSTLF = data.getData("SELECT * FROM THELOAIP");
+
+            loaiPhimFactory = new CreateAllLP();
+            ViewBag.DSTLF = loaiPhimFactory.CreateLoaiP();
+
             return View();
         }
         [HttpPost]
@@ -235,6 +241,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                     if (TenLF != null && MoTaLF != null)
                     {
                         ArrayList listfilmtype = data.getData($"SELECT * FROM THELOAIP WHERE TenTL=N'{TenLF}'");
+
                         if (listfilmtype.Count == 0)
                         {
                             bool isSaved = data.saveFilmType(TenLF, MoTaLF);

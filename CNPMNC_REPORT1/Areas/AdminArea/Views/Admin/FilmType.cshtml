@@ -75,9 +75,9 @@
                 {
                     <form action="@Url.Action("FilmType", "Admin")" method="post">
                     <tr>
-                        <th scope="row"><input name="MaTL" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[0]" readonly required></th>
-                        <td><input name="TenLF" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[1]" required></td>
-                        <td><input name="MoTaLF" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" required></td>
+                        <th scope="row"><input name="MaTL" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.MaTL" readonly required></th>
+                        <td><input name="TenLF" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.TenTL" required></td>
+                        <td><input name="MoTaLF" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.MoTaTL" required></td>
                         <td>
                             <button type="submit" class="btn btn-outline-info" name="status" value="Update">Cập nhật</button>
                         </td>

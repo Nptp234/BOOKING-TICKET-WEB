@@ -10,7 +10,9 @@ namespace CNPMNC_REPORT1.SQLData
 {
     public class SQLUser : SQLObject
     {
-        private UserAccount User;
+        public UserAccount User { get; private set; }
+        public KhachHang KH { get; private set; }
+        public NhanVien NV { get; private set; }
 
         private static SQLUser instance;
         private static readonly object lockObject = new object();
@@ -33,16 +35,6 @@ namespace CNPMNC_REPORT1.SQLData
                     return instance;
                 }
             }
-        }
-
-        private void SetUser(UserAccount user)
-        {
-            User = user;
-        }
-
-        public UserAccount GetUser()
-        {
-            return User;
         }
 
         public void ResetInstance()
@@ -74,7 +66,7 @@ namespace CNPMNC_REPORT1.SQLData
 
             if (lsKH.Count > 0)
             {
-                SetUser(lsKH[0]);
+                KH = lsKH[0];
                 return true;
             }
             else return false;
@@ -90,11 +82,108 @@ namespace CNPMNC_REPORT1.SQLData
 
             if (lsNV.Count > 0)
             {
-                SetUser(lsNV[0]);
+                NV = lsNV[0];
                 return true;
             }
             else return false;
         }
 
+        public bool ThemKH(KhachHang kh)
+        {
+            string query = $"INSERT INTO KHACHHANG VALUES('{kh.TenTKKH}', '{kh.MatKhauKH}', '{kh.EmailKH}', '{kh.DiemThuongKH}', '{kh.TrangThaiTKKH}', '{kh.MaLoaiKH}')";
+            KH = kh;
+            return ThucHienTruyVan(query);
+        }
+
+        public bool KiemTraTenNDKH(string name)
+        {
+            string query = $"SELECT * FROM KHACHHANG WHERE TenTKKH = '{name}'";
+
+            List<KhachHang> lsKH = new List<KhachHang>();
+
+            lsKH = LayDS<KhachHang>(query);
+
+            if (lsKH.Count > 0)
+            {
+                return false;
+            }
+            else return true;
+        }
+
+        public bool KiemTraEmailNDKH(string email)
+        {
+            string query = $"SELECT * FROM KHACHHANG WHERE EmailKH = '{email}'";
+
+            List<KhachHang> lsKH = new List<KhachHang>();
+
+            lsKH = LayDS<KhachHang>(query);
+
+            if (lsKH.Count > 0)
+            {
+                return false;
+            }
+            else return true;
+        }
+
+        private List<PhanQuyenNV> LayDanhSachPhanQuyen(string maNV)
+        {
+            string query = $"SELECT * FROM PHANQUYENNV WHERE MaNV = '{maNV}'";
+
+            List<PhanQuyenNV> lsPQ = new List<PhanQuyenNV>();
+
+            lsPQ = LayDS<PhanQuyenNV>(query);
+
+            if (lsPQ.Count > 0)
+            {
+                return lsPQ;
+            }
+            else return null;
+        }
+
+        private string LayTenLoaiNhanVienTuMaLNV(string maLoaiNV)
+        {
+            string query = $"SELECT TenLNV FROM LOAITKNV WHERE MaLNV = '{maLoaiNV}'";
+
+            List<LoaiNV> lsLNV = new List<LoaiNV>();
+
+            lsLNV = LayDS<LoaiNV>(query);
+
+            if (lsLNV.Count > 0)
+            {
+                return lsLNV[0].TenLNV;
+            }
+            else return null;
+        }
+
+        public List<string> LayDSLoaiNhanVienTuMaNV(string maNV)
+        {
+            // Lấy danh sách phân quyền của nhân viên từ cơ sở dữ liệu
+            List<PhanQuyenNV> danhSachPhanQuyen = LayDanhSachPhanQuyen(maNV);
+
+            List<string> dsLNV = new List<string>();
+
+            if (danhSachPhanQuyen == null)
+            {
+                return null;
+            }
+
+            // Tìm loại nhân viên trong danh sách phân quyền
+            foreach (PhanQuyenNV phanQuyen in danhSachPhanQuyen)
+            {
+                if (phanQuyen.MaNV == maNV)
+                {
+                    string maLoaiNV = phanQuyen.MaLNV;
+
+                    // Tìm tên loại nhân viên tương ứng với mã loại nhân viên
+                    string tenLoaiNV = LayTenLoaiNhanVienTuMaLNV(maLoaiNV);
+
+                    // Thêm tên vào danh sách
+                    dsLNV.Add(tenLoaiNV);
+                }
+            }
+
+            // Trả về ds loại nhân viên
+            return dsLNV;
+        }
     }
 }

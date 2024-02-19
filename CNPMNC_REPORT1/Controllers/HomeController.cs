@@ -14,6 +14,7 @@ using CNPMNC_REPORT1.Factory.FactoryBL;
 using CNPMNC_REPORT1.Factory.FactoryGHT;
 using CNPMNC_REPORT1.SQLData;
 using CNPMNC_REPORT1.Models.User;
+using CNPMNC_REPORT1.Factory.FactoryPhim;
 
 namespace CNPMNC_REPORT1.Controllers
 {
@@ -91,33 +92,36 @@ namespace CNPMNC_REPORT1.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult LoginPageNV(string Username, string Password)
+        public ActionResult LoginPageNV(string Username, string Password, string status)
         {
-            //Không cần kiểm tra Username và Password là null do thẻ input đã có thuộc tính required
-            if (Username == "admin@gmail.com" && Password == "adminpad")
+            SQLUser sQLUser = SQLUser.Instance;
+            UserAccount userAccount;
+
+            if (Username == "admin" && Password == "adminpad")
             {
                 Session["isLoginedQL"] = "true";
-                if (Session["isLoginedQL"] == "true")
-                {
-                    return RedirectToAction("ReportHD", "Admin", new { area = "AdminArea" });
-                }
+                return RedirectToAction("ReportHD", "Admin", new { area = "AdminArea" });
             }
             else
             {
-                if (db.getData($"SELECT * FROM NHANVIEN WHERE Email = '{Username}' AND MatKhauNV = '{Password}'").Count >= 1)
+                Session["isLoginedQL"] = "false";
+
+                if (status == "Check")
                 {
-                    //Session["isLogined"] = "true";
-                    //if (Session["isLogined"] == "true")
-                    //{
-                    //    Session["Username"] = Username;
-                    //    return RedirectToAction("Index", "Home");
-                    //}
-                    Session["isLoginedQL"] = "false";
-                    return RedirectToAction("Film", "Admin", new { area = "AdminArea" });
-                }
-                else
-                {
-                    ViewBag.ThongBao = "Error Login!";
+                    userAccount = new NhanVien();
+
+                    bool check = sQLUser.KiemTraThongTinDangNhap(Username, Password, userAccount.UserType);
+
+                    if (check)
+                    {
+                        Session["isLogined"] = "true";
+
+                        return RedirectToAction("Film", "Admin", new { area = "AdminArea" });
+                    }
+                    else
+                    {
+                        ViewBag.ThongBao = "Error Login!";
+                    }
                 }
             }
             return View();
@@ -125,30 +129,87 @@ namespace CNPMNC_REPORT1.Controllers
 
         public ActionResult RegisterPage()
         {
-
             return View();
         }
+
         [HttpPost]
         public ActionResult RegisterPage(string Username, string Password, string Email)
         {
+            SQLUser sQLUser = SQLUser.Instance;
+            KhachHang kh = new KhachHang();
+
             if (Username != null && Password != null && Email != null)
             {
-                if (db.checkDataUsername(Username))
+                if (sQLUser.KiemTraTenNDKH(Username) && sQLUser.KiemTraEmailNDKH(Email))
                 {
-                    if (db.saveDataUser(Username, Password, Email))
+                    kh.TenTKKH = Username;
+                    kh.MatKhauKH = Password;
+                    kh.EmailKH = Email;
+                    kh.DiemThuongKH = "0";
+                    kh.TrangThaiTKKH = "Actived";
+                    kh.MaLoaiKH = "1";
+
+                    if (sQLUser.ThemKH(kh))
                     {
                         Session["isLogined"] = "true";
-                        if (Session["isLogined"]=="true")
-                        {
-                            Session["Username"] = Username;
-                            return RedirectToAction("Index", "Home");
-                        }
+
+                        return RedirectToAction("Index", "Home");
                     }
                 }
             }
             
             return View();
         }
+
+        public ActionResult AccountPage()
+        {
+            SQLData123 data = new SQLData123();
+            SQLUser sQLUser = SQLUser.Instance;
+            KhachHang kh = sQLUser.KH;
+
+            ViewBag.GetDate = data.getData($"SELECT vp.NgayDat FROM VEPHIM vp, KHACHHANG kh WHERE kh.MaKH=vp.MaKH AND kh.TenTKKH='{kh.TenTKKH}' GROUP BY vp.NgayDat ORDER BY CONVERT(date, vp.NgayDat) DESC");
+            //ViewBag.GetKH = data.getData($"SELECT kh.TenTKKH, kh.EmailKH, kh.MatKhauKH, lkh.TenLKH, lkh.ChietKhau FROM KHACHHANG kh, LOAIKH lkh WHERE kh.MaLoaiKH=lkh.MaLoaiKH AND kh.TenTKKH='{tentk}'");
+
+            ViewBag.GetVP = data.getData($"SELECT vp.MaVe, p.TenPhim, pc.TenPC, STRING_AGG(vg.TenGheVG, ''), vp.NgayDat, lc.NgayLC, xc.GioXC " +
+                                        $"FROM VEPHIM vp, KHACHHANG kh, LICHCHIEU lc, PHIM p, PHONGCHIEU pc, VE_GHE vg, XUATCHIEU xc " +
+                                        $"WHERE kh.TenTKKH='{kh.TenTKKH}' " +
+                                        $"AND vp.MaKH=kh.MaKH " +
+                                        $"AND vp.MaLC=lc.MaLC " +
+                                        $"AND lc.MaPhim=p.MaPhim " +
+                                        $"AND pc.MaPC=lc.MaPC " +
+                                        $"AND vp.MaVe=vg.MaVe " +
+                                        $"AND lc.MaXC=xc.MaXC " +
+                                        $"GROUP BY vp.MaVe, p.TenPhim, pc.TenPC, vp.NgayDat, lc.NgayLC, xc.GioXC " +
+                                        $"ORDER BY vp.NgayDat DESC");
+
+            return View(kh);
+        }
+        [HttpPost]
+        public ActionResult AccountPage(string TenTK, string Email, string Pass)
+        {
+            SQLData123 data = new SQLData123();
+
+            if (Email != null && Pass != null)
+            {
+                bool isUpdate = data.updateKH(TenTK, Email, Pass);
+                if (isUpdate)
+                {
+                    return RedirectToAction("AccountPage", "Home");
+                }
+                else
+                {
+                    ViewBag.ThongBao = "Update Fail!";
+                }
+            }
+            else
+            {
+                ViewBag.ThongBao = "Null Email or Pass!";
+            }
+
+            return View();
+        }
+
+        //FILM ZONE
 
         public ActionResult FilmDetail(string MaPhim)
         {
@@ -254,52 +315,7 @@ namespace CNPMNC_REPORT1.Controllers
             return View();
         }
 
-        public ActionResult AccountPage()
-        {
-            SQLData123 data = new SQLData123();
-            string tentk = Session["Username"].ToString();
-
-            ViewBag.GetDate = data.getData($"SELECT vp.NgayDat FROM VEPHIM vp, KHACHHANG kh WHERE kh.MaKH=vp.MaKH AND kh.TenTKKH='{tentk}' GROUP BY vp.NgayDat ORDER BY CONVERT(date, vp.NgayDat) DESC");
-            ViewBag.GetKH = data.getData($"SELECT kh.TenTKKH, kh.EmailKH, kh.MatKhauKH, lkh.TenLKH, lkh.ChietKhau FROM KHACHHANG kh, LOAIKH lkh WHERE kh.MaLoaiKH=lkh.MaLoaiKH AND kh.TenTKKH='{tentk}'");
-
-            ViewBag.GetVP = data.getData($"SELECT vp.MaVe, p.TenPhim, pc.TenPC, STRING_AGG(vg.TenGheVG, ''), vp.NgayDat, lc.NgayLC, xc.GioXC " +
-                                        $"FROM VEPHIM vp, KHACHHANG kh, LICHCHIEU lc, PHIM p, PHONGCHIEU pc, VE_GHE vg, XUATCHIEU xc " +
-                                        $"WHERE kh.TenTKKH='{tentk}' " +
-                                        $"AND vp.MaKH=kh.MaKH " +
-                                        $"AND vp.MaLC=lc.MaLC " +
-                                        $"AND lc.MaPhim=p.MaPhim " +
-                                        $"AND pc.MaPC=lc.MaPC " +
-                                        $"AND vp.MaVe=vg.MaVe " +
-                                        $"AND lc.MaXC=xc.MaXC " +
-                                        $"GROUP BY vp.MaVe, p.TenPhim, pc.TenPC, vp.NgayDat, lc.NgayLC, xc.GioXC " +
-                                        $"ORDER BY vp.NgayDat DESC");
-
-            return View();
-        }
-        [HttpPost]
-        public ActionResult AccountPage(string TenTK, string Email, string Pass)
-        {
-            SQLData123 data = new SQLData123();
-            
-            if (Email != null && Pass != null)
-            {
-                bool isUpdate = data.updateKH(TenTK, Email, Pass);
-                if (isUpdate)
-                {
-                    return RedirectToAction("AccountPage", "Home");
-                }
-                else
-                {
-                    ViewBag.ThongBao = "Update Fail!";
-                }
-            }
-            else
-            {
-                ViewBag.ThongBao = "Null Email or Pass!";
-            }
-
-            return View();
-        }
+        
 
         public ActionResult Error_Page()
         {
