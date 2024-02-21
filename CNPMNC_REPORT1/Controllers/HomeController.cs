@@ -174,10 +174,17 @@ namespace CNPMNC_REPORT1.Controllers
         public ActionResult AccountPage(string TenTK, string Email, string Pass)
         {
             SQLData123 data = new SQLData123();
+            SQLUser sQLUser = SQLUser.Instance;
+            KhachHang kh = sQLUser.KH;
 
-            if (Email != null && Pass != null)
+            if (Email != null && Pass != null && TenTK != null)
             {
-                bool isUpdate = data.updateKH(TenTK, Email, Pass);
+                kh.TenTKKH = TenTK;
+                kh.EmailKH = Email;
+                kh.MatKhauKH = Pass;
+
+                bool isUpdate = sQLUser.CapNhatKH(kh);
+
                 if (isUpdate)
                 {
                     return RedirectToAction("AccountPage", "Home");
@@ -192,7 +199,7 @@ namespace CNPMNC_REPORT1.Controllers
                 ViewBag.ThongBao = "Null Email or Pass!";
             }
 
-            return View();
+            return RedirectToAction("AccountPage", "Home");
         }
 
         //FILM ZONE

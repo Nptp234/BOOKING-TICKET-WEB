@@ -189,7 +189,11 @@
     <Compile Include="Factory\FactoryLoaiPhim\LoaiPhimFactory.cs" />
     <Compile Include="Factory\FactoryPhim\CreateAllPhim.cs" />
     <Compile Include="Factory\FactoryVP\VePhimFactory.cs" />
+    <Compile Include="Models\LichChieuPhim\LichChieu.cs" />
+    <Compile Include="Models\LichChieuPhim\XuatChieu.cs" />
     <Compile Include="Models\LoaiPhim.cs" />
+    <Compile Include="Models\PhongChieuPhim\LoaiPC.cs" />
+    <Compile Include="Models\PhongChieuPhim\PhongChieu.cs" />
     <Compile Include="Models\SQLData123.cs" />
     <Compile Include="Models\User\KhachHang.cs" />
     <Compile Include="Models\User\LoaiKH.cs" />
@@ -197,6 +201,7 @@
     <Compile Include="Models\User\NhanVien.cs" />
     <Compile Include="Models\User\PhanQuyenNV.cs" />
     <Compile Include="Models\User\UserAccount.cs" />
+    <Compile Include="Models\VePhim\VeGhe.cs" />
     <Compile Include="Models\VePhim\VeP.cs" />
     <Compile Include="Proxy\NVProxy\INhanVienProxy.cs" />
     <Compile Include="Proxy\NVProxy\NhanVienProxy.cs" />
@@ -232,6 +237,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLFolder\SQLPhim.cs" />
     <Compile Include="SQLFolder\SQLUser.cs" />
+    <Compile Include="SQLFolder\SQLVePhim.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\AdminArea\Content\admin_style.css" />

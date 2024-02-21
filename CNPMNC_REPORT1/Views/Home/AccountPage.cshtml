@@ -77,7 +77,7 @@
             </a>
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                 <img class="rounded-circle mt-5" width="150" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
-                @*<span class="font-weight-bold">@a[0]</span>*@
+                <span class="font-weight-bold">@Model.TenTKKH</span>
                 <span> </span>
             </div>
         </div>
@@ -90,32 +90,39 @@
                     </div>
 
                     <div class="row mt-3">
-                        <div class="col-md-12">
-                            <label class="text">Email</label>
-                            <input id="EmailID" name="Email" type="email" class="form-control" value="@Model.EmailKH">
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <label class="text">Username</label>
+                                <input id="TenTKID" name="TenTK" type="text" class="form-control" value="@Model.TenTKKH" required>
 
-                        </div>
+                            </div>
 
-                        <div class="col-md-12">
-                            <label class="text">Password</label>
-                            <input id="PassID" name="Pass" type="text" class="form-control" value="@Model.MatKhauKH">
+                            <div class="col-md-12">
+                                <label class="text">Email</label>
+                                <input id="EmailID" name="Email" type="email" class="form-control" value="@Model.EmailKH" required>
 
-                        </div>
+                            </div>
 
-                        <div class="col-md-12">
-                            <label class="text">Account Type</label>
-                            <input id="ACID" name="AC" type="text" class="form-control" readonly value="@Model.MaLoaiKH">
+                            <div class="col-md-12">
+                                <label class="text">Password</label>
+                                <input id="PassID" name="Pass" type="text" class="form-control" value="@Model.MatKhauKH" required>
 
-                        </div>
+                            </div>
 
-                        <div class="mt-5 text-center">
-                            <button class="btn btn-primary profile-button" type="submit">
-                                Save Profile
-                            </button>
+                            <div class="col-md-12">
+                                <label class="text">Account Type</label>
+                                <input id="ACID" name="AC" type="text" class="form-control" readonly value="@Model.MaLoaiKH" required>
+
+                            </div>
+
+                            <div class="mt-5 text-center">
+                                <button class="btn btn-primary profile-button" type="submit">
+                                    Save Profile
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </form>
+</form>
 
         </div>
         <div class="col-md-3 p-3 py-5  rounded bg-white mt-5 mb-5" style="width: 100%; margin:0;">

@@ -95,6 +95,52 @@ namespace CNPMNC_REPORT1.SQLData
             return ThucHienTruyVan(query);
         }
 
+        public bool CapNhatKH(KhachHang kh)
+        {
+            KH = kh;
+
+            bool updateEmail = CapNhatEmailKH(kh);
+            bool updatePass = CapNhatMatKhauKH(kh);
+            bool updateName = CapNhatTenNDKH(kh);
+
+            if (updateEmail && updatePass && updateName)
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        public bool CapNhatEmailKH(KhachHang kh)
+        {
+            string query = $"UPDATE KHACHHANG SET EmailKH='{kh.EmailKH}' WHERE MaKH = '{kh.MaKH}'";
+            
+            if (KiemTraEmailNDKH(kh.EmailKH))
+            {
+                KH = kh;
+                return ThucHienTruyVan(query);
+            }
+            else return false;
+        }
+
+        public bool CapNhatMatKhauKH(KhachHang kh)
+        {
+            string query = $"UPDATE KHACHHANG SET MatKhauKH='{kh.MatKhauKH}' WHERE MaKH = '{kh.MaKH}'";
+            KH = kh;
+            return ThucHienTruyVan(query);
+        }
+
+        public bool CapNhatTenNDKH(KhachHang kh)
+        {
+            string query = $"UPDATE KHACHHANG SET TenTKKH='{kh.TenTKKH}' WHERE MaKH = '{kh.MaKH}'";
+            
+            if (KiemTraTenNDKH(kh.TenTKKH))
+            {
+                KH = kh;
+                return ThucHienTruyVan(query);
+            }
+            else return false;
+        }
+
         public bool KiemTraTenNDKH(string name)
         {
             string query = $"SELECT * FROM KHACHHANG WHERE TenTKKH = '{name}'";
