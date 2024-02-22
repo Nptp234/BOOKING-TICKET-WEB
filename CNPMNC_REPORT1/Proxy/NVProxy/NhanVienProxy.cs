@@ -26,17 +26,6 @@ namespace CNPMNC_REPORT1.Proxy.NVProxy
 
             if (dsLNV != null)
             {
-                //foreach (string tenLNV in dsLNV)
-                //{
-                //    phanTrangNV = PhanTrangNV.XacDinhNVQL(tenLNV);
-
-                //    if (phanTrangNV != null)
-                //    {
-                //        //managedPages = phanTrangNV.LayDSTrangTheoNV();
-                //        managedPages.AddRange(phanTrangNV.LayDSTrangTheoNV());
-                //    }
-                //}
-
                 foreach (string tenLNV in dsLNV)
                 {
                     phanTrangNV = PhanTrangNV.XacDinhNVQL(tenLNV);

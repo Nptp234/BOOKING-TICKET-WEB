@@ -44,12 +44,20 @@ namespace CNPMNC_REPORT1.Controllers
 
             if (Logout == "true")
             {
-                Session["isLogined"] = null;
+                Session["isLogined"] = "false";
                 Session["Username"] = null;
                 return View();
             }
 
             return View();
+        }
+
+        public ActionResult Logout()
+        {
+            Session["isLogined"] = "false";
+            Session["Username"] = null;
+
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult LoginPage(string Username, string Password, string status)
@@ -102,7 +110,7 @@ namespace CNPMNC_REPORT1.Controllers
                 {
                     Session["isLogined"] = "true";
 
-                    return RedirectToAction("Film", "Admin", new { area = "AdminArea" });
+                    return RedirectToAction("IndexNull", "Admin", new { area = "AdminArea" });
                 }
                 else
                 {

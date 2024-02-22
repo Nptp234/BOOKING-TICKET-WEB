@@ -352,6 +352,7 @@
     <Content Include="Areas\AdminArea\Views\Admin\LichChieu.cshtml" />
     <Content Include="Areas\AdminArea\Views\Admin\ReportHD.cshtml" />
     <Content Include="Areas\AdminArea\Views\Admin\HDDetail.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Admin\IndexNull.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -388,6 +389,7 @@
     <Content Include="Views\Home\LoginPageNV.cshtml" />
     <Content Include="Views\Home\AccountPage.cshtml" />
     <Content Include="Views\Home\PointRule.cshtml" />
+    <Content Include="Views\Home\Logout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

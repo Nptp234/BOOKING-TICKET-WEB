@@ -12,6 +12,8 @@ using CNPMNC_REPORT1.Factory;
 using CNPMNC_REPORT1.Factory.FactoryLoaiPhim;
 using CNPMNC_REPORT1.Factory.FactoryPhim;
 using CNPMNC_REPORT1.Factory.FactoryGHT;
+using CNPMNC_REPORT1.Models.User;
+using CNPMNC_REPORT1.Proxy.NVProxy;
 
 namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 {
@@ -21,6 +23,30 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         GHTFactory ghtFactory;
         PhimFactory phimFactory;
         LoaiPhimFactory loaiPhimFactory;
+
+        public ActionResult IndexNull()
+        {
+            SQLUser sQLUser = SQLUser.Instance;
+            NhanVien nv = new NhanVien();
+
+            nv = sQLUser.NV;
+
+            List<string> managedPages = new List<string>();
+            NhanVienProxy nvProxy = new NhanVienProxy(nv);
+
+            managedPages = nvProxy.PhanLoaiTrangTheoLNV();
+
+            if (managedPages == null)
+            {
+                return View();
+            }
+            else
+            {
+                string page = managedPages[0].ToString();
+                return RedirectToAction(page, "Admin");
+            }
+
+        }
 
         public ActionResult Film()
         {

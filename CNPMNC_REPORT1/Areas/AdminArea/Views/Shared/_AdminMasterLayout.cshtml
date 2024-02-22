@@ -26,18 +26,16 @@
 
                     managedPages = nvProxy.PhanLoaiTrangTheoLNV();
 
-                    if (Session["Admin"]==null)
+                    if (managedPages != null)
                     {
-
-                    }
-
-                    foreach (var page in managedPages)
-                    {
-                        <a href="@Url.Action(page, "Admin")" class="menu_category">@page</a>
+                        foreach (var page in managedPages)
+                        {
+                            <a href="@Url.Action(page, "Admin")" class="menu_category">@page</a>
+                        }
                     }
                 }
 
-                <a class="menu_category" href="~/Home/Index">Thoát</a>
+                <a class="menu_category" href="~/Home/Logout">Thoát</a>
             </div>
         </div>
         <div class="content">
