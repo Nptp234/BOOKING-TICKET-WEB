@@ -188,6 +188,8 @@
     <Compile Include="Factory\FactoryBL\CreateBLWithFilm.cs" />
     <Compile Include="Factory\FactoryGHT\CreateAllGHT.cs" />
     <Compile Include="Factory\FactoryGHT\GHTFactory.cs" />
+    <Compile Include="Factory\FactoryLNV\CreateAllLNV.cs" />
+    <Compile Include="Factory\FactoryLNV\LNVFactory.cs" />
     <Compile Include="Factory\FactoryLoaiKH\CreateAllLKH.cs" />
     <Compile Include="Factory\FactoryLoaiKH\LoaiKHFactory.cs" />
     <Compile Include="Factory\FactoryLoaiPhim\CreateAllLP.cs" />
@@ -219,6 +221,7 @@
     <Compile Include="Observer\Object\GHTObserver.cs" />
     <Compile Include="Observer\IObserver.cs" />
     <Compile Include="Observer\Object\LoaiKHObserver.cs" />
+    <Compile Include="Observer\Object\LoaiNVObserver.cs" />
     <Compile Include="Observer\Object\LoaiPhimObserver.cs" />
     <Compile Include="Observer\Object\LPCObserver.cs" />
     <Compile Include="Observer\Object\PhimObserver.cs" />
@@ -241,6 +244,7 @@
     <Compile Include="Factory\FactoryPhim\PhimFactory.cs" />
     <Compile Include="Singleton\SingletonGHT.cs" />
     <Compile Include="Singleton\SingletonLKH.cs" />
+    <Compile Include="Singleton\SingletonLNV.cs" />
     <Compile Include="Singleton\SingletonLP.cs" />
     <Compile Include="Singleton\SingletonPC.cs" />
     <Compile Include="Singleton\SingletonPhim.cs" />
@@ -257,6 +261,7 @@
     <Compile Include="SQLFolder\SQLBinhLuan.cs" />
     <Compile Include="SQLFolder\SQLGioiHanTuoi.cs" />
     <Compile Include="SQLFolder\SQLLoaiKH.cs" />
+    <Compile Include="SQLFolder\SQLLoaiNV.cs" />
     <Compile Include="SQLFolder\SQLLoaiP.cs" />
     <Compile Include="SQLFolder\SQLObject.cs" />
     <Compile Include="SQLFolder\SQLConnection.cs" />

@@ -23,6 +23,7 @@ using CNPMNC_REPORT1.Observer.Object;
 using CNPMNC_REPORT1.Factory.FactoryTLVP;
 using CNPMNC_REPORT1.Models.Film;
 using CNPMNC_REPORT1.Factory.FactoryLoaiKH;
+using CNPMNC_REPORT1.Factory.FactoryLNV;
 
 namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 {
@@ -595,55 +596,79 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult NVType()
         {
-            SQLData123 data = new SQLData123();
-            ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
+            LNVFactory lnv = new CreateAllLNV();
+            ViewBag.GetLNV = lnv.CreateLNV();
+
+            ViewBag.ThongBao = TempData["ThongBao"];
+
             return View();
         }
         [HttpPost]
-        public ActionResult NVType(int? MaLNV, string TenLNV, string status)
+        public ActionResult NVType(string MaLNV, string TenLNV)
         {
-            SQLData123 data = new SQLData123();
+            SQLLoaiNV sql = new SQLLoaiNV();
+            LoaiNV obj = new LoaiNV();
+
+            var subject = new SubjectObserver();
+            var observer = new LoaiNVObserver();
+
+            subject.Attach(observer);
 
             if (ModelState.IsValid)
             {
                 if (TenLNV != null)
                 {
-                    if (status == "Add")
+                    if (sql.KiemTraTenLNV(TenLNV))
                     {
-                        bool isSaved = data.saveNVType(TenLNV);
-                        if (!isSaved)
-                        {
-                            ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
-                            ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
-                        }
-                        else ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
+                        obj = new LoaiNV(TenLNV);
+                        subject.Notify(obj, ActionType.Add);
                     }
-                    else if (status == "Update")
+                    else
                     {
-                        if (MaLNV != null)
-                        {
-                            bool isUpdate = data.updateNVType(MaLNV, TenLNV);
-                            if (!isUpdate)
-                            {
-                                ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
-                                ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
-                            }
-                            else ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
-                        }
-                        else
-                        {
-                            ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
-                            ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
-                        }
+                        TempData["ThongBao"] = "Trùng tên!";
                     }
-                    else ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
-
+                    
                 }
-                else ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
+                else
+                {
+                    TempData["ThongBao"] = "Lỗi không tồn tại!";
+                }
             }
-            else ViewBag.GetLNV = data.getData("SELECT * FROM LAOINV");
 
-            return View();
+            return RedirectToAction("NVType", "Admin");
+        }
+
+        public ActionResult UpdateNVType(string MaLNV, string TenLNV)
+        {
+            SQLLoaiNV sql = new SQLLoaiNV();
+            LoaiNV obj = new LoaiNV();
+
+            var subject = new SubjectObserver();
+            var observer = new LoaiNVObserver();
+
+            subject.Attach(observer);
+
+            if (ModelState.IsValid)
+            {
+                if (TenLNV != null && MaLNV != null)
+                {
+                    if (sql.KiemTraTenLNV(TenLNV))
+                    {
+                        obj = new LoaiNV(MaLNV, TenLNV);
+                        subject.Notify(obj, ActionType.Update);
+                    }
+                    else
+                    {
+                        TempData["ThongBao"] = "Trùng tên!";
+                    }
+                }
+                else
+                {
+                    TempData["ThongBao"] = "Lỗi không tồn tại!";
+                }
+            }
+
+            return RedirectToAction("NVType", "Admin");
         }
 
         public ActionResult KhachHang()
@@ -651,6 +676,9 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             SQLData123 data = new SQLData123();
             ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
             ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
+
+
+
             return View();
         }
         [HttpPost]

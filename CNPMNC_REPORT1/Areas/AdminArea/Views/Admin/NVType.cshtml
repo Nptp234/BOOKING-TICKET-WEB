@@ -24,7 +24,7 @@
 
     <br />
     <p class="smaller_content">Quản lý loại nhân viên</p>
-    <p class="smaller_content" style="color:red;">@ViewBag.ThongBaoLuu</p>
+    <p class="smaller_content" style="color:red;">@ViewBag.ThongBao</p>
 
     @*nút thêm phim*@
     <button class="btn btn-secondary dropdown-toggle" type="button" id="addnewphim" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-bottom:20px;">
@@ -66,10 +66,10 @@
             {
                 foreach (var item in ViewBag.GetLNV)
                 {
-                    <form action="@Url.Action("NVType", "Admin")" method="post">
+                    <form action="@Url.Action("UpdateNVType", "Admin")" method="post">
                     <tr>
-                        <th scope="row"><input name="MaLNV" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[0]" readonly required></th>
-                        <td><input name="TenLNV" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[1]" required></td>
+                        <th scope="row"><input name="MaLNV" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.MaLNV" readonly required></th>
+                        <td><input name="TenLNV" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.TenLNV" required></td>
                         <td>
                             <button type="submit" class="btn btn-outline-info" name="status" value="Update">Cập nhật</button>
                         </td>
