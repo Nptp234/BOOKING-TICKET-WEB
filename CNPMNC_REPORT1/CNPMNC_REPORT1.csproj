@@ -195,10 +195,13 @@
     <Compile Include="Factory\FactoryPhim\CreateAllPhim.cs" />
     <Compile Include="Factory\FactoryRoomType\CreateAllLPC.cs" />
     <Compile Include="Factory\FactoryRoomType\RoomTypeFactory.cs" />
+    <Compile Include="Factory\FactoryTLVP\CreateAllTLVP.cs" />
+    <Compile Include="Factory\FactoryTLVP\TLVPFactory.cs" />
     <Compile Include="Factory\FactoryVP\VePhimFactory.cs" />
+    <Compile Include="Models\Film\TheLoaiVaPhim.cs" />
     <Compile Include="Models\LichChieuPhim\LichChieu.cs" />
     <Compile Include="Models\LichChieuPhim\XuatChieu.cs" />
-    <Compile Include="Models\LoaiPhim.cs" />
+    <Compile Include="Models\Film\LoaiPhim.cs" />
     <Compile Include="Models\PhongChieuPhim\LoaiPC.cs" />
     <Compile Include="Models\PhongChieuPhim\PhongChieu.cs" />
     <Compile Include="Models\SQLData123.cs" />
@@ -217,6 +220,7 @@
     <Compile Include="Observer\Object\LPCObserver.cs" />
     <Compile Include="Observer\Object\PhimObserver.cs" />
     <Compile Include="Observer\Object\PhongChieuObserver.cs" />
+    <Compile Include="Observer\Object\TLVPObserver.cs" />
     <Compile Include="Observer\SubjectObserver.cs" />
     <Compile Include="Proxy\NVProxy\INhanVienProxy.cs" />
     <Compile Include="Proxy\NVProxy\NhanVienProxy.cs" />
@@ -239,12 +243,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\BinhLuan.cs" />
+    <Compile Include="Models\Film\BinhLuan.cs" />
     <Compile Include="Models\ConvertDateTime.cs" />
     <Compile Include="Models\ConvertNumber.cs" />
-    <Compile Include="Models\GioiHanTuoi.cs" />
-    <Compile Include="Models\Phim.cs" />
+    <Compile Include="Models\Film\GioiHanTuoi.cs" />
+    <Compile Include="Models\Film\Phim.cs" />
     <Compile Include="Singleton\SingletonRoomType.cs" />
+    <Compile Include="Singleton\SingletonTLVP.cs" />
     <Compile Include="SQLFolder\SQLBinhLuan.cs" />
     <Compile Include="SQLFolder\SQLGioiHanTuoi.cs" />
     <Compile Include="SQLFolder\SQLLoaiP.cs" />
@@ -255,6 +260,7 @@
     <Compile Include="SQLFolder\SQLPhim.cs" />
     <Compile Include="SQLFolder\SQLRoom.cs" />
     <Compile Include="SQLFolder\SQLRoomType.cs" />
+    <Compile Include="SQLFolder\SQLTheLVP.cs" />
     <Compile Include="SQLFolder\SQLUser.cs" />
     <Compile Include="SQLFolder\SQLVePhim.cs" />
   </ItemGroup>

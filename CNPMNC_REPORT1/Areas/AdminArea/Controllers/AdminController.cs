@@ -20,6 +20,8 @@ using CNPMNC_REPORT1.Factory.FactoryRoomType;
 using CNPMNC_REPORT1.SQLFolder;
 using CNPMNC_REPORT1.Models.PhongChieuPhim;
 using CNPMNC_REPORT1.Observer.Object;
+using CNPMNC_REPORT1.Factory.FactoryTLVP;
+using CNPMNC_REPORT1.Models.Film;
 
 namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 {
@@ -425,73 +427,96 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult TheLoaiVaPhim()
         {
-            SQLData123 data = new SQLData123();
-            if (data.getData("SELECT * FROM TL_P") != null)
-            {
-                ViewBag.DSTLVP = data.getData("SELECT * FROM TL_P");
-            }
+            TLVPFactory tlvp = new CreateAllTLVP();
+            ViewBag.DSTLVP = tlvp.CreateTLVP();
+
+            ViewBag.ThongBao = TempData["ThongBao"];
+
             return View();
         }
         [HttpPost]
-        public ActionResult TheLoaiVaPhim(int? MaTLP, int? MaPhim, int? MaTL, string status)
+        public ActionResult TheLoaiVaPhim(string MaPhim, string MaTL)
         {
-            SQLData123 data = new SQLData123();
+            SQLTheLVP sqlTLVP = new SQLTheLVP();
+            TheLoaiVaPhim tlvp = new TheLoaiVaPhim();
+            LoaiPhimFactory lp = new CreateAllLP();
+            List<LoaiPhim> lsLP = lp.CreateLoaiP();
+
+            var subject = new SubjectObserver();
+            var tlvpObserver = new TLVPObserver();
+
+            subject.Attach(tlvpObserver);
 
             if (ModelState.IsValid)
             {
-                if (status == "Add")
+                if (MaPhim != null && MaTL != null)
                 {
-                    if (MaPhim != null && MaTL != null)
-                    {
-                        ArrayList listfilmtype = data.getData($"SELECT * FROM TL_P WHERE MaPhim={MaPhim} AND MaTL={MaTL}");
-                        if (listfilmtype.Count == 0)
-                        {
-                            bool isSaved = data.saveTheLoaiVaPhim(MaPhim, MaTL);
-                            if (!isSaved)
-                            {
-                                ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
-                            }
-                            else ViewBag.DSTLVP = data.getData("SELECT * FROM TL_P");
-                        }
-                        else
-                        {
-                            ViewBag.ThongBaoLuu = "Đã tồn tại!";
-                            ViewBag.DSTLVP = data.getData("SELECT * FROM TL_P");
-                        }
+                    int maP = int.Parse(MaPhim);
+                    int maTL = int.Parse(MaTL);
 
+                    if (maP > PhimFactory.allPhim.Count || maTL > lsLP.Count)
+                    {
+                        TempData["ThongBao"] = "Lỗi không tìm thấy khóa ngoại!";
                     }
                     else
                     {
-                        ViewBag.ThongBaoLuu = "Lỗi không tồn tại!";
-                        ViewBag.DSTLVP = data.getData("SELECT * FROM TL_P");
+                        if (sqlTLVP.KiemTraTrungPhimTheLoai(MaPhim, MaTL))
+                        {
+                            tlvp = new TheLoaiVaPhim(MaPhim, MaTL);
+                            subject.Notify(tlvp, ActionType.Add);
+                        }
+                        else TempData["ThongBao"] = "Lỗi trùng khóa ngoại!";
                     }
-
                 }
-                else if (status == "Update")
+                else
                 {
-                    if (MaPhim != null && MaTL != null)
-                    {
-                        bool isUpdate = data.updateTheLoaiVaPhim(MaTLP, MaPhim, MaTL);
-                        if (!isUpdate)
-                        {
-                            ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
-                            ViewBag.DSTLVP = data.getData("SELECT * FROM TL_P");
-                        }
-                        else
-                        {
-                            ViewBag.DSTLVP = data.getData("SELECT * FROM TL_P");
-                        }
-                    }
-                    else
-                    {
-                        ViewBag.ThongBaoLuu = "Lỗi không tồn tại!";
-                        ViewBag.DSTLVP = data.getData("SELECT * FROM TL_P");
-                    }
+                    TempData["ThongBao"] = "Lỗi không tồn tại!";
                 }
-                else ViewBag.ThongBaoLuu = "Lỗi không tồn tại!";
             }
 
-            return View();
+            return RedirectToAction("TheLoaiVaPhim", "Admin");
+        }
+
+        public ActionResult UpdateTheLoaiVaPhim(string MaTLP, string MaPhim, string MaTL)
+        {
+            SQLTheLVP sqlTLVP = new SQLTheLVP();
+            TheLoaiVaPhim tlvp = new TheLoaiVaPhim();
+            LoaiPhimFactory lp = new CreateAllLP();
+            List<LoaiPhim> lsLP = lp.CreateLoaiP();
+
+            var subject = new SubjectObserver();
+            var tlvpObserver = new TLVPObserver();
+
+            subject.Attach(tlvpObserver);
+
+            if (ModelState.IsValid)
+            {
+                if (MaPhim != null && MaTL != null && MaTLP != null)
+                {
+                    int maP = int.Parse(MaPhim);
+                    int maTL = int.Parse(MaTL);
+
+                    if (maP > PhimFactory.allPhim.Count || maTL > lsLP.Count)
+                    {
+                        TempData["ThongBao"] = "Lỗi không tìm thấy khóa ngoại!";
+                    }
+                    else
+                    {
+                        if (sqlTLVP.KiemTraTrungPhimTheLoai(MaPhim, MaTL))
+                        {
+                            tlvp = new TheLoaiVaPhim(MaTLP, MaPhim, MaTL);
+                            subject.Notify(tlvp, ActionType.Update);
+                        }
+                        else TempData["ThongBao"] = "Lỗi trùng khóa ngoại!";
+                    }
+                }
+                else
+                {
+                    TempData["ThongBao"] = "Lỗi không tồn tại!";
+                }
+            }
+
+            return RedirectToAction("TheLoaiVaPhim", "Admin");
         }
 
         public ActionResult KHType()

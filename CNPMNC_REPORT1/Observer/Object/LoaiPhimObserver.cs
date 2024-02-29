@@ -11,6 +11,12 @@ namespace CNPMNC_REPORT1.Observer
     public class LoaiPhimObserver : IObserver
     {
         SQLLoaiP sqlLP;
+
+        public LoaiPhimObserver()
+        {
+            sqlLP = new SQLLoaiP();
+        }
+
         public override void PerformAction(object obj, ActionType actionType)
         {
             if (obj is LoaiPhim)

@@ -28,8 +28,6 @@ namespace CNPMNC_REPORT1.Controllers
 
         public ActionResult Index(string Logout)
         {
-            SQLConnection sQLConnection = SQLConnection.Instance;
-
             SingletonPhim singletonPhim = SingletonPhim.Instance;
             singletonPhim.ResetInstance();
 
