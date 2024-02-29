@@ -19,8 +19,10 @@ namespace CNPMNC_REPORT1.Models.PhongChieuPhim
             this.MoTaLPC = moTaLPC;
         }
   
-        public LoaiPC(string maLPC, string tenLPC, string moTaLPC) : this(maLPC, tenLPC)
+        public LoaiPC(string maLPC, string tenLPC, string moTaLPC)
         {
+            MaLPC = maLPC;
+            TenLPC = tenLPC;
             MoTaLPC = moTaLPC;
         }
     }

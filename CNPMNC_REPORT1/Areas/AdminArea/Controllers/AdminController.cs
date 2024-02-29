@@ -19,6 +19,7 @@ using CNPMNC_REPORT1.Factory.FactoryPC;
 using CNPMNC_REPORT1.Factory.FactoryRoomType;
 using CNPMNC_REPORT1.SQLFolder;
 using CNPMNC_REPORT1.Models.PhongChieuPhim;
+using CNPMNC_REPORT1.Observer.Object;
 
 namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 {
@@ -357,58 +358,69 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         
         public ActionResult RoomType()
         {
-            SQLData123 data = new SQLData123();
-            if (data.getData("SELECT * FROM LOAIPC")!=null)
-            {
-                ViewBag.DSLPC = data.getData("SELECT * FROM LOAIPC");
-            }
+            //SQLData123 data = new SQLData123();
+            //if (data.getData("SELECT * FROM LOAIPC")!=null)
+            //{
+            //    ViewBag.DSLPC = data.getData("SELECT * FROM LOAIPC");
+            //}
+
+            RoomTypeFactory roomType = new CreateAllLPC();
+            ViewBag.DSLPC = roomType.CreateLPC();
+
             return View();
         }
 
         [HttpPost]
-        public ActionResult RoomType(int? MaLPC, string TenLPC, string MoTaLPC, string status)
+        public ActionResult RoomType(string TenLPC, string MoTaLPC)
         {
-            SQLData123 data = new SQLData123();
+            SQLRoomType sqlLPC = new SQLRoomType();
+            LoaiPC lpc = new LoaiPC();
+
+            var subject = new SubjectObserver();
+            var lpcObserver = new LPCObserver();
+
+            subject.Attach(lpcObserver);
 
             if (ModelState.IsValid)
             {
                 if (TenLPC != null && MoTaLPC != null)
                 {
-                    if (status == "Add")
-                    {
-                        bool isSaved = data.saveRoomType(TenLPC, MoTaLPC);
-                        if (!isSaved)
-                        {
-                            ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
-                            ViewBag.DSLPC = data.getData("SELECT * FROM LOAIPC");
-                        }
-                        else ViewBag.DSLPC = data.getData("SELECT * FROM LOAIPC");
-                    }
-                    else if (status == "Update")
-                    {
-                        if (MaLPC != null)
-                        {
-                            bool isUpdate = data.updateRoomTypeDetail(MaLPC, TenLPC, MoTaLPC);
-                            if (!isUpdate)
-                            {
-                                ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
-                                ViewBag.DSLPC = data.getData("SELECT * FROM LOAIPC");
-                            }
-                            else ViewBag.DSLPC = data.getData("SELECT * FROM LOAIPC");
-                        }
-                        else
-                        {
-                            ViewBag.DSLPC = data.getData("SELECT * FROM LOAIPC");
-                            ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
-                        }
-                    }
-                    else ViewBag.DSLPC = data.getData("SELECT * FROM LOAIPC");
-
-                } else ViewBag.DSLPC = data.getData("SELECT * FROM LOAIPC");
+                    lpc = new LoaiPC(TenLPC, MoTaLPC);
+                    subject.Notify(lpc, ActionType.Add);
+                }
+                else
+                {
+                    TempData["ThongBao"] = "Lỗi không tồn tại!";
+                }
             }
-            else ViewBag.DSLPC = data.getData("SELECT * FROM LOAIPC");
 
-            return View();
+            return RedirectToAction("RoomType", "Admin");
+        }
+
+        public ActionResult UpdateRoomType(string MaLPC, string TenLPC, string MoTaLPC)
+        {
+            SQLRoomType sqlLPC = new SQLRoomType();
+            LoaiPC lpc = new LoaiPC();
+
+            var subject = new SubjectObserver();
+            var lpcObserver = new LPCObserver();
+
+            subject.Attach(lpcObserver);
+
+            if (ModelState.IsValid)
+            {
+                if (TenLPC != null && MoTaLPC != null && MaLPC != null)
+                {
+                    lpc = new LoaiPC(MaLPC, TenLPC, MoTaLPC);
+                    subject.Notify(lpc, ActionType.Update);
+                }
+                else
+                {
+                    TempData["ThongBao"] = "Lỗi không tồn tại!";
+                }
+            }
+
+            return RedirectToAction("RoomType", "Admin");
         }
 
         public ActionResult TheLoaiVaPhim()
