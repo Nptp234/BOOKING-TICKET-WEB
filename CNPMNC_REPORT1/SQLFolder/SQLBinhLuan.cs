@@ -19,15 +19,15 @@ namespace CNPMNC_REPORT1.SQLData
 
         public bool ThemBL(BinhLuan bl)
         {
-            string query = $"INSERT INTO BINHLUAN VALUES({bl.MaPhim}, {bl.TenTK}, {bl.GhiChu}, {bl.TrangThai}, {bl.NgayTao})";
-            singletonBL.ResetInstance();
+            string query = $"INSERT INTO BINHLUAN VALUES('{bl.MaPhim}', '{bl.TenTK}', N'{bl.GhiChu}', '{bl.TrangThai}', '{bl.NgayTao}')";
+
             return ThucHienTruyVan(query);
         }
 
         public bool XoaBL(string maBL)
         {
             string query = $"DELETE FROM BINHLUAN WHERE MaBL = {maBL}";
-            singletonBL.ResetInstance();
+
             return ThucHienTruyVan(query);
         }
     }

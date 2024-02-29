@@ -9,16 +9,6 @@
 <link href="~/Areas/AdminArea/Content/customermanager_style.css" rel="stylesheet" />
 <nav class="header_nav">
     <a class="top_content">ROOM MANAGER</a>
-    @*<div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Sắp xếp
-            </button>
-            <div class="dropdown-menu" style="transform: translate3d(-94px, 38px, 0px)" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Theo tên </a>
-                <a class="dropdown-item" href="#">Theo mã khách hàng</a>
-                <a class="dropdown-item" href="#">Theo tổng hóa đơn</a>
-            </div>
-        </div>*@
 </nav>
 <div class="container">
 
@@ -69,7 +59,7 @@
             {
                 foreach (var item in ViewBag.ListLcuaPC)
                 {
-                    <option value="@item[1]">@item[1]</option>
+                    <option value="@item.TenLPC">@item.TenLPC</option>
                 }
             }
         </select>
@@ -102,13 +92,13 @@
             {
                 foreach (var item in ViewBag.DSPC)
                 {
-                    <form action="@Url.Action("Room", "Admin")" method="post">
+                    <form action="@Url.Action("UpdateRoom", "Admin")" method="post">
                     <tr>
-                        <th scope="row"><input name="MaPC" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[0]" readonly required></th>
-                        <td><input name="TenPC" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[1]" required></td>
-                        <td><input name="SoLuongGT" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[2]" required></td>
-                        <td><input name="SoLuongGV" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[3]" required></td>
-                        <td><input name="MaLPC" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item[4]" required></td>
+                        <th scope="row"><input name="MaPC" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.MaPC" readonly required></th>
+                        <td><input name="TenPC" type="text" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.TenPC" required></td>
+                        <td><input name="SoLuongGT" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.SLGheThuong" required></td>
+                        <td><input name="SoLuongGV" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.SLGheVIP" required></td>
+                        <td><input name="MaLPC" type="number" min="0" max="255" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.MaLPC" required></td>
                         <td>
                             <button type="submit" class="btn btn-outline-info" name="status" value="Update">Cập nhật</button>
                         </td>

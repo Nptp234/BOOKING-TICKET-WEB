@@ -105,13 +105,13 @@
                 </div>
                 <input id="inputchoice" min="1" max="255" class="form-control" name="GHTP" readonly required>
                 <select id="choice" style="width:10%; border-radius:0px 5px 5px 0px;" required>
-                    @*if (ViewBag.DSGHTP != null)
+                    @if (ViewBag.DSGHTP != null)
                     {
                         foreach (var item in ViewBag.DSGHTP)
                         {
-                            <option value="@item[1]">@item[1]</option>
+                            <option value="@item.TenGHT">@item.TenGHT</option>
                         }
-                    }*@
+                    }
                 </select>
             </div>
 
@@ -153,44 +153,44 @@
                     <th scope="col">Mã giới hạn tuổi</th>
                 </tr>
             </thead>
+
             <tbody style="width: fit-content;">
-                @using (Html.BeginForm("Film", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+
+                @foreach (var item in ViewBag.DSF)
                 {
-                    @Html.AntiForgeryToken()
-                    if (ViewBag.DSF != null)
-                    {
-                        foreach (var item in ViewBag.DSF)
-                        {
-                            @*<form action="@Url.Action("Film", "Admin")" method="post">
+                    <form action="@Url.Action("UpdateFilm", "Admin")" method="post" enctype="multipart/form-data">
 
-                    </form>*@
+                        @Html.AntiForgeryToken()
+                        <tr>
+                            <!-- mã phim -->
+                            <input type="hidden" name="MaPhim" value="@item.MaPhim">
 
-                            <tr>
-                                <th scope="row"><input name="MaP" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.MaPhim" readonly required></th>
-                                <td><input name="TenF" type="text"   class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.TenPhim" required></td>
-                                <td><input name="MoTaF" type="text"   class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.TomTatP" required></td>
-                                <td><input name="NgayCC" type="text" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.NgayCongChieu" required></td>
-                                <td><input name="ThoiLuongP" type="number" min="1" max="500" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.ThoiLuongP" required></td>
-                                <td><input name="LuotMua" type="number"  class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.LuotMua" readonly required></td>
-                                <td><input name="LuotThich" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.LuotThich" readonly required></td>
-                                <td style="width: 300px;">
-                                    <img src="~/img_phim/@item.HinhAnh" alt="" width="100" height="150" /><br>
-                                    <input accept="img/*" type='file' class="form-control" name="HinhAnhFiledetail1">
-                                    <input type='text' class="form-control" name="HinhAnhFiledetail2" value="@item.HinhAnh" style="display:none;">
+                            <!-- thông tin của phim khác -->
+                            <th scope="row"><input name="MaP" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.MaPhim" readonly required></th>
+                            <td><input name="TenF" type="text" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.TenPhim" required></td>
+                            <td><input name="MoTaF" type="text" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.TomTatP" required></td>
+                            <td><input name="NgayCC" type="text" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.NgayCongChieu" required></td>
+                            <td><input name="ThoiLuongP" type="number" min="1" max="500" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.ThoiLuongP" required></td>
+                            <td><input name="LuotMua" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.LuotMua" readonly required></td>
+                            <td><input name="LuotThich" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.LuotThich" readonly required></td>
+                            <td style="width: 300px;">
+                                <img src="~/img_phim/@item.HinhAnh" alt="" width="100" height="150" /><br>
+                                <input accept="img/*" type='file' class="form-control" name="HinhAnhFiledetail1">
+                                <input type='text' class="form-control" name="HinhAnhFiledetail2" value="@item.HinhAnh" style="display:none;">
 
-                                </td>
-                                <td><input name="TrailerP" type="text"  class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.Trailer" required></td>
-                                <td><input name="GiaP" type="number" min="1" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.GiaPhim" required></td>
-                                <td><input name="MaGHT" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.MaGHT" required></td>
-                                <td>
-                                    <button type="submit" class="btn btn-outline-info" name="status" value="Update">Cập nhật</button>
-                                </td>
-                            </tr>
-                        }
-                    }
+                            </td>
+                            <td><input name="TrailerP" type="text" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.Trailer" required></td>
+                            <td><input name="GiaP" type="number" min="1" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.GiaPhim" required></td>
+                            <td><input name="MaGHT" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.MaGHT" required></td>
+
+                            <!-- thông tin khác -->
+
+                            <td>
+                                <button type="submit" class="btn btn-outline-info">Cập nhật</button>
+                            </td>
+                        </tr>
+                    </form>
                 }
-
-
             </tbody>
         </table>
     </div>

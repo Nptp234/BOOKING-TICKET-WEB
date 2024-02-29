@@ -14,28 +14,28 @@ namespace CNPMNC_REPORT1.SQLData
             sQLConnection = SQLConnection.Instance;
         }
 
-        public bool ThemGHT(string TenGHT, string MoTaGHT)
+        public bool ThemGHT(GioiHanTuoi ght)
         {
-            string query = $"INSERT INTO GIOIHANTUOI VALUES({TenGHT}, {MoTaGHT})";
+            string query = $"INSERT INTO GIOIHANTUOI VALUES(N'{ght.TenGHT}', N'{ght.MoTaGHT}')";
             return ThucHienTruyVan(query);
         }
 
-        public bool CapNhatGHT(string MaGHT, string tenCot, string duLieuMoi)
+        public bool CapNhatGHT(GioiHanTuoi ght)
         {
-            string query = $"UPDATE GIOIHANTUOI SET {tenCot} = {duLieuMoi} WHERE MaTL = {MaGHT}";
+            string query = $"UPDATE GIOIHANTUOI SET TenGHT = N'{ght.TenGHT}', MoTaGHT = N'{ght.MoTaGHT}' WHERE MaGHT = '{ght.MaGHT}'";
             return ThucHienTruyVan(query);
         }
 
-        public bool XoaGHT(string MaGHT)
+        public bool XoaGHT(GioiHanTuoi ght)
         {
-            string query = $"DELETE FROM GIOIHANTUOI WHERE MaGHT = {MaGHT}";
+            string query = $"DELETE FROM GIOIHANTUOI WHERE MaGHT = '{ght.MaGHT}'";
             return ThucHienTruyVan(query);
         }
 
         public string ChuyenTen_Ma(string TenGHT)
         {
             string MaGHT = "";
-            string query = $"SELECT MaGHT FROM GIOIHANTUOI WHERE TenGHT = {TenGHT}";
+            string query = $"SELECT MaGHT FROM GIOIHANTUOI WHERE TenGHT = N'{TenGHT}'";
 
             SQLConnection connection = SQLConnection.Instance;
 
@@ -49,7 +49,7 @@ namespace CNPMNC_REPORT1.SQLData
             {
                 if (sqlDataReader.Read())
                 {
-                    MaGHT = sqlDataReader.GetString(0);
+                    MaGHT = sqlDataReader.GetInt32(0).ToString();
                 }
             }
             else MaGHT = "";

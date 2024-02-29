@@ -6,11 +6,16 @@ using System.Web;
 
 namespace CNPMNC_REPORT1.SQLData
 {
-    public abstract class SQLObject
+    public class SQLObject
     {
         protected SQLConnection sQLConnection;
 
-        protected bool ThucHienTruyVan(string query)
+        public SQLObject()
+        {
+            sQLConnection = SQLConnection.Instance;
+        }
+
+        public bool ThucHienTruyVan(string query)
         {
             sQLConnection.OpenConnection();
             int result = sQLConnection.ExecuteNonQuery(query);

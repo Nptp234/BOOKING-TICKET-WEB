@@ -48,7 +48,6 @@ namespace CNPMNC_REPORT1.SQLData
             {
                 this.connection.Open();
             }
-            else CloseConnection();
         }
 
         public void CloseConnection()
@@ -57,7 +56,6 @@ namespace CNPMNC_REPORT1.SQLData
             {
                 this.connection.Close();
             }
-            else OpenConnection();
         }
 
         public string GetConnectionString()

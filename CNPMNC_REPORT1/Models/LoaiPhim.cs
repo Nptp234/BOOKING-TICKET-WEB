@@ -12,5 +12,18 @@ namespace CNPMNC_REPORT1.Models
         public string MoTaTL { get; set; }
 
         public LoaiPhim() { }
+
+        public LoaiPhim(string tenTL, string moTaTL)
+        {
+            TenTL = tenTL;
+            MoTaTL = moTaTL;
+        }
+
+        public LoaiPhim(string maTL, string tenTL, string moTaTL)
+        {
+            MaTL = maTL;
+            TenTL = tenTL;
+            MoTaTL = moTaTL;
+        }
     }
 }

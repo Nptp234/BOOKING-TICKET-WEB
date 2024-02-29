@@ -177,6 +177,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\AdminArea\AdminAreaAreaRegistration.cs" />
+    <Compile Include="Composite\AbstractOne.cs" />
+    <Compile Include="Composite\FolderCompo.cs" />
+    <Compile Include="Composite\FileCompo.cs" />
     <Compile Include="Areas\AdminArea\Controllers\AdminController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -187,7 +190,11 @@
     <Compile Include="Factory\FactoryGHT\GHTFactory.cs" />
     <Compile Include="Factory\FactoryLoaiPhim\CreateAllLP.cs" />
     <Compile Include="Factory\FactoryLoaiPhim\LoaiPhimFactory.cs" />
+    <Compile Include="Factory\FactoryPC\CreateAllPC.cs" />
+    <Compile Include="Factory\FactoryPC\RoomFactory.cs" />
     <Compile Include="Factory\FactoryPhim\CreateAllPhim.cs" />
+    <Compile Include="Factory\FactoryRoomType\CreateAllLPC.cs" />
+    <Compile Include="Factory\FactoryRoomType\RoomTypeFactory.cs" />
     <Compile Include="Factory\FactoryVP\VePhimFactory.cs" />
     <Compile Include="Models\LichChieuPhim\LichChieu.cs" />
     <Compile Include="Models\LichChieuPhim\XuatChieu.cs" />
@@ -203,6 +210,13 @@
     <Compile Include="Models\User\UserAccount.cs" />
     <Compile Include="Models\VePhim\VeGhe.cs" />
     <Compile Include="Models\VePhim\VeP.cs" />
+    <Compile Include="Observer\BinhLuanObserver.cs" />
+    <Compile Include="Observer\GHTObserver.cs" />
+    <Compile Include="Observer\IObserver.cs" />
+    <Compile Include="Observer\LoaiPhimObserver.cs" />
+    <Compile Include="Observer\PhimObserver.cs" />
+    <Compile Include="Observer\PhongChieuObserver.cs" />
+    <Compile Include="Observer\SubjectObserver.cs" />
     <Compile Include="Proxy\NVProxy\INhanVienProxy.cs" />
     <Compile Include="Proxy\NVProxy\NhanVienProxy.cs" />
     <Compile Include="Proxy\NVProxy\QuanLyHeThong.cs" />
@@ -219,6 +233,7 @@
     <Compile Include="Factory\FactoryPhim\PhimFactory.cs" />
     <Compile Include="Singleton\SingletonGHT.cs" />
     <Compile Include="Singleton\SingletonLP.cs" />
+    <Compile Include="Singleton\SingletonPC.cs" />
     <Compile Include="Singleton\SingletonPhim.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -228,6 +243,7 @@
     <Compile Include="Models\ConvertNumber.cs" />
     <Compile Include="Models\GioiHanTuoi.cs" />
     <Compile Include="Models\Phim.cs" />
+    <Compile Include="Singleton\SingletonRoomType.cs" />
     <Compile Include="SQLFolder\SQLBinhLuan.cs" />
     <Compile Include="SQLFolder\SQLGioiHanTuoi.cs" />
     <Compile Include="SQLFolder\SQLLoaiP.cs" />
@@ -236,6 +252,7 @@
     <Compile Include="Models\YoutubeLink.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLFolder\SQLPhim.cs" />
+    <Compile Include="SQLFolder\SQLRoom.cs" />
     <Compile Include="SQLFolder\SQLUser.cs" />
     <Compile Include="SQLFolder\SQLVePhim.cs" />
   </ItemGroup>

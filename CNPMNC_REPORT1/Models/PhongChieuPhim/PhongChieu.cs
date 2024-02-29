@@ -23,8 +23,12 @@ namespace CNPMNC_REPORT1.Models.PhongChieuPhim
             MaLPC = maLPC;
         }
 
-        public PhongChieu(string maPC, string tenPC, string sLGheThuong, string sLGheVIP, string maLPC) : this(maPC, tenPC, sLGheThuong, sLGheVIP)
+        public PhongChieu(string maPC, string tenPC, string sLGheThuong, string sLGheVIP, string maLPC)
         {
+            MaPC = maPC;
+            TenPC = tenPC;
+            SLGheThuong = sLGheThuong;
+            SLGheVIP = sLGheVIP;
             MaLPC = maLPC;
         }
     }

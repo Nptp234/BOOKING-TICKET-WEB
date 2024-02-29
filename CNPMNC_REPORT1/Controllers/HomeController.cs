@@ -15,6 +15,7 @@ using CNPMNC_REPORT1.Factory.FactoryGHT;
 using CNPMNC_REPORT1.SQLData;
 using CNPMNC_REPORT1.Models.User;
 using CNPMNC_REPORT1.Factory.FactoryPhim;
+using CNPMNC_REPORT1.Observer;
 
 namespace CNPMNC_REPORT1.Controllers
 {
@@ -76,6 +77,7 @@ namespace CNPMNC_REPORT1.Controllers
                 if (check)
                 {
                     Session["isLogined"] = "true";
+                    Session["Username"] = Username;
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -146,6 +148,7 @@ namespace CNPMNC_REPORT1.Controllers
                     if (sQLUser.ThemKH(kh))
                     {
                         Session["isLogined"] = "true";
+                        Session["Username"] = kh.TenTKKH;
 
                         return RedirectToAction("Index", "Home");
                     }
@@ -273,6 +276,11 @@ namespace CNPMNC_REPORT1.Controllers
         {
             SQLBinhLuan sQLBinhLuan = new SQLBinhLuan();
             BinhLuan bl = new BinhLuan();
+            var subject = new SubjectObserver();
+            var blObserver = new BinhLuanObserver();
+
+            subject.Attach(blObserver);
+
             if (status == "Post")
             {
                 if (IDPhim != null && GhiChu != null)
@@ -290,33 +298,35 @@ namespace CNPMNC_REPORT1.Controllers
                         bl.GhiChu = GhiChu;
                         bl.TrangThai = "Active";
 
-                        bool isAdd = sQLBinhLuan.ThemBL(bl);
-                        if (isAdd)
-                        {
-                            return RedirectToAction("FilmDetail", "Home", new { MaPhim = IDPhim });
-                        }
-                        else
-                            ViewBag.ThongBao = "Error Add!";
+                        subject.Notify(bl, ActionType.Add);
+
+                        return RedirectToAction("FilmDetail", "Home", new { MaPhim = IDPhim });
                     }
                     else
                         ViewBag.ThongBao = "Error TenTK = null!";
-
                 }
             } 
-            else if (status == "Delete")
-            {
-                bool isDelete = sQLBinhLuan.XoaBL(IDBL);
-                if (isDelete)
-                {
-                    return RedirectToAction("FilmDetail", "Home", new { IDPhim = IDPhim });
-                }
-                else
-                    ViewBag.ThongBao = "Error Delete!";
-            }
-            return View();
+
+            return RedirectToAction("FilmDetail", "Home", new { MaPhim = IDPhim });
+        }
+        public ActionResult DeleteComment(string maBL, string maPhim)
+        {
+
+            BinhLuan bl = new BinhLuan();
+            var subject = new SubjectObserver();
+            var blObserver = new BinhLuanObserver();
+
+            subject.Attach(blObserver);
+
+            bl.MaBL = maBL;
+
+            subject.Notify(bl, ActionType.Remove);
+
+            return RedirectToAction("FilmDetail", "Home", new { MaPhim = maPhim });
         }
 
-        
+
+
 
         public ActionResult Error_Page()
         {

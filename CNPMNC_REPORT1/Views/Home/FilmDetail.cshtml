@@ -343,33 +343,62 @@
         </div>
 
         @* List comments *@
+
+        <style>
+            .comment-container {
+                height: 500px; 
+                overflow-y: auto; 
+                border: 2px solid #ccc; 
+                border-radius: 5px;
+            }
+
+            .comments {
+                padding: 10px;
+            }
+
+            /* Tùy chỉnh thanh cuộn */
+            .comment-container::-webkit-scrollbar {
+                width: 12px; 
+            }
+
+            .comment-container::-webkit-scrollbar-thumb {
+                background-color: #888; 
+                border-radius: 2px; 
+            }
+        </style>
+
         <div class="row">
             <div class="col-sm-7 col-md-9 col-12 pb-4">
                 <h1>Comments</h1>
-                @foreach (var bl in ViewBag.BinhLuan)
-                {
 
-                    <div class="comment mt-2 text-justify float-left">
-                        <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="30" height="30">
-                        <h4>@bl.TenTK</h4>
-                        <span>@DateTime.Parse(bl.NgayTao).ToString("MMM dd, yyyy HH:mm:ss tt")</span>
-                        <br>
-                        <p>@bl.GhiChu</p>
-                        if (Session["Username"] as string == bl[1])
+                <div class="comment-container">
+                    <div class="comments">
+
+                        <!-- Danh sách bình luận -->
+                        @foreach (var bl in ViewBag.BinhLuan)
                         {
-                            <a href="@Url.Action("DeleteComment", "Home", new { mabl = bl[3], maphim = ViewBag.getFilmById123[0][0]})" style="color: white">Xoá bình luận</a>
+                            <div class="comment mt-2 text-justify float-left">
+                                <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="30" height="30">
+                                <h4 style="margin-right: 10px; margin-bottom: 20px;">@bl.TenTK</h4>
+                                <span>@DateTime.Parse(bl.NgayTao).ToString("MMM dd, yyyy HH:mm:ss tt")</span>
+                                <br>
+                                <p style="margin-left: 20px; margin-top: 20px;">@bl.GhiChu</p>
+                                @if (Session["Username"] as string == bl.TenTK)
+                                {
+                                    <a href="@Url.Action("DeleteComment", "Home", new { maPhim = bl.MaPhim, maBL = bl.MaBL})" name="status" value="Delete" style="color: white; float: right; padding-bottom: 20px;">Xoá bình luận</a>
+                                }
+                            </div>
                         }
                     </div>
-
-                }
-
+                </div>
+                
             </div>
         </div>
     </div>
 </section>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-@if (Session["Username"] == null)
+@if (Session["isLogined"] == null)
 {
     <script>
         var getbtnSubmit = document.getElementById("btnSubmit");
