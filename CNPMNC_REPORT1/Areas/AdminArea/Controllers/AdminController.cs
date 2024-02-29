@@ -22,6 +22,7 @@ using CNPMNC_REPORT1.Models.PhongChieuPhim;
 using CNPMNC_REPORT1.Observer.Object;
 using CNPMNC_REPORT1.Factory.FactoryTLVP;
 using CNPMNC_REPORT1.Models.Film;
+using CNPMNC_REPORT1.Factory.FactoryLoaiKH;
 
 namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 {
@@ -521,64 +522,75 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult KHType()
         {
-            SQLData123 data = new SQLData123();
-            ViewBag.GetLKH = data.getData("SELECT* FROM LOAIKH");
+            //SQLData123 data = new SQLData123();
+            //ViewBag.GetLKH = data.getData("SELECT* FROM LOAIKH");
+
+            LoaiKHFactory lkh = new CreateAllLKH();
+            ViewBag.GetLKH = lkh.CreateLoaiKH();
+
+            ViewBag.ThongBao = TempData["ThongBao"];
+
             return View();
         }
         [HttpPost]
-        public ActionResult KHType(int? MaLKH, string TenLKH, double CKLKH, string status)
+        public ActionResult KHType(string TenLKH, string CKLKH)
         {
-            SQLData123 data = new SQLData123();
+            SQLLoaiKH sqlLKH = new SQLLoaiKH();
+            LoaiKH lkh = new LoaiKH();
+
+            var subject = new SubjectObserver();
+            var lkhObserver = new LoaiKHObserver();
+
+            subject.Attach(lkhObserver);
 
             if (ModelState.IsValid)
             {
                 if (TenLKH != null && CKLKH != null)
                 {
-                    if (status == "Add")
-                    {
-                        bool isCheckName = data.checkName("TenLKH", "LOAIKH", TenLKH.Trim());
-                        if (isCheckName)
-                        {
-                            bool isSaved = data.saveKHType(TenLKH, CKLKH/100);
-                            if (!isSaved)
-                            {
-                                ViewBag.ThongBaoLuu = "Lỗi lưu không thành công!";
-                                ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
-                            }
-                            else ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
-                        }
-                        else
-                        {
-                            ViewBag.ThongBaoLuu = "Trùng tên loại!";
-                            ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
-                        }
-                    }
-                    else if (status == "Update")
-                    {
-                        if (MaLKH != null)
-                        {
-                            bool isUpdate = data.updateKHType(MaLKH, TenLKH, CKLKH/100);
-                            if (!isUpdate)
-                            {
-                                ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
-                                ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
-                            }
-                            else ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
-                        }
-                        else
-                        {
-                            ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
-                            ViewBag.ThongBaoLuu = "Lỗi cập nhật không thành công!";
-                        }
-                    }
-                    else ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
+                    double cal = double.Parse(CKLKH);
 
+                    CKLKH = (cal / 100).ToString();
+
+                    lkh = new LoaiKH(TenLKH, CKLKH);
+                    subject.Notify(lkh, ActionType.Add);
                 }
-                else ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
+                else
+                {
+                    TempData["ThongBao"] = "Lỗi không tồn tại!";
+                }
             }
-            else ViewBag.GetLKH = data.getData("SELECT * FROM LOAIKH");
 
-            return View();
+            return RedirectToAction("KHType", "Admin");
+        }
+
+        public ActionResult UpdateKHType(string MaLKH, string TenLKH, string CKLKH)
+        {
+            SQLLoaiKH sqlLKH = new SQLLoaiKH();
+            LoaiKH lkh = new LoaiKH();
+
+            var subject = new SubjectObserver();
+            var lkhObserver = new LoaiKHObserver();
+
+            subject.Attach(lkhObserver);
+
+            if (ModelState.IsValid)
+            {
+                if (TenLKH != null && CKLKH != null && MaLKH != null)
+                {
+                    double cal = double.Parse(CKLKH);
+
+                    CKLKH = (cal / 100).ToString();
+
+                    lkh = new LoaiKH(MaLKH, TenLKH, CKLKH);
+                    subject.Notify(lkh, ActionType.Update);
+                }
+                else
+                {
+                    TempData["ThongBao"] = "Lỗi không tồn tại!";
+                }
+            }
+
+            return RedirectToAction("KHType", "Admin");
         }
 
         public ActionResult NVType()
