@@ -76,10 +76,20 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">Hình ảnh: </span>
                 </div>
-                <div style="display: flex; flex-direction:column; justify-content: center;">
+                <div style="display: flex; flex-direction: column; justify-content: center;">
                     <img id="blah" src="#" alt="" width="100" height="150" /><br>
+                    <input type='text' class="form-control" id="HinhAnhText" value="" style="display:block;" readonly>
                     <input accept="images/*" type='file' class="form-control" id="imgInp" name="HinhAnhFile" required>
                 </div>
+
+                @*gán tên ảnh cho input 2 ngay sau khi chọn*@
+                <script>
+                    document.getElementById('imgInp').addEventListener('change', function () {
+                        var tenHinhAnh = this.files[0].name;
+
+                        document.getElementById('HinhAnhText').value = tenHinhAnh;
+                    });
+                </script>
             </div>
 
             @*trailer phim*@
@@ -175,9 +185,8 @@
                             <td><input name="LuotThich" type="number" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.LuotThich" readonly required></td>
                             <td style="width: 300px;">
                                 <img src="~/img_phim/@item.HinhAnh" alt="" width="100" height="150" /><br>
+                                <input type='text' class="form-control" name="HinhAnhFiledetail2" value="@item.HinhAnh" style="display:block;" readonly>
                                 <input accept="img/*" type='file' class="form-control" name="HinhAnhFiledetail1">
-                                <input type='text' class="form-control" name="HinhAnhFiledetail2" value="@item.HinhAnh" style="display:none;">
-
                             </td>
                             <td><input name="TrailerP" type="text" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.Trailer" required></td>
                             <td><input name="GiaP" type="number" min="1" class="form-control" style="overflow: hidden; text-overflow: ellipsis;" value="@item.GiaPhim" required></td>

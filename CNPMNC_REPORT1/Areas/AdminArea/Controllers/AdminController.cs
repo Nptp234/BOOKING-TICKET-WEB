@@ -362,12 +362,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         
         public ActionResult RoomType()
         {
-            //SQLData123 data = new SQLData123();
-            //if (data.getData("SELECT * FROM LOAIPC")!=null)
-            //{
-            //    ViewBag.DSLPC = data.getData("SELECT * FROM LOAIPC");
-            //}
-
             RoomTypeFactory roomType = new CreateAllLPC();
             ViewBag.DSLPC = roomType.CreateLPC();
 
@@ -676,8 +670,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             SQLData123 data = new SQLData123();
             ViewBag.GetKH = data.getData("SELECT * FROM KHACHHANG");
             ViewBag.GetListLKH = data.getData("SELECT TenLKH FROM LOAIKH");
-
-
 
             return View();
         }
