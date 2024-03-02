@@ -183,6 +183,7 @@
     <Compile Include="Areas\AdminArea\Controllers\AdminController.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LikedController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Factory\FactoryBL\BinhLuanFactory.cs" />
     <Compile Include="Factory\FactoryBL\CreateBLWithFilm.cs" />
@@ -202,6 +203,8 @@
     <Compile Include="Factory\FactoryTLVP\CreateAllTLVP.cs" />
     <Compile Include="Factory\FactoryTLVP\TLVPFactory.cs" />
     <Compile Include="Factory\FactoryVP\VePhimFactory.cs" />
+    <Compile Include="Factory\FactoryYT\CreateListLikedUser.cs" />
+    <Compile Include="Factory\FactoryYT\YeuThichFactory.cs" />
     <Compile Include="Models\Film\TheLoaiVaPhim.cs" />
     <Compile Include="Models\LichChieuPhim\LichChieu.cs" />
     <Compile Include="Models\LichChieuPhim\XuatChieu.cs" />
@@ -215,6 +218,7 @@
     <Compile Include="Models\User\NhanVien.cs" />
     <Compile Include="Models\User\PhanQuyenNV.cs" />
     <Compile Include="Models\User\UserAccount.cs" />
+    <Compile Include="Models\User\YeuThich.cs" />
     <Compile Include="Models\VePhim\VeGhe.cs" />
     <Compile Include="Models\VePhim\VeP.cs" />
     <Compile Include="Observer\Object\BinhLuanObserver.cs" />
@@ -227,6 +231,7 @@
     <Compile Include="Observer\Object\PhimObserver.cs" />
     <Compile Include="Observer\Object\PhongChieuObserver.cs" />
     <Compile Include="Observer\Object\TLVPObserver.cs" />
+    <Compile Include="Observer\Object\YeuThichObserver.cs" />
     <Compile Include="Observer\SubjectObserver.cs" />
     <Compile Include="Proxy\NVProxy\INhanVienProxy.cs" />
     <Compile Include="Proxy\NVProxy\NhanVienProxy.cs" />
@@ -258,6 +263,7 @@
     <Compile Include="Models\Film\Phim.cs" />
     <Compile Include="Singleton\SingletonRoomType.cs" />
     <Compile Include="Singleton\SingletonTLVP.cs" />
+    <Compile Include="Singleton\SingletonYT.cs" />
     <Compile Include="SQLFolder\SQLBinhLuan.cs" />
     <Compile Include="SQLFolder\SQLGioiHanTuoi.cs" />
     <Compile Include="SQLFolder\SQLLoaiKH.cs" />
@@ -273,6 +279,7 @@
     <Compile Include="SQLFolder\SQLTheLVP.cs" />
     <Compile Include="SQLFolder\SQLUser.cs" />
     <Compile Include="SQLFolder\SQLVePhim.cs" />
+    <Compile Include="SQLFolder\SQLYeuThich.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\AdminArea\Content\admin_style.css" />
@@ -425,6 +432,7 @@
     <Content Include="Views\Home\AccountPage.cshtml" />
     <Content Include="Views\Home\PointRule.cshtml" />
     <Content Include="Views\Home\Logout.cshtml" />
+    <Content Include="Views\Liked\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

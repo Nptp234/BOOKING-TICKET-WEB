@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    #div1 {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #div2 {
+        width: 70%;
+        height: auto;
+    }
+
+    #div3 {
+        width: 100%;
+        height: 250px;
+    }
+
+    #title {
+        font-size: 30px;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .product {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+        .product img {
+            max-width: 200px;
+            max-height: 250px;
+            margin-right: 20px;
+        }
+
+        .product h2 {
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+    .div_ttp {
+        display: flex;
+        align-items: center;
+    }
+
+        .div_ttp h2 {
+            margin: 0;
+            padding: 5px;
+        }
+
+    #buttons {
+        display: flex;
+        flex-direction: row;
+        width: fit-content;
+        justify-content: right;
+        align-self: flex-start;
+        float: right;
+        margin-bottom: 5px;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 25px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+</style>
+
+<div id="div1">
+    <h1 id="title">Danh sách yêu thích</h1>
+
+    <div id="div2">
+        @if (ViewBag.YeuThich != null)
+        {
+            foreach (var item in ViewBag.YeuThich)
+            {
+                <div class="product">
+                    <img src="~/img_phim/@item.ThongTinPhim.HinhAnh" alt="Image">
+                    <div id="div3">
+
+                        <h2 style="font-weight: 700; font-size: 25px;">@item.ThongTinPhim.TenPhim</h2>
+
+                        <div class="div_ttp">
+                            <h2>Ngày công chiếu: </h2>
+                            <h2>@item.ThongTinPhim.NgayCongChieu</h2>
+                        </div>
+
+                        <div class="div_ttp">
+                            <h2>Thời lượng phim: </h2>
+                            <h2>@item.ThongTinPhim.ThoiLuongP Phút</h2>
+                        </div>
+
+                        <div class="div_ttp">
+                            <h2>Giá: </h2>
+                            <h2>@item.ThongTinPhim.GiaPhim VNĐ</h2>
+                        </div>
+
+                        <div id="buttons">
+                            <a href="@Url.Action("RemoveFilmLiked", "Liked", new { MaPhim = item.ThongTinPhim.MaPhim })" class="button" style="background-color: mediumvioletred; color: white; text-decoration: none;">Bỏ yêu thích</a>
+                            <a href="@Url.Action("FilmDetail", "Home", new { MaPhim = item.ThongTinPhim.MaPhim })" class="button" style="background-color: cadetblue; color: white; text-decoration: none;">Đặt vé</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>Không có sản phẩm yêu thích nào.</p>
+        }
+    </div>
+</div>
+
+
