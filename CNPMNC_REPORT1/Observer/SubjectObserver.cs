@@ -27,6 +27,11 @@ namespace CNPMNC_REPORT1.Observer
             _observers.Remove(observer);
         }
 
+        public void DetachAll()
+        {
+            _observers.Clear();
+        }
+
         public void Notify(object obj, ActionType actionType)
         {
             foreach (var observer in _observers)

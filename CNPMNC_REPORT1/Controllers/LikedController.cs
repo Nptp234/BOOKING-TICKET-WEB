@@ -16,27 +16,51 @@ namespace CNPMNC_REPORT1.Controllers
 {
     public class LikedController : Controller
     {
+
+        private readonly static SubjectObserver subject = new SubjectObserver();
+        private static YeuThichObserver ytObserver = new YeuThichObserver();
+
         // GET: Liked
         public ActionResult Index()
         {
             YeuThichFactory ytFactory = new CreateListLikedUser();
             ViewBag.YeuThich = ytFactory.CreateYT();
 
+            subject.Attach(ytObserver);
+
             return View();
+        }
+
+        public ActionResult AddFilmLiked(string MaPhim)
+        {
+            YeuThich yt = new YeuThich();
+
+            subject.DetachAll();
+            subject.Attach(ytObserver);
+
+            SQLUser user = SQLUser.Instance;
+            bool success = false;
+
+            if (user.KH != null)
+            {
+                yt.MaPhim = MaPhim;
+                yt.MaKH = user.KH.MaKH;
+
+                success = true;
+                subject.Notify(yt, ActionType.Add);
+            }
+
+            return Json(new { success = success });
         }
 
         public ActionResult RemoveFilmLiked(string MaPhim)
         {
             YeuThich yt = new YeuThich();
-            var subject = new SubjectObserver();
-            var ytObserver = new YeuThichObserver();
 
             SQLUser user = SQLUser.Instance;
 
             yt.MaPhim = MaPhim;
             yt.MaKH = user.KH.MaKH;
-
-            subject.Attach(ytObserver);
 
             subject.Notify(yt, ActionType.Remove);
 

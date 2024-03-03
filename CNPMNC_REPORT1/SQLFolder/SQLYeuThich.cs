@@ -26,6 +26,17 @@ namespace CNPMNC_REPORT1.SQLFolder
             return ThucHienTruyVan(query);
         }
 
+        public bool KiemTraTrungYT(YeuThich yt)
+        {
+            string query = $"SELECT * FROM YEUTHICH WHERE MaKH = '{yt.MaKH}' AND MaPhim = '{yt.MaPhim}'";
+            List<YeuThich> ls = LayDS<YeuThich>(query);
+
+            if (ls.Count > 0)
+            {
+                return true;
+            }
+            else return false;
+        }
 
     }
 }

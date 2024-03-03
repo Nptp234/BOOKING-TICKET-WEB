@@ -1,6 +1,15 @@
 ﻿@{
-    //int countNowShowing = 1;
     Layout = "~/Views/Shared/_IndexLayout.cshtml";
+
+    // danh sách chứa các mã phim yêu thích
+    List<string> favoriteMovies = new List<string>();
+    if (ViewBag.YeuThich != null)
+    {
+        foreach (var i in ViewBag.YeuThich)
+        {
+            favoriteMovies.Add(i.ThongTinPhim.MaPhim);
+        }
+    }
 }
 <!DOCTYPE html>
 <html>
@@ -36,9 +45,10 @@
             cursor: pointer;
         }
 
-        a{
+        a {
             text-decoration: none;
         }
+
         .search_bar {
             border: 1px solid grey;
             border-radius: 10px;
@@ -64,7 +74,7 @@
             background-color: white;
             z-index: 1000;
             height: 200px;
-            overflow:visible;
+            overflow: visible;
             overflow-x: hidden;
             display: none;
         }
@@ -90,7 +100,7 @@
         <div class="input-group mb-3">
             <input onkeyup="ShowSearchResult()" id="SearchBar" style="height:42px;" type="text" class="form-control search_bar" placeholder="Input your favorite film's name" aria-label="Recipient's username" aria-describedby="basic-addon2">
             <div class="input-group-append">
-                <a class="btn btn-outline-secondary" ><i class="bi bi-search"></i></a>
+                <a class="btn btn-outline-secondary"><i class="bi bi-search"></i></a>
             </div>
         </div>
 
@@ -117,22 +127,48 @@
                             <div class="row">
                                 @foreach (var item in ViewBag.FilmNowShowing)
                                 {
-                                    <div class="col-lg-4 col-md-4 col-sm-6 cardfilm" style="margin-bottom: 25px;">
-                                        <a href="@Url.Action("FilmDetail", "Home", new { MaPhim = item.MaPhim })" class="fh5co-card-item image-popup">
-                                            <figure>
-                                                <img src="~/img_phim/@item.HinhAnh" alt="Image" class="img-responsive">
-                                            </figure>
-                                            <div class="fh5co-text">
-                                                <h2>@item.TenPhim</h2>
-                                                <p>@item.TomTatP</p>
-                                            </div>
-                                            <div class="fh5co-text" style="width: fit-content; background-color: #2C3333; padding: 10px 10px; color: white; ">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                                </svg>
+                                    <div class="col-lg-4 col-md-4 col-sm-6 cardfilm " style="margin-bottom: 25px; display: flex; flex-direction: column;">
+
+                                        <div class="fh5co-card-item image-popup">
+                                            <a href="@Url.Action("FilmDetail", "Home", new { MaPhim = item.MaPhim })" style="text-decoration: none;">
+                                                <figure>
+                                                    <img src="~/img_phim/@item.HinhAnh" alt="Image" class="img-responsive">
+                                                </figure>
+                                                <div class="fh5co-text">
+                                                    <h2>@item.TenPhim</h2>
+                                                    <p>@item.TomTatP</p>
+                                                </div>
+                                            </a>
+                                            <div class="fh5co-text" style="width: fit-content; background-color: #2C3333; padding: 10px 10px; color: white; display: flex; flex-direction: row;">
+                                                @{
+                                                    int index = -1;
+
+                                                    if (favoriteMovies != null)
+                                                    {
+                                                        index = favoriteMovies.FindIndex(x => x == item.MaPhim);
+                                                    }
+
+                                                    if (index != -1)
+                                                    {
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
+                                                        </svg>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="heart-icon" onclick="addToFavorites('@item.MaPhim', this)">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                                            </svg>
+                                                        </div>
+                                                    }
+
+                                                }
                                                 <span style=" font-size: 18px; margin-left: 10px"> @CNPMNC_REPORT1.Models.ConvertNumber.ConvertNumberToAbbreviation() lượt mua</span>
                                             </div>
-                                        </a>
+                                        </div>
+
                                     </div>
                                 }
                             </div>
@@ -140,11 +176,11 @@
                     </div>
                 </div>
                 @*<div style="display: flex; justify-content: center; width: 100%">
-                    <a class="button_booking"
-                       style="border: 2px white solid; padding: 10px 20px; margin-top: 20px; cursor: pointer; box-sizing: border-box; color: white">
-                        XEM THÊM
-                    </a>
-                </div>*@
+                        <a class="button_booking"
+                           style="border: 2px white solid; padding: 10px 20px; margin-top: 20px; cursor: pointer; box-sizing: border-box; color: white">
+                            XEM THÊM
+                        </a>
+                    </div>*@
             </div>
 
         </div>
@@ -184,21 +220,45 @@
                                 @foreach (var item in ViewBag.FilmComingSoon)
                                 {
                                     <div class="col-lg-4 col-md-4 col-sm-6 cardfilm" style="margin-bottom: 25px;">
-                                        <a href="@Url.Action("FilmDetail", "Home", new { MaPhim = item.MaPhim })" class="fh5co-card-item image-popup">
-                                            <figure>
-                                                <img src="~/img_phim/@item.HinhAnh" alt="Image" class="img-responsive">
-                                            </figure>
-                                            <div class="fh5co-text">
-                                                <h2>@item.TenPhim</h2>
-                                                <p>@item.TomTatP</p>
+                                        <div class="fh5co-card-item image-popup">
+                                            <a href="@Url.Action("FilmDetail", "Home", new { MaPhim = item.MaPhim })" style="text-decoration: none;">
+                                                <figure>
+                                                    <img src="~/img_phim/@item.HinhAnh" alt="Image" class="img-responsive">
+                                                </figure>
+                                                <div class="fh5co-text">
+                                                    <h2>@item.TenPhim</h2>
+                                                    <p>@item.TomTatP</p>
+                                                </div>
+                                            </a>
+                                            <div class="fh5co-text" style="width: fit-content; background-color: #2C3333; padding: 10px 10px; color: white; display: flex; flex-direction: row;">
+                                                @{
+                                                    int index = -1;
+
+                                                    if (favoriteMovies != null)
+                                                    {
+                                                        index = favoriteMovies.FindIndex(x => x == item.MaPhim);
+                                                    }
+
+                                                    if (index != -1)
+                                                    {
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
+                                                        </svg>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="heart-icon" onclick="addToFavorites('@item.MaPhim', this)">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                                            </svg>
+                                                        </div>
+                                                    }
+
+                                                }
+                                                <span style=" font-size: 18px; margin-left: 10px"> @CNPMNC_REPORT1.Models.ConvertNumber.ConvertNumberToAbbreviation() lượt mua</span>
                                             </div>
-                                            <div class="fh5co-text" style="width: fit-content; background-color: #2C3333; padding: 10px 10px; color: white; ">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                                </svg>
-                                                <span style=" font-size: 18px; margin-left: 10px"> @CNPMNC_REPORT1.Models.ConvertNumber.ConvertNumberToAbbreviation(item.LuotMua) lượt mua</span>
-                                            </div>
-                                        </a>
+                                        </div>
                                     </div>
                                 }
                             </div>
@@ -206,11 +266,11 @@
                     </div>
                 </div>
                 @*<div style="display: flex; justify-content: center; width: 100%">
-                    <a class="button_booking"
-                       style="border: 2px white solid; padding: 10px 20px; margin-top: 20px; cursor: pointer; box-sizing: border-box; color: white">
-                        XEM THÊM
-                    </a>
-                </div>*@
+                        <a class="button_booking"
+                           style="border: 2px white solid; padding: 10px 20px; margin-top: 20px; cursor: pointer; box-sizing: border-box; color: white">
+                            XEM THÊM
+                        </a>
+                    </div>*@
             </div>
         </div>
     </section>
@@ -306,32 +366,56 @@
                                 @foreach (var item in ViewBag.FilmMostWatching)
                                 {
                                     <div class="col-lg-4 col-md-4 col-sm-6 cardfilm" style="margin-bottom: 25px;">
-                                        <a href="@Url.Action("FilmDetail", "Home", new { MaPhim = item.MaPhim })" class="fh5co-card-item image-popup">
-                                            <figure>
-                                                <img src="~/img_phim/@item.HinhAnh" alt="Image" class="img-responsive">
-                                            </figure>
-                                            <div class="fh5co-text">
-                                                <h2>@item.TenPhim</h2>
-                                                <p>@item.TomTatP</p>
+                                        <div class="fh5co-card-item image-popup">
+                                            <a href="@Url.Action("FilmDetail", "Home", new { MaPhim = item.MaPhim })" style="text-decoration: none;">
+                                                <figure>
+                                                    <img src="~/img_phim/@item.HinhAnh" alt="Image" class="img-responsive">
+                                                </figure>
+                                                <div class="fh5co-text">
+                                                    <h2>@item.TenPhim</h2>
+                                                    <p>@item.TomTatP</p>
+                                                </div>
+                                            </a>
+                                            <div class="fh5co-text" style="width: fit-content; background-color: #2C3333; padding: 10px 10px; color: white; display: flex; flex-direction: row;">
+                                                @{
+                                                    int index = -1;
+
+                                                    if (favoriteMovies != null)
+                                                    {
+                                                        index = favoriteMovies.FindIndex(x => x == item.MaPhim);
+                                                    }
+
+                                                    if (index != -1)
+                                                    {
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
+                                                        </svg>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="heart-icon" onclick="addToFavorites('@item.MaPhim', this)">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                                                            </svg>
+                                                        </div>
+                                                    }
+
+                                                }
+                                                <span style=" font-size: 18px; margin-left: 10px"> @CNPMNC_REPORT1.Models.ConvertNumber.ConvertNumberToAbbreviation() lượt mua</span>
                                             </div>
-                                            <div class="fh5co-text" style="width: fit-content; background-color: #2C3333; padding: 10px 10px; color: white; ">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
-                                                </svg>
-                                                <span style=" font-size: 18px; margin-left: 10px"> @CNPMNC_REPORT1.Models.ConvertNumber.ConvertNumberToAbbreviation(item.LuotMua) lượt mua</span>
-                                            </div>
-                                        </a>
+                                        </div>
                                     </div>
                                 }
                             </div>
                         </div>
                     </div>
                     @*<div style="display: flex; justify-content: center; width: 100%">
-                        <a class="button_booking"
-                           style="border: 2px white solid; padding: 10px 20px; margin-top: 20px; cursor: pointer; box-sizing: border-box; color: white">
-                            XEM THÊM
-                        </a>
-                    </div>*@
+                            <a class="button_booking"
+                               style="border: 2px white solid; padding: 10px 20px; margin-top: 20px; cursor: pointer; box-sizing: border-box; color: white">
+                                XEM THÊM
+                            </a>
+                        </div>*@
                 </div>
             </div>
         </div>
@@ -412,6 +496,27 @@
             });
         }
 
+
+        function addToFavorites(maPhim, element) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("AddFilmLiked", "Liked")',
+                data: { MaPhim: maPhim },
+                success: function (result) {
+                    if (result.success) {
+                        // Thay đổi biểu tượng trái tim thành biểu tượng đã được điền màu
+                        $(element).html('<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" /></svg>');
+                    } else {
+                        // Hiển thị thông báo lỗi
+                        alert('Không thể thêm vào danh sách yêu thích.');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Xử lý lỗi nếu có
+                    console.error(xhr.responseText);
+                }
+            });
+        }
     </script>
 </body>
 </html>

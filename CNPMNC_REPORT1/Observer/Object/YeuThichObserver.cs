@@ -36,11 +36,16 @@ namespace CNPMNC_REPORT1.Observer.Object
 
         private void Add(YeuThich obj)
         {
-            bool isAdd = sqlObject.ThemYT(obj);
+            bool isCheck = sqlObject.KiemTraTrungYT(obj);
 
-            if (isAdd)
+            if (!isCheck)
             {
-                YeuThichFactory.allYT.Add(obj);
+                bool isAdd = sqlObject.ThemYT(obj);
+
+                if (isAdd)
+                {
+                    YeuThichFactory.allYT.Add(obj);
+                }
             }
         }
 

@@ -34,6 +34,9 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         PhimFactory phimFactory;
         LoaiPhimFactory loaiPhimFactory;
 
+        // SubjectObserver ở mức Controller
+        private static readonly SubjectObserver subject = new SubjectObserver();
+
         public ActionResult IndexNull()
         {
             SQLUser sQLUser = SQLUser.Instance;
@@ -77,7 +80,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         {
             SQLPhim sqlPhim = new SQLPhim();
             SQLGioiHanTuoi sqlGHT = new SQLGioiHanTuoi();
-            var subject = new SubjectObserver();
             var phimObserver = new PhimObserver();
 
             subject.Attach(phimObserver);
@@ -136,7 +138,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
             SQLPhim sqlPhim = new SQLPhim();
             SQLGioiHanTuoi sqlGHT = new SQLGioiHanTuoi();
-            var subject = new SubjectObserver();
             var phimObserver = new PhimObserver();
 
             subject.Attach(phimObserver);
@@ -189,7 +190,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             SQLLoaiP sqlLP = new SQLLoaiP();
             LoaiPhim lphim = new LoaiPhim();
 
-            var subject = new SubjectObserver();
             var lpObserver = new LoaiPhimObserver();
 
             subject.Attach(lpObserver);
@@ -213,7 +213,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             SQLLoaiP sqlLP = new SQLLoaiP();
             LoaiPhim lphim = new LoaiPhim();
 
-            var subject = new SubjectObserver();
             var lpObserver = new LoaiPhimObserver();
 
             subject.Attach(lpObserver);
@@ -245,7 +244,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             SQLGioiHanTuoi sqlGHT = new SQLGioiHanTuoi();
             GioiHanTuoi ght = new GioiHanTuoi();
 
-            var subject = new SubjectObserver();
             var ghtObserver = new GHTObserver();
 
             subject.Attach(ghtObserver);
@@ -270,7 +268,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             SQLGioiHanTuoi sqlGHT = new SQLGioiHanTuoi();
             GioiHanTuoi ght = new GioiHanTuoi();
 
-            var subject = new SubjectObserver();
             var ghtObserver = new GHTObserver();
 
             subject.Attach(ghtObserver);
@@ -310,7 +307,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
             PhongChieu room = new PhongChieu();
 
-            var subject = new SubjectObserver();
             var roomObserver = new PhongChieuObserver();
 
             subject.Attach(roomObserver);
@@ -337,7 +333,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             SQLRoom sqlRoom = new SQLRoom();
             PhongChieu room = new PhongChieu();
 
-            var subject = new SubjectObserver();
             var roomObserver = new PhongChieuObserver();
 
             subject.Attach(roomObserver);
@@ -374,7 +369,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             SQLRoomType sqlLPC = new SQLRoomType();
             LoaiPC lpc = new LoaiPC();
 
-            var subject = new SubjectObserver();
             var lpcObserver = new LPCObserver();
 
             subject.Attach(lpcObserver);
@@ -400,7 +394,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             SQLRoomType sqlLPC = new SQLRoomType();
             LoaiPC lpc = new LoaiPC();
 
-            var subject = new SubjectObserver();
             var lpcObserver = new LPCObserver();
 
             subject.Attach(lpcObserver);
@@ -438,7 +431,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             LoaiPhimFactory lp = new CreateAllLP();
             List<LoaiPhim> lsLP = lp.CreateLoaiP();
 
-            var subject = new SubjectObserver();
             var tlvpObserver = new TLVPObserver();
 
             subject.Attach(tlvpObserver);
@@ -480,7 +472,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             LoaiPhimFactory lp = new CreateAllLP();
             List<LoaiPhim> lsLP = lp.CreateLoaiP();
 
-            var subject = new SubjectObserver();
             var tlvpObserver = new TLVPObserver();
 
             subject.Attach(tlvpObserver);
@@ -517,8 +508,8 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult KHType()
         {
-            //SQLData123 data = new SQLData123();
-            //ViewBag.GetLKH = data.getData("SELECT* FROM LOAIKH");
+            var lkhObserver = new LoaiKHObserver();
+            subject.Attach(lkhObserver);
 
             LoaiKHFactory lkh = new CreateAllLKH();
             ViewBag.GetLKH = lkh.CreateLoaiKH();
@@ -530,23 +521,14 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         [HttpPost]
         public ActionResult KHType(string TenLKH, string CKLKH)
         {
-            SQLLoaiKH sqlLKH = new SQLLoaiKH();
-            LoaiKH lkh = new LoaiKH();
-
-            var subject = new SubjectObserver();
-            var lkhObserver = new LoaiKHObserver();
-
-            subject.Attach(lkhObserver);
-
             if (ModelState.IsValid)
             {
                 if (TenLKH != null && CKLKH != null)
                 {
                     double cal = double.Parse(CKLKH);
-
                     CKLKH = (cal / 100).ToString();
 
-                    lkh = new LoaiKH(TenLKH, CKLKH);
+                    LoaiKH lkh = new LoaiKH(TenLKH, CKLKH);
                     subject.Notify(lkh, ActionType.Add);
                 }
                 else
@@ -560,23 +542,14 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult UpdateKHType(string MaLKH, string TenLKH, string CKLKH)
         {
-            SQLLoaiKH sqlLKH = new SQLLoaiKH();
-            LoaiKH lkh = new LoaiKH();
-
-            var subject = new SubjectObserver();
-            var lkhObserver = new LoaiKHObserver();
-
-            subject.Attach(lkhObserver);
-
             if (ModelState.IsValid)
             {
                 if (TenLKH != null && CKLKH != null && MaLKH != null)
                 {
                     double cal = double.Parse(CKLKH);
-
                     CKLKH = (cal / 100).ToString();
 
-                    lkh = new LoaiKH(MaLKH, TenLKH, CKLKH);
+                    LoaiKH lkh = new LoaiKH(MaLKH, TenLKH, CKLKH);
                     subject.Notify(lkh, ActionType.Update);
                 }
                 else
@@ -590,6 +563,9 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult NVType()
         {
+            var lnvObserver = new LoaiNVObserver();
+            subject.Attach(lnvObserver);
+
             LNVFactory lnv = new CreateAllLNV();
             ViewBag.GetLNV = lnv.CreateLNV();
 
@@ -597,31 +573,24 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
             return View();
         }
+
         [HttpPost]
         public ActionResult NVType(string MaLNV, string TenLNV)
         {
-            SQLLoaiNV sql = new SQLLoaiNV();
-            LoaiNV obj = new LoaiNV();
-
-            var subject = new SubjectObserver();
-            var observer = new LoaiNVObserver();
-
-            subject.Attach(observer);
-
             if (ModelState.IsValid)
             {
                 if (TenLNV != null)
                 {
+                    SQLLoaiNV sql = new SQLLoaiNV();
                     if (sql.KiemTraTenLNV(TenLNV))
                     {
-                        obj = new LoaiNV(TenLNV);
+                        LoaiNV obj = new LoaiNV(TenLNV);
                         subject.Notify(obj, ActionType.Add);
                     }
                     else
                     {
                         TempData["ThongBao"] = "Trùng tên!";
                     }
-                    
                 }
                 else
                 {
@@ -634,21 +603,14 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult UpdateNVType(string MaLNV, string TenLNV)
         {
-            SQLLoaiNV sql = new SQLLoaiNV();
-            LoaiNV obj = new LoaiNV();
-
-            var subject = new SubjectObserver();
-            var observer = new LoaiNVObserver();
-
-            subject.Attach(observer);
-
             if (ModelState.IsValid)
             {
                 if (TenLNV != null && MaLNV != null)
                 {
+                    SQLLoaiNV sql = new SQLLoaiNV();
                     if (sql.KiemTraTenLNV(TenLNV))
                     {
-                        obj = new LoaiNV(MaLNV, TenLNV);
+                        LoaiNV obj = new LoaiNV(MaLNV, TenLNV);
                         subject.Notify(obj, ActionType.Update);
                     }
                     else

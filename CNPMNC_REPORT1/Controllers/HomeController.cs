@@ -16,6 +16,7 @@ using CNPMNC_REPORT1.SQLData;
 using CNPMNC_REPORT1.Models.User;
 using CNPMNC_REPORT1.Factory.FactoryPhim;
 using CNPMNC_REPORT1.Observer;
+using CNPMNC_REPORT1.Factory.FactoryYT;
 
 namespace CNPMNC_REPORT1.Controllers
 {
@@ -25,6 +26,7 @@ namespace CNPMNC_REPORT1.Controllers
         BinhLuanFactory factoryBL;
         GHTFactory factoryGHT;
         SQLData123 db = new SQLData123();
+        SubjectObserver subject = new SubjectObserver();
 
         public ActionResult Index(string Logout)
         {
@@ -43,12 +45,12 @@ namespace CNPMNC_REPORT1.Controllers
             factoryPhim = new MostWatchingFilmFactory();
             ViewBag.FilmMostWatching = factoryPhim.CreatePhim();
 
-            if (Logout == "true")
+            if (SQLUser.Instance.KH != null)
             {
-                Session["isLogined"] = "false";
-                Session["Username"] = null;
-                return View();
+                YeuThichFactory ytFactory = new CreateListLikedUser();
+                ViewBag.YeuThich = ytFactory.CreateYT();
             }
+
 
             return View();
         }
@@ -274,9 +276,7 @@ namespace CNPMNC_REPORT1.Controllers
         [HttpPost]
         public ActionResult FilmDetail(string IDPhim, string GhiChu, string IDBL, string status)
         {
-            SQLBinhLuan sQLBinhLuan = new SQLBinhLuan();
             BinhLuan bl = new BinhLuan();
-            var subject = new SubjectObserver();
             var blObserver = new BinhLuanObserver();
 
             subject.Attach(blObserver);
@@ -313,7 +313,6 @@ namespace CNPMNC_REPORT1.Controllers
         {
 
             BinhLuan bl = new BinhLuan();
-            var subject = new SubjectObserver();
             var blObserver = new BinhLuanObserver();
 
             subject.Attach(blObserver);
