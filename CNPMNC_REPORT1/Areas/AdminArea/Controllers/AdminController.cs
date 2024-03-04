@@ -63,6 +63,10 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult Film()
         {
+            var phimObserver = new PhimObserver();
+            subject.DetachAll();
+            subject.Attach(phimObserver);
+
             loaiPhimFactory = new CreateAllLP();
             phimFactory = new CreateAllPhim();
             ghtFactory = new CreateAllGHT();
@@ -70,64 +74,50 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             ViewBag.DSGHTP = ghtFactory.CreateGHT();
             ViewBag.DSLPP = loaiPhimFactory.CreateLoaiP();
             ViewBag.DSF = phimFactory.CreatePhim();
+
             ViewBag.ThongBao = TempData["ThongBao"];
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult Film(string MaP, string TenF, string MoTaF, string NgayCC, string ThoiLuongP, string HinhAnhP, string TrailerP, string GHTP, string GiaP, string MaGHT, HttpPostedFileBase HinhAnhFile, HttpPostedFileBase HinhAnhFiledetail1, string HinhAnhFiledetail2, string status)
+        public ActionResult Film(string MaP, string TenF, string MoTaF, string NgayCC, string ThoiLuongP, string HinhAnhP, string TrailerP, string GHTP, string GiaP, string MaGHT, HttpPostedFileBase HinhAnhFile, HttpPostedFileBase HinhAnhFiledetail1, string HinhAnhFiledetail2)
         {
             SQLPhim sqlPhim = new SQLPhim();
             SQLGioiHanTuoi sqlGHT = new SQLGioiHanTuoi();
-            var phimObserver = new PhimObserver();
 
-            subject.Attach(phimObserver);
-
-            if (ModelState.IsValid)
+            if (TenF != null && MoTaF != null && NgayCC != null && ThoiLuongP != null && TrailerP != null && GHTP != null && GiaP != null)
             {
-                if (status == "Add")
+                if (HinhAnhFile != null)
                 {
-                    if (TenF != null && MoTaF != null && NgayCC != null && ThoiLuongP != null && TrailerP != null && GHTP != null && GiaP != null)
+                    var fileName = Path.GetFileName(HinhAnhFile.FileName);
+                    var path = Path.Combine(Server.MapPath("~/img_phim"), fileName);
+                    HinhAnhFile.SaveAs(path);
+
+                    string maGHT = sqlGHT.ChuyenTen_Ma(GHTP);
+
+                    if (maGHT != "")
                     {
-                        if (HinhAnhFile != null)
-                        {
-                            var fileName = Path.GetFileName(HinhAnhFile.FileName);
-                            var path = Path.Combine(Server.MapPath("~/img_phim"), fileName);
-                            HinhAnhFile.SaveAs(path);
+                        Phim phim = new Phim(TenF, MoTaF, NgayCC, ThoiLuongP, "0", "0", fileName, TrailerP, GiaP, maGHT);
 
-                            string maGHT = sqlGHT.ChuyenTen_Ma(GHTP);
-
-                            if (maGHT != "")
-                            {
-                                Phim phim = new Phim(TenF, MoTaF, NgayCC, ThoiLuongP, "0", "0", fileName, TrailerP, GiaP, maGHT);
-                                
-                                subject.Notify(phim, ActionType.Add);
-
-                                return RedirectToAction("Film", "Admin");
-                            }
-                            else
-                            {
-                                TempData["ThongBao"] = "Lỗi không tồn tại giới hạn tuổi!";
-                            }
-                        }
-                        else
-                        {
-                            TempData["ThongBao"] = "Lỗi không tồn tại hình ảnh!";
-                        }
-
+                        subject.Notify(phim, ActionType.Add);
                     }
                     else
                     {
-                        TempData["ThongBao"] = "Lỗi null dữ liệu!";
+                        TempData["ThongBao"] = "Lỗi không tồn tại giới hạn tuổi!";
                     }
-
-                    return RedirectToAction("Film", "Admin");
                 }
-                
-                else TempData["ThongBao"] = "Lỗi model!";
+                else
+                {
+                    TempData["ThongBao"] = "Lỗi không tồn tại hình ảnh!";
+                }
             }
-            return View();
+            else
+            {
+                TempData["ThongBao"] = "Lỗi null dữ liệu!";
+            }
+
+            return RedirectToAction("Film", "Admin");
         }
 
         public ActionResult UpdateFilm(string MaP, string TenF, string MoTaF, string NgayCC, string ThoiLuongP, string HinhAnhP, string TrailerP, string GiaP, string MaGHT, HttpPostedFileBase HinhAnhFiledetail1, string HinhAnhFiledetail2)
@@ -138,9 +128,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
             SQLPhim sqlPhim = new SQLPhim();
             SQLGioiHanTuoi sqlGHT = new SQLGioiHanTuoi();
-            var phimObserver = new PhimObserver();
-
-            subject.Attach(phimObserver);
 
             if (TenF != null && MoTaF != null && NgayCC != null && TrailerP != null && ThoiLuongP != null && MaGHT != null && GiaP != null && MaP != null)
             {
@@ -163,8 +150,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
                     Phim phim = new Phim(MaP, TenF, MoTaF, NgayCC, ThoiLuongP, "0", "0", fileName1, TrailerP, GiaP, MaGHT);
 
                     subject.Notify(phim, ActionType.Update);
-
-                    return RedirectToAction("Film", "Admin");
                 }
 
             }
@@ -178,6 +163,10 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         
         public ActionResult FilmType()
         {
+            var lpObserver = new LoaiPhimObserver();
+            subject.DetachAll();
+            subject.Attach(lpObserver);
+
             loaiPhimFactory = new CreateAllLP();
             ViewBag.DSTLF = loaiPhimFactory.CreateLoaiP();
 
@@ -189,10 +178,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         {
             SQLLoaiP sqlLP = new SQLLoaiP();
             LoaiPhim lphim = new LoaiPhim();
-
-            var lpObserver = new LoaiPhimObserver();
-
-            subject.Attach(lpObserver);
 
             if (TenLF != null && MoTaLF != null)
             {
@@ -213,10 +198,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             SQLLoaiP sqlLP = new SQLLoaiP();
             LoaiPhim lphim = new LoaiPhim();
 
-            var lpObserver = new LoaiPhimObserver();
-
-            subject.Attach(lpObserver);
-
             if (TenLF != null && MoTaLF != null)
             {
                 lphim = new LoaiPhim(MaTL, TenLF, MoTaLF);
@@ -233,6 +214,10 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult AgeLimit()
         {
+            var ghtObserver = new GHTObserver();
+            subject.DetachAll();
+            subject.Attach(ghtObserver);
+
             GHTFactory ghtFactory = new CreateAllGHT();
             ViewBag.DSGHT = ghtFactory.CreateGHT();
 
@@ -243,10 +228,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         {
             SQLGioiHanTuoi sqlGHT = new SQLGioiHanTuoi();
             GioiHanTuoi ght = new GioiHanTuoi();
-
-            var ghtObserver = new GHTObserver();
-
-            subject.Attach(ghtObserver);
 
             if (ModelState.IsValid)
             {
@@ -268,10 +249,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             SQLGioiHanTuoi sqlGHT = new SQLGioiHanTuoi();
             GioiHanTuoi ght = new GioiHanTuoi();
 
-            var ghtObserver = new GHTObserver();
-
-            subject.Attach(ghtObserver);
-
             if (ModelState.IsValid)
             {
                 if (TenGHT != null && MoTaGHT != null)
@@ -290,6 +267,10 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult Room()
         {
+            var roomObserver = new PhongChieuObserver();
+            subject.DetachAll();
+            subject.Attach(roomObserver);
+
             RoomFactory roomFac = new CreateAllPC();
             ViewBag.DSPC = roomFac.CreatePC();
 
@@ -304,12 +285,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         {
             SQLRoom sqlRoom = new SQLRoom();
             SQLLoaiP sqlLP = new SQLLoaiP();
-
             PhongChieu room = new PhongChieu();
-
-            var roomObserver = new PhongChieuObserver();
-
-            subject.Attach(roomObserver);
 
             if (ModelState.IsValid)
             {
@@ -333,10 +309,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             SQLRoom sqlRoom = new SQLRoom();
             PhongChieu room = new PhongChieu();
 
-            var roomObserver = new PhongChieuObserver();
-
-            subject.Attach(roomObserver);
-
             if (ModelState.IsValid)
             {
                 if (TenPC != null && SoLuongGT != null && SoLuongGV != null && MaLPC != null)
@@ -357,6 +329,10 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         
         public ActionResult RoomType()
         {
+            var lpcObserver = new LPCObserver();
+            subject.DetachAll();
+            subject.Attach(lpcObserver);
+
             RoomTypeFactory roomType = new CreateAllLPC();
             ViewBag.DSLPC = roomType.CreateLPC();
 
@@ -368,10 +344,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         {
             SQLRoomType sqlLPC = new SQLRoomType();
             LoaiPC lpc = new LoaiPC();
-
-            var lpcObserver = new LPCObserver();
-
-            subject.Attach(lpcObserver);
 
             if (ModelState.IsValid)
             {
@@ -394,10 +366,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             SQLRoomType sqlLPC = new SQLRoomType();
             LoaiPC lpc = new LoaiPC();
 
-            var lpcObserver = new LPCObserver();
-
-            subject.Attach(lpcObserver);
-
             if (ModelState.IsValid)
             {
                 if (TenLPC != null && MoTaLPC != null && MaLPC != null)
@@ -416,6 +384,10 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult TheLoaiVaPhim()
         {
+            var tlvpObserver = new TLVPObserver();
+            subject.DetachAll();
+            subject.Attach(tlvpObserver);
+
             TLVPFactory tlvp = new CreateAllTLVP();
             ViewBag.DSTLVP = tlvp.CreateTLVP();
 
@@ -430,10 +402,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             TheLoaiVaPhim tlvp = new TheLoaiVaPhim();
             LoaiPhimFactory lp = new CreateAllLP();
             List<LoaiPhim> lsLP = lp.CreateLoaiP();
-
-            var tlvpObserver = new TLVPObserver();
-
-            subject.Attach(tlvpObserver);
 
             if (ModelState.IsValid)
             {
@@ -472,10 +440,6 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             LoaiPhimFactory lp = new CreateAllLP();
             List<LoaiPhim> lsLP = lp.CreateLoaiP();
 
-            var tlvpObserver = new TLVPObserver();
-
-            subject.Attach(tlvpObserver);
-
             if (ModelState.IsValid)
             {
                 if (MaPhim != null && MaTL != null && MaTLP != null)
@@ -509,6 +473,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         public ActionResult KHType()
         {
             var lkhObserver = new LoaiKHObserver();
+            subject.DetachAll();
             subject.Attach(lkhObserver);
 
             LoaiKHFactory lkh = new CreateAllLKH();
@@ -564,6 +529,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         public ActionResult NVType()
         {
             var lnvObserver = new LoaiNVObserver();
+            subject.DetachAll();
             subject.Attach(lnvObserver);
 
             LNVFactory lnv = new CreateAllLNV();
@@ -635,6 +601,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
             return View();
         }
+
         [HttpPost]
         public ActionResult KhachHang(int? MaKH, string TenKH, string MatKhau, string Email, int? DiemThuong, string TrangThaiKH, string LoaiKH, int? MaLKHDetail, string status)
         {

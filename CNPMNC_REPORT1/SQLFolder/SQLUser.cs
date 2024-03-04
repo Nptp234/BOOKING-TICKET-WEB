@@ -88,11 +88,24 @@ namespace CNPMNC_REPORT1.SQLData
             else return false;
         }
 
-        public bool ThemKH(KhachHang kh)
+        private bool ThucHienTruyVanThemKH(KhachHang kh)
         {
             string query = $"INSERT INTO KHACHHANG VALUES('{kh.TenTKKH}', '{kh.MatKhauKH}', '{kh.EmailKH}', '{kh.DiemThuongKH}', '{kh.TrangThaiTKKH}', '{kh.MaLoaiKH}')";
-            KH = kh;
+            
             return ThucHienTruyVan(query);
+        }
+
+        public bool ThemKH(KhachHang kh)
+        {
+            if (ThucHienTruyVanThemKH(kh))
+            {
+                string query = $"SELECT * FROM KHACHHANG WHERE TenTKKh = '{kh.TenTKKH}'";
+                List<KhachHang> ls = LayDS<KhachHang>(query);
+                KH = ls[0];
+
+                return true;
+            }
+            else return false;
         }
 
         public bool CapNhatKH(KhachHang kh)

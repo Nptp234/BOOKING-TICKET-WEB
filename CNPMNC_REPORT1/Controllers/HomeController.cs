@@ -75,7 +75,7 @@ namespace CNPMNC_REPORT1.Controllers
                 userAccount = new KhachHang();
 
                 bool check = sQLUser.KiemTraThongTinDangNhap(Username, Password, userAccount.UserType);
-
+                string temp = SQLUser.Instance.KH.MaKH;
                 if (check)
                 {
                     Session["isLogined"] = "true";

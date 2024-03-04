@@ -31,8 +31,14 @@ namespace CNPMNC_REPORT1.Models.User
             MaLoaiKH = maLoaiKH;
         }
 
-        public KhachHang(string maKH, string tenTKKH, string matKhauKH, string emailKH, string diemThuongKH, string trangThaiTKKH, string maLoaiKH) : this(maKH, tenTKKH, matKhauKH, emailKH, diemThuongKH, trangThaiTKKH)
+        public KhachHang(string maKH, string tenTKKH, string matKhauKH, string emailKH, string diemThuongKH, string trangThaiTKKH, string maLoaiKH)
         {
+            MaKH = maKH;
+            TenTKKH = tenTKKH;
+            MatKhauKH = matKhauKH;
+            EmailKH = emailKH;
+            DiemThuongKH = diemThuongKH;
+            TrangThaiTKKH = trangThaiTKKH;
             MaLoaiKH = maLoaiKH;
         }
     }
