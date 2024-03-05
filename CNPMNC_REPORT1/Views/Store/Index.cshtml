@@ -247,7 +247,7 @@
                                 <input name="ThanhTien" value="0" style="display: none;" />
                                 <input name="TongGia" value="0" style="display: none;" />
 
-                                <button class="close" style="cursor: pointer; padding: 3px;" name="status" value="Delete">&#10005;</button>
+                                <a href="@Url.Action("XoaVe", "Store", new { maVe = a[5] })" class="close" style="cursor: pointer; padding: 3px; text-decoration: none;" name="status" value="Delete">&#10005;</a>
                             </div>
 
                             <div class="col"><span style="float: right;" id="price_format">@a[2] VND</span></div>

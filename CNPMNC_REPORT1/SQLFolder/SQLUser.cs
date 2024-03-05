@@ -110,26 +110,19 @@ namespace CNPMNC_REPORT1.SQLData
 
         public bool CapNhatKH(KhachHang kh)
         {
-            KH = kh;
-
             bool updateEmail = CapNhatEmailKH(kh);
-            bool updatePass = CapNhatMatKhauKH(kh);
             bool updateName = CapNhatTenNDKH(kh);
+            bool updatePass = CapNhatMatKhauKH(kh);
 
-            if (updateEmail && updatePass && updateName)
-            {
-                return true;
-            }
-            else return false;
+            return updatePass && updateEmail && updateName;
         }
 
         public bool CapNhatEmailKH(KhachHang kh)
         {
-            string query = $"UPDATE KHACHHANG SET EmailKH='{kh.EmailKH}' WHERE MaKH = '{kh.MaKH}'";
-            
             if (KiemTraEmailNDKH(kh.EmailKH))
             {
-                KH = kh;
+                string query = $"UPDATE KHACHHANG SET EmailKH='{kh.EmailKH}' WHERE MaKH = '{kh.MaKH}'";
+                KH.EmailKH = kh.EmailKH;
                 return ThucHienTruyVan(query);
             }
             else return false;
@@ -138,17 +131,16 @@ namespace CNPMNC_REPORT1.SQLData
         public bool CapNhatMatKhauKH(KhachHang kh)
         {
             string query = $"UPDATE KHACHHANG SET MatKhauKH='{kh.MatKhauKH}' WHERE MaKH = '{kh.MaKH}'";
-            KH = kh;
+            KH.MatKhauKH = kh.MatKhauKH;
             return ThucHienTruyVan(query);
         }
 
         public bool CapNhatTenNDKH(KhachHang kh)
         {
-            string query = $"UPDATE KHACHHANG SET TenTKKH='{kh.TenTKKH}' WHERE MaKH = '{kh.MaKH}'";
-            
             if (KiemTraTenNDKH(kh.TenTKKH))
             {
-                KH = kh;
+                string query = $"UPDATE KHACHHANG SET TenTKKH='{kh.TenTKKH}' WHERE MaKH = '{kh.MaKH}'";
+                KH.TenTKKH = kh.TenTKKH;
                 return ThucHienTruyVan(query);
             }
             else return false;
@@ -182,6 +174,18 @@ namespace CNPMNC_REPORT1.SQLData
                 return false;
             }
             else return true;
+        }
+
+        public bool KiemTraMatKhau(string mk)
+        {
+            if (mk.Length <= 7)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public List<PhanQuyenNV> LayDanhSachPhanQuyen(string maNV)

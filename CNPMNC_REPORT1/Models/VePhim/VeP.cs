@@ -29,8 +29,15 @@ namespace CNPMNC_REPORT1.Models
             MaKH = maKH;
         }
 
-        public VeP(string maVe, string ngayDat, string trangThaiThanhToan, string trangThaiHetHan, string sLGhe, string giaVe, string maLC, string maKH) : this(maVe, ngayDat, trangThaiThanhToan, trangThaiHetHan, sLGhe, giaVe, maLC)
+        public VeP(string maVe, string ngayDat, string trangThaiThanhToan, string trangThaiHetHan, string sLGhe, string giaVe, string maLC, string maKH)
         {
+            MaVe = maVe;
+            NgayDat = ngayDat;
+            TrangThaiThanhToan = trangThaiThanhToan;
+            TrangThaiHetHan = trangThaiHetHan;
+            SLGhe = sLGhe;
+            GiaVe = giaVe;
+            MaLC = maLC;
             MaKH = maKH;
         }
     }

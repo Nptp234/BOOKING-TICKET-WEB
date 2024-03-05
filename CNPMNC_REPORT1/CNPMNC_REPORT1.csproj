@@ -433,6 +433,7 @@
     <Content Include="Views\Home\PointRule.cshtml" />
     <Content Include="Views\Home\Logout.cshtml" />
     <Content Include="Views\Liked\Index.cshtml" />
+    <Content Include="Views\Store\KiemTraChuyenTrang.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -75,7 +75,7 @@ namespace CNPMNC_REPORT1.Controllers
                 userAccount = new KhachHang();
 
                 bool check = sQLUser.KiemTraThongTinDangNhap(Username, Password, userAccount.UserType);
-                string temp = SQLUser.Instance.KH.MaKH;
+
                 if (check)
                 {
                     Session["isLogined"] = "true";
@@ -181,35 +181,51 @@ namespace CNPMNC_REPORT1.Controllers
                                         $"GROUP BY vp.MaVe, p.TenPhim, pc.TenPC, vp.NgayDat, lc.NgayLC, xc.GioXC " +
                                         $"ORDER BY vp.NgayDat DESC");
 
+            ViewBag.ThongBao = TempData["ThongBao"];
+
             return View(kh);
         }
         [HttpPost]
         public ActionResult AccountPage(string TenTK, string Email, string Pass)
         {
+            if (Email == null || Pass == null)
+            {
+                TempData["ThongBao"] = "Null Email or Pass!";
+                return RedirectToAction("AccountPage", "Home");
+            }
+
             SQLData123 data = new SQLData123();
             SQLUser sQLUser = SQLUser.Instance;
             KhachHang kh = sQLUser.KH;
+            KhachHang updateKH = new KhachHang();
 
-            if (Email != null && Pass != null && TenTK != null)
+            updateKH = kh;
+            updateKH.TenTKKH = TenTK;
+            updateKH.EmailKH = Email;
+            updateKH.MatKhauKH = Pass;
+
+            if (TenTK != null)
             {
-                kh.TenTKKH = TenTK;
-                kh.EmailKH = Email;
-                kh.MatKhauKH = Pass;
-
-                bool isUpdate = sQLUser.CapNhatKH(kh);
-
-                if (isUpdate)
+                if (sQLUser.CapNhatTenNDKH(kh))
                 {
-                    return RedirectToAction("AccountPage", "Home");
-                }
-                else
-                {
-                    ViewBag.ThongBao = "Update Fail!";
+                    kh.TenTKKH = TenTK;
                 }
             }
-            else
+
+            if (Email != null)
             {
-                ViewBag.ThongBao = "Null Email or Pass!";
+                if (sQLUser.CapNhatEmailKH(updateKH))
+                {
+                    kh.EmailKH = Email;
+                }
+            }
+            
+            if (Pass != null)
+            {
+                if (sQLUser.CapNhatMatKhauKH(updateKH))
+                {
+                    kh.MatKhauKH = Pass;
+                }
             }
 
             return RedirectToAction("AccountPage", "Home");

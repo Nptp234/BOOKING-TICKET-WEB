@@ -8,16 +8,43 @@ using CNPMNC_REPORT1.Models;
 using System.Net;
 using System.Net.Mail;
 using System.Collections;
+using CNPMNC_REPORT1.SQLData;
+using CNPMNC_REPORT1.SQLFolder;
 
 namespace CNPMNC_REPORT1.Controllers
 {
     public class StoreController : Controller
     {
         SQLData123 data = new SQLData123();
-        // GET: Store
-        public ActionResult Index()
+        SQLUser user = SQLUser.Instance;
+        SQLVePhim veP = new SQLVePhim();
+
+        public ActionResult KiemTraChuyenTrang()
         {
             string tentk = Session["Username"].ToString();
+            ViewBag.GetDSVP = data.getData($"SELECT p.TenPhim, p.HinhAnh, vp.GiaVe, lc.NgayLC, vp.NgayDat, vp.MaVe FROM VEPHIM vp, LICHCHIEU lc, PHIM p, KHACHHANG kh WHERE vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim AND kh.MaKH=vp.MaKH AND kh.TenTKKH='{tentk}' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
+            ViewBag.GetCountVP = data.getData($"SELECT COUNT(*) FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH = kh.MaKH AND kh.TenTKKH = '{tentk}' AND TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
+
+            ArrayList list = ViewBag.GetDSVP;
+            if (list.Count != 0)
+            {
+                return RedirectToAction("Index", "Store");
+            }
+            else
+            {
+                return RedirectToAction("IndexForNull", "Store");
+            }
+        }
+
+
+        public ActionResult Index()
+        {
+            string tentk = "";
+            if (user.KH != null)
+            {
+                tentk = user.KH.TenTKKH;
+            }
+
             ViewBag.GetDSVP = data.getData($"SELECT p.TenPhim, p.HinhAnh, vp.GiaVe, lc.NgayLC, vp.NgayDat, vp.MaVe FROM VEPHIM vp, LICHCHIEU lc, PHIM p, KHACHHANG kh WHERE vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim AND kh.MaKH=vp.MaKH AND kh.TenTKKH='{tentk}' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
             ViewBag.GetCountVP = data.getData($"SELECT COUNT(*) FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH = kh.MaKH AND kh.TenTKKH = '{tentk}' AND TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
 
@@ -26,15 +53,6 @@ namespace CNPMNC_REPORT1.Controllers
         }
         public ActionResult IndexForNull()
         {
-            string tentk = Session["Username"].ToString();
-            ViewBag.GetDSVP = data.getData($"SELECT p.TenPhim, p.HinhAnh, vp.GiaVe, lc.NgayLC, vp.NgayDat, vp.MaVe FROM VEPHIM vp, LICHCHIEU lc, PHIM p, KHACHHANG kh WHERE vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim AND kh.MaKH=vp.MaKH AND kh.TenTKKH='{tentk}' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
-            ViewBag.GetCountVP = data.getData($"SELECT COUNT(*) FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH = kh.MaKH AND kh.TenTKKH = '{tentk}' AND TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
-            
-            ArrayList list = ViewBag.GetDSVP;
-            if (list.Count != 0)
-            {
-                return RedirectToAction("Index", "Store");
-            }
 
             return View();
         }
@@ -49,27 +67,8 @@ namespace CNPMNC_REPORT1.Controllers
                 ViewBag.GetDSVP = data.getData($"SELECT p.TenPhim, p.HinhAnh, vp.GiaVe, lc.NgayLC, vp.NgayDat, vp.MaVe FROM VEPHIM vp, LICHCHIEU lc, PHIM p, KHACHHANG kh WHERE vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim AND kh.MaKH=vp.MaKH AND kh.TenTKKH='{tentk}' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
                 ViewBag.GetCountVP = data.getData($"SELECT COUNT(*) FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH = kh.MaKH AND kh.TenTKKH = '{tentk}' AND TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
 
-            }
-
-            if (status == "Delete")
-            {
-                string tentk = Session["Username"].ToString();
-                if (MaVe != null)
-                {
-                    bool isDelete = data.deleteVP(MaVe);
-                    if (isDelete)
-                    {
-                        ViewBag.GetDSVP = data.getData($"SELECT p.TenPhim, p.HinhAnh, vp.GiaVe, lc.NgayLC, vp.NgayDat, vp.MaVe FROM VEPHIM vp, LICHCHIEU lc, PHIM p, KHACHHANG kh WHERE vp.MaLC=lc.MaLC AND lc.MaPhim=p.MaPhim AND kh.MaKH=vp.MaKH AND kh.TenTKKH='{tentk}' AND vp.TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
-                        ViewBag.GetCountVP = data.getData($"SELECT COUNT(*) FROM VEPHIM vp, KHACHHANG kh WHERE vp.MaKH = kh.MaKH AND kh.TenTKKH = '{tentk}' AND TrangThaiThanhToan = N'CHƯA THANH TOÁN'");
-
-                        if (ViewBag.GetDSVP == null)
-                        {
-                            return RedirectToAction("IndexForNull", "Store");
-                        }
-                    }
-                }
-            }
-            else if (status == "ThanhToan")
+            } 
+            if (status == "ThanhToan")
             {
                 string tentk = Session["Username"].ToString();
                 if (TongGia != null && (ThanhTien!=null||ThanhTien!=0))
@@ -148,6 +147,14 @@ namespace CNPMNC_REPORT1.Controllers
             return View();
         }
 
-        
+        public ActionResult XoaVe(string maVe)
+        {
+            bool isDelete = veP.KiemTraXoaVe(maVe);
+            if (!isDelete)
+            {
+                TempData["ThongBao"] = "Lỗi xóa!";
+            }
+            return RedirectToAction("KiemTraChuyenTrang", "Store");
+        }
     }
 }

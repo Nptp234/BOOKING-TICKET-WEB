@@ -15,6 +15,36 @@ namespace CNPMNC_REPORT1.SQLFolder
             sQLConnection = SQLConnection.Instance;
         }
 
+        public bool XoaVePhim(string maVe)
+        {
+            string query = $"DELETE FROM VEPHIM WHERE MaVe = '{maVe}';";
+            return ThucHienTruyVan(query);
+        }
+
+        public bool XoaVeGhe(string maVe)
+        {
+            string query = $"DELETE FROM VE_GHE WHERE MaVe = '{maVe}';";
+            return ThucHienTruyVan(query);
+        }
+
+        public bool KiemTraXoaVe(string maVe)
+        {
+            string query = $"SELECT vp.* FROM VEPHIM vp JOIN CHITIETHD cthd ON cthd.MaVe = vp.MaVe WHERE vp.MaVe = '{maVe}';";
+            List<VeP> lsVe = LayDS<VeP>(query);
+
+            if (lsVe.Count==0)
+            {
+                bool isDel1 = XoaVeGhe(maVe);
+                bool isDel2 = XoaVePhim(maVe);
+                if (isDel1)
+                {
+                    return isDel2;
+                }
+                else return false;
+            }
+            else return false;
+        }
+
         public List<VeP> LayDanhSachVePhimTuMaKH(string maKH)
         {
             string query = $"SELECT * FROM VEPHIM WHERE MaKH = '{maKH}'";
