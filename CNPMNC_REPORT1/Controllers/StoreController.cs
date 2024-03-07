@@ -10,6 +10,8 @@ using System.Net.Mail;
 using System.Collections;
 using CNPMNC_REPORT1.SQLData;
 using CNPMNC_REPORT1.SQLFolder;
+using CNPMNC_REPORT1.Command;
+using CNPMNC_REPORT1.Command.CommandDV;
 
 namespace CNPMNC_REPORT1.Controllers
 {
@@ -18,6 +20,8 @@ namespace CNPMNC_REPORT1.Controllers
         SQLData123 data = new SQLData123();
         SQLUser user = SQLUser.Instance;
         SQLVePhim veP = new SQLVePhim();
+
+        InvokerClass invoker = new InvokerClass();
 
         public ActionResult KiemTraChuyenTrang()
         {
@@ -149,11 +153,12 @@ namespace CNPMNC_REPORT1.Controllers
 
         public ActionResult XoaVe(string maVe)
         {
-            bool isDelete = veP.KiemTraXoaVe(maVe);
-            if (!isDelete)
-            {
-                TempData["ThongBao"] = "Lỗi xóa!";
-            }
+            CommandInterface huyVe = new HuyVeCommand(maVe);
+            invoker.SetCommand(huyVe);
+            invoker.ExecuteCommand();
+
+            TempData["ThongBao"] = huyVe.ToString();
+            
             return RedirectToAction("KiemTraChuyenTrang", "Store");
         }
     }

@@ -177,6 +177,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\AdminArea\AdminAreaAreaRegistration.cs" />
+    <Compile Include="Command\CommandDV\DatVeCommand.cs" />
+    <Compile Include="Command\CommandDV\HuyVeCommand.cs" />
+    <Compile Include="Command\CommandInterface.cs" />
+    <Compile Include="Command\InvokerClass.cs" />
     <Compile Include="Composite\AbstractOne.cs" />
     <Compile Include="Composite\FolderCompo.cs" />
     <Compile Include="Composite\FileCompo.cs" />

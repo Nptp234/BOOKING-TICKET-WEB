@@ -60,6 +60,21 @@ namespace CNPMNC_REPORT1.SQLFolder
             else return null;
         }
 
+        public List<VeP> LayVePhimLonNhat()
+        {
+            string query = $"SELECT TOP(1) * FROM VEPHIM ORDER BY MaVe DESC";
+
+            List<VeP> lsVP = new List<VeP>();
+
+            lsVP = LayDS<VeP>(query);
+
+            if (lsVP.Count > 0)
+            {
+                return lsVP;
+            }
+            else return null;
+        }
+
         public List<VeGhe> LayDanhSachGheVePhimTuMaVe(string maVe)
         {
             string query = $"SELECT * FROM VE_GHE WHERE MaVe = '{maVe}'";
