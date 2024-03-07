@@ -15,7 +15,7 @@ namespace CNPMNC_REPORT1.Factory
 
             SingletonPhim singletonPhim = SingletonPhim.Instance;
             List<Phim> lsPhim = singletonPhim.CreatePhim();
-
+             
             foreach (Phim phim in lsPhim)
             {
                 luotMua = int.Parse(phim.LuotMua);
