@@ -16,7 +16,7 @@ using CNPMNC_REPORT1.SQLData;
 using CNPMNC_REPORT1.Models.User;
 using CNPMNC_REPORT1.Factory.FactoryPhim;
 using CNPMNC_REPORT1.Observer;
-using CNPMNC_REPORT1.Factory.FactoryYT;
+using CNPMNC_REPORT1.Factory.FactoryYT; 
 
 namespace CNPMNC_REPORT1.Controllers
 {
