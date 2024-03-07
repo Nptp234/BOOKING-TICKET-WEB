@@ -12,7 +12,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace CNPMNC_REPORT1.Controllers
+namespace CNPMNC_REPORT1.Controllers 
 {
     public class LikedController : Controller
     {
