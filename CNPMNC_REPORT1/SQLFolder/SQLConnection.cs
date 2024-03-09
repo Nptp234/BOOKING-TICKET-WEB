@@ -19,7 +19,8 @@ namespace CNPMNC_REPORT1.SQLData
 
         private SQLConnection()
         {
-            this.connectionString = "Server=localhost;Database=CNPMNC_DATA1;Trusted_Connection=True";
+            //this.connectionString = "Server=localhost;Database=CNPMNC_DATA1;Trusted_Connection=True";
+            this.connectionString = "Server=DESKTOP-FDUOER9\\LONG;Database=CNPMNC_DATA1;Trusted_Connection=True";
             this.connection = new SqlConnection(connectionString);
         }
 

@@ -205,6 +205,10 @@
     <Compile Include="Factory\FactoryVP\VePhimFactory.cs" />
     <Compile Include="Factory\FactoryYT\CreateListLikedUser.cs" />
     <Compile Include="Factory\FactoryYT\YeuThichFactory.cs" />
+    <Compile Include="Iterator\IterableCollection.cs" />
+    <Compile Include="Iterator\Iterator.cs" />
+    <Compile Include="Iterator\PhimIterator\TimKiemPhimCollect.cs" />
+    <Compile Include="Iterator\PhimIterator\TimKiemPhimIterator.cs" />
     <Compile Include="Models\Film\TheLoaiVaPhim.cs" />
     <Compile Include="Models\LichChieuPhim\LichChieu.cs" />
     <Compile Include="Models\LichChieuPhim\XuatChieu.cs" />

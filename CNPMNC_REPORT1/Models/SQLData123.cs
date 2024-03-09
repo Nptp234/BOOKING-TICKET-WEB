@@ -9,7 +9,8 @@ namespace CNPMNC_REPORT1.Models
 {
     public class SQLData123
     {
-        public static string connectionString = "Server=localhost;Database=CNPMNC_DATA1;Trusted_Connection=True";
+        //this.connectionString = "Server=localhost;Database=CNPMNC_DATA1;Trusted_Connection=True";
+        public static string connectionString = "Server=DESKTOP-FDUOER9\\LONG;Database=CNPMNC_DATA1;Trusted_Connection=True";
         SqlConnection connection = new SqlConnection(connectionString);
 
         public SQLData123() { }

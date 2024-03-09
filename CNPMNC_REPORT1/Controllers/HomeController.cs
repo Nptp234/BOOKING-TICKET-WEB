@@ -17,6 +17,7 @@ using CNPMNC_REPORT1.Models.User;
 using CNPMNC_REPORT1.Factory.FactoryPhim;
 using CNPMNC_REPORT1.Observer;
 using CNPMNC_REPORT1.Factory.FactoryYT;
+using CNPMNC_REPORT1.Iterator.PhimIterator;
 
 namespace CNPMNC_REPORT1.Controllers
 {
@@ -353,23 +354,58 @@ namespace CNPMNC_REPORT1.Controllers
             return View();
         }
 
+        //public ActionResult SearchResult(string searchValue = "")
+        //{
+        //    List<Phim> filteredPhimList = new List<Phim>();
+
+        //    // Lấy danh sách phim có sẵn
+        //    factoryPhim = new CreateAllPhim();
+        //    List<Phim> GetPhimList = factoryPhim.CreatePhim();
+
+        //    if (searchValue == "")
+        //    {
+        //        filteredPhimList = null;
+        //        return PartialView(filteredPhimList);
+        //    }
+        //    else
+        //    {
+        //        // Lọc danh sách các phim có tên gần giống với searchValue
+        //        filteredPhimList = GetPhimList.Where(p => p.TenPhim.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+        //        return PartialView(filteredPhimList);
+        //    }
+        //}
+
         public ActionResult SearchResult(string searchValue = "")
         {
-            List<Phim> filteredPhimList = new List<Phim>();
-
             // Lấy danh sách phim có sẵn
             factoryPhim = new CreateAllPhim();
-            List<Phim> GetPhimList = factoryPhim.CreatePhim();
+            List<Phim> allPhimList = factoryPhim.CreatePhim();
 
             if (searchValue == "")
             {
-                filteredPhimList = null;
-                return PartialView(filteredPhimList);
+                return PartialView(null);
             }
             else
             {
-                // Lọc danh sách các phim có tên gần giống với searchValue
-                filteredPhimList = GetPhimList.Where(p => p.TenPhim.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+                // Sử dụng IteratorCollect để duyệt qua và lưu lại danh sách phim
+                TimKiemPhimCollect phimCollection = new TimKiemPhimCollect(allPhimList);
+               
+                // Sử dụng Iterator để tạo danh sách phim mới
+                TimKiemPhimIterator iterator = (TimKiemPhimIterator)phimCollection.CreateIterator();
+
+                // Sử dụng logic tìm kiếm trong Iterator duyệt danh sách của nó
+                List<Phim> filteredPhimList = new List<Phim>();
+                if (searchValue.Any(char.IsDigit))
+                {
+                    filteredPhimList = iterator.SearchPhimTheoMaP(searchValue);
+                }
+                else
+                {
+                    //lỗi search theo tên và thể loại
+                    filteredPhimList = iterator.SearchPhimTheoTL(searchValue);
+                    filteredPhimList.AddRange(iterator.SearchPhimTheoTL(searchValue));
+                }
+
                 return PartialView(filteredPhimList);
             }
         }
