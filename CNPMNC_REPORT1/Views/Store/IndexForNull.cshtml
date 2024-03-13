@@ -219,42 +219,6 @@
 
             <p style="font-size: 20px; width: 100%; text-align: center; color: gray;">Nothing here :(</p>
 
-            @*@if (ViewBag.GetDSVP != null)
-            {
-                foreach (var a in ViewBag.GetDSVP)
-                {
-                    <form action="@Url.Action("Index", "Store")" method="post">
-                        <div class="row border-bottom" style="padding-bottom: 3px;">
-                            <input name="MaVe" value="@a[5]" style="display: none;" />
-                            <div class="row main align-items-center">
-                                <div class="col-2"><span style="width: fit-content;">@a[5]</span></div>
-                                <div class="col-2"><img class="img-fluid" style="margin-left: -25px;" src="~/img_phim/@a[1]"></div>
-                                <div class="col" style="margin-right: 15px;">
-                                    <div class="row text-muted">Film Name</div>
-                                    <div class="row">@a[0]</div>
-                                </div>
-
-                                <div class="col">
-                                    <div class="row text-muted">Date Book</div>
-                                    <div class="row">@String.Format("{0:dd/MM/yyyy}", a[4])</div>
-                                </div>
-
-                                <div class="col">
-                                    <div class="row text-muted">Date Show</div>
-                                    <div class="row">@String.Format("{0:dd/MM/yyyy}", a[3])</div>
-                                </div>
-
-                                <input name="ThanhTien" value="0" style="display: none;" />
-                                <input name="TongGia" value="0" style="display: none;" />
-
-                                <button class="close" style="cursor: pointer; padding: 3px;" name="status" value="Delete">&#10005;</button>
-                            </div>
-
-                            <div class="col"><span style="float: right;" id="price_format">@a[2] VND</span></div>
-                        </div>
-                    </form>
-                }
-            }*@
 
             <div class="back-to-shop"><a href="@Url.Action("Index","Home")">&leftarrow; Back to home</a></div>
         </div>

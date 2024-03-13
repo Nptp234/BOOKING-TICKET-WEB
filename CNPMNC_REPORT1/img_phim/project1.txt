@@ -1,0 +1,13 @@
+Dear friends,
+
+I am writing to inform you about the IT problem you are experiencing:
+
+Excel: The program encountered a problem and shut down unexpectedly. To fix it, I helped you reinstall Excel.
+
+Database: The database is not working properly and is not responding to requests. I have reinstalled the database for you, it should run normally again now
+
+Projector: The projector does not display any images. I repaired the projector, reinstalled the projector's image.
+Let me know if you have any further problems.
+
+Best regards,
+Phuoc

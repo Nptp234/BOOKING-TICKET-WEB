@@ -20,7 +20,7 @@ namespace CNPMNC_REPORT1.Controllers
 
         public ActionResult LichChieu(string maphim = "1", string ngay = "")
         {
-            if ( sQLUser.KH == null)
+            if (Session["isLogined"] == "false")
             {
                 return RedirectToAction("LoginPage", "Home");
             }

@@ -42,6 +42,16 @@ namespace CNPMNC_REPORT1.SQLData
             instance = null;
         }
 
+        public void SetKH(KhachHang kh)
+        {
+            KH = kh;
+        }
+
+        public void SetNV(NhanVien nv)
+        {
+            NV = nv;
+        }
+
         public bool KiemTraThongTinDangNhap(string name, string pass, string type)
         {
             switch (type)

@@ -60,6 +60,10 @@ namespace CNPMNC_REPORT1.Controllers
             Session["isLogined"] = "false";
             Session["Username"] = null;
 
+            SQLUser user = SQLUser.Instance;
+            user.SetKH(null);
+            user.SetNV(null);
+
             return RedirectToAction("Index", "Home");
         }
 
