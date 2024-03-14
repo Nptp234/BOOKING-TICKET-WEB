@@ -280,6 +280,8 @@
     <Compile Include="SQLFolder\SQLUser.cs" />
     <Compile Include="SQLFolder\SQLVePhim.cs" />
     <Compile Include="SQLFolder\SQLYeuThich.cs" />
+    <Compile Include="State\LoginState.cs" />
+    <Compile Include="State\UserState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\AdminArea\Content\admin_style.css" />

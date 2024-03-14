@@ -17,6 +17,7 @@ using CNPMNC_REPORT1.Models.User;
 using CNPMNC_REPORT1.Factory.FactoryPhim;
 using CNPMNC_REPORT1.Observer;
 using CNPMNC_REPORT1.Factory.FactoryYT;
+using CNPMNC_REPORT1.State;
 
 namespace CNPMNC_REPORT1.Controllers
 {
@@ -77,6 +78,7 @@ namespace CNPMNC_REPORT1.Controllers
             if (status == "Check")
             {
                 userAccount = new KhachHang();
+                LoginState userState = new LoginState(userAccount);
 
                 bool check = sQLUser.KiemTraThongTinDangNhap(Username, Password, userAccount.UserType);
 
@@ -84,6 +86,9 @@ namespace CNPMNC_REPORT1.Controllers
                 {
                     Session["isLogined"] = "true";
                     Session["Username"] = Username;
+
+                    userState.ClickLogin();
+                    ViewBag.Script = userState.ReturnScript();
 
                     return RedirectToAction("Index", "Home");
                 }
