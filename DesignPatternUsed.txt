@@ -4,3 +4,5 @@
 4. Observer (Phuoc)
 5. Memento (Quan)
 6. Repository (Phuoc)
+7. Command (Ba)
+8. Iterator (Long)

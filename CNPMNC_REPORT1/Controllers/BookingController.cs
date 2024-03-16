@@ -28,7 +28,7 @@ namespace CNPMNC_REPORT1.Controllers
 
         public ActionResult LichChieu(string maphim = "1", string ngay = "")
         {
-            if (Session["isLogined"] == "false")
+            if (sQLUser.KH==null)
             {
                 return RedirectToAction("LoginPage", "Home");
             }
@@ -165,7 +165,7 @@ namespace CNPMNC_REPORT1.Controllers
             string getUsername = Session["Username"] as string;
 
             ViewBag.ChietKhau = db.getData($"SELECT LOAIKH.ChietKhau FROM KHACHHANG, LOAIKH WHERE KHACHHANG.MaLoaiKH = LOAIKH.MaLoaiKH AND KHACHHANG.TenTKKH = '{getUsername}'");
-
+            string temp = kh.MaLoaiKH;
             double getChietKhau = Convert.ToDouble(sQLUser.LayChietKhauTuMaLoaiKH(kh.MaLoaiKH));
             
             //Lấy ra số tiền phải trả

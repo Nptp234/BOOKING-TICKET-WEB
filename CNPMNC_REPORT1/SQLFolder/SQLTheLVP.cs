@@ -1,4 +1,5 @@
-﻿using CNPMNC_REPORT1.Models.Film;
+﻿using CNPMNC_REPORT1.Models;
+using CNPMNC_REPORT1.Models.Film;
 using CNPMNC_REPORT1.SQLData;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,15 @@ namespace CNPMNC_REPORT1.SQLFolder
         {
             string query = $"DELETE FROM TL_P WHERE MaTLP = '{MaTLVP}'";
             return ThucHienTruyVan(query);
+        }
+
+        public List<TheLoaiVaPhim> LayDSMaPhimTheoMaTL(string matl)
+        {
+            string query = $"SELECT * FROM TL_P WHERE MaTL = '{matl}'";
+
+            List<TheLoaiVaPhim> lst = LayDS<TheLoaiVaPhim>(query);
+
+            return lst;
         }
 
         public bool KiemTraTrungPhimTheLoai(string maPhim, string maTL)

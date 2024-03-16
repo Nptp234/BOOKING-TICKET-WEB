@@ -22,6 +22,8 @@ using CNPMNC_REPORT1.SQLFolder;
 using CNPMNC_REPORT1.Repository.VePRepository;
 using CNPMNC_REPORT1.Memento.OriginatorFolder;
 using CNPMNC_REPORT1.Memento;
+using CNPMNC_REPORT1.Iterator.PhimIterator;
+using CNPMNC_REPORT1.Factory.FactoryLoaiPhim;
 
 namespace CNPMNC_REPORT1.Controllers
 {
@@ -321,9 +323,24 @@ namespace CNPMNC_REPORT1.Controllers
             }
             else
             {
-                // Lọc danh sách các phim có tên gần giống với searchValue
-                filteredPhimList = GetPhimList.Where(p => p.TenPhim.IndexOf(searchValue, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
-                return PartialView(filteredPhimList);
+                // Sử dụng PhimCollect để lưu lại danh sách phim
+                PhimCollect phimCollection = new PhimCollect(GetPhimList);
+
+                // Sử dụng cách duyệt dành cho tìm kiếm phim
+                TimKiemPhimIterator iterator = (TimKiemPhimIterator)phimCollection.CreateIterator();
+
+                // Sử dụng logic tìm kiếm trong Iterator duyệt danh sách của nó
+                List<Phim> searchResult = new List<Phim>();
+                if (searchValue.Any(char.IsDigit))
+                {
+                    searchResult = iterator.TimPhimTheoMaP(searchValue);
+                }
+                else
+                {
+                    searchResult = iterator.TimPhimTheoTen(searchValue);
+                }
+
+                return PartialView(searchResult);
             }
         }
     }

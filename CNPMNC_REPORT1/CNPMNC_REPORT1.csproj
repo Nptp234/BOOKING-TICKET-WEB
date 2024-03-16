@@ -210,6 +210,12 @@
     <Compile Include="Factory\FactoryVP\VePhimFactory.cs" />
     <Compile Include="Factory\FactoryYT\CreateListLikedUser.cs" />
     <Compile Include="Factory\FactoryYT\YeuThichFactory.cs" />
+    <Compile Include="Iterator\IterableCollection.cs" />
+    <Compile Include="Iterator\Iterator.cs" />
+    <Compile Include="Iterator\PhimIterator\PhimCollect.cs" />
+    <Compile Include="Iterator\PhimIterator\TimKiemPhimIterator.cs" />
+    <Compile Include="Iterator\YTIterator\YTCollect.cs" />
+    <Compile Include="Iterator\YTIterator\YTIterator.cs" />
     <Compile Include="Memento\CaretakerFolder\GheCaretaker.cs" />
     <Compile Include="Memento\GheMemento.cs" />
     <Compile Include="Memento\IMemento.cs" />
@@ -449,6 +455,7 @@
     <Content Include="Views\Home\Logout.cshtml" />
     <Content Include="Views\Liked\Index.cshtml" />
     <Content Include="Views\Store\KiemTraChuyenTrang.cshtml" />
+    <Content Include="Views\Liked\YTList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

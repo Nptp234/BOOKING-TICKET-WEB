@@ -1,6 +1,7 @@
 ﻿using CNPMNC_REPORT1.Factory;
 using CNPMNC_REPORT1.Factory.FactoryPhim;
 using CNPMNC_REPORT1.Factory.FactoryYT;
+using CNPMNC_REPORT1.Iterator.YTIterator;
 using CNPMNC_REPORT1.Models;
 using CNPMNC_REPORT1.Models.User;
 using CNPMNC_REPORT1.Observer;
@@ -19,16 +20,43 @@ namespace CNPMNC_REPORT1.Controllers
 
         private readonly static SubjectObserver subject = new SubjectObserver();
         private static YeuThichObserver ytObserver = new YeuThichObserver();
+        private static YeuThichFactory ytFactory = new CreateListLikedUser();
 
         // GET: Liked
         public ActionResult Index()
         {
-            YeuThichFactory ytFactory = new CreateListLikedUser();
             ViewBag.YeuThich = ytFactory.CreateYT();
 
             subject.Attach(ytObserver);
 
             return View();
+        }
+
+        public ActionResult SortDSYT(string value)
+        {
+            List<YeuThich> ytList = ytFactory.CreateYT();
+
+            // Sử dụng YTCollect để lưu lại danh sách yt
+            YTCollect ytCollect = new YTCollect(ytList);
+
+            // Sử dụng cách duyệt dành cho yt
+            YTIterator iterator = (YTIterator)ytCollect.CreateIterator();
+
+            List<YeuThich> sortedList;
+            switch (value)
+            {
+                case "1":
+                    sortedList = iterator.SortMostLiked();
+                    break;
+                case "2":
+                    sortedList = iterator.SortLeastLiked();
+                    break;
+                default:
+                    sortedList = iterator.SortMostLiked();
+                    break;
+            }
+
+            return PartialView("YTList", sortedList);
         }
 
         public ActionResult AddFilmLiked(string MaPhim)
