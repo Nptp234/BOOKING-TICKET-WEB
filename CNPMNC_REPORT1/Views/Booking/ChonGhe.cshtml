@@ -64,6 +64,7 @@
             line-height: 30px; /* Đặt giá trị cao gấp đôi của chiều cao của thẻ để căn giữa */
             height: 30px; /* Đảm bảo chiều cao của thẻ */
         }
+
         .chair.picked, .picked.chair.vip {
             background-color: #353535;
             color: #fff;
@@ -132,6 +133,7 @@
             align-content: center;
             margin-top: 10px;
         }
+
         .screen {
             height: 10px;
             width: 100%;
@@ -139,6 +141,7 @@
             border-top-right-radius: 75%;
             border-top-left-radius: 75%;
         }
+
         .button {
             background-color: #353535;
             box-sizing: border-box;
@@ -146,13 +149,14 @@
             width: 20px;
             height: 20px;
             display: flex;
-            justify-content:center;
+            justify-content: center;
             align-items: center;
             padding: 15px;
         }
-        .button *{
-            color: white;
-        }
+
+            .button * {
+                color: white;
+            }
     </style>
 </head>
 <body>
@@ -202,22 +206,37 @@
                         <div class="container listchair">
                             @for (int j = 1; j <= 10; j++)
                             {
-                                bool check = true;
+                                bool check1 = true, check2 = true;
                                 foreach (var item in ViewBag.ListPickedChair)
                                 {
                                     if (item[2].Trim() == (i.ToString() + j.ToString()))
                                     {
-                                        check = false;
+                                        check1 = false;
                                         break;
                                     }
                                 }
-                                if (check)
+                                foreach (var item in ViewBag.MementoList)
                                 {
-                                    <div id="@i.ToString()@j.ToString()" class="picker chair">@i.ToString()@j.ToString()</div>
+                                    if (item.ToString().Trim() == (i.ToString() + j.ToString()))
+                                    {
+                                        check2 = false;
+                                        break;
+                                    }
+                                }
+                                if (check1)
+                                {
+                                    if (check2)
+                                    {
+                                        <button id="@i.ToString()@j.ToString()" class="picker chair">@i.ToString()@j.ToString()</button>
+                                    }
+                                    else
+                                    {
+                                        <button id="@i.ToString()@j.ToString()" class="picker chair @(check2 ? "" : "selected")">@i.ToString()@j.ToString()</button>
+                                    }
                                 }
                                 else
                                 {
-                                    <div id="@i.ToString()@j.ToString()" class="picked chair">@i.ToString()@j.ToString()</div>
+                                    <button id="@i.ToString()@j.ToString()" class="picked chair">@i.ToString()@j.ToString()</button>
                                 }
                             }
                         </div>
@@ -229,22 +248,37 @@
                         <div class="container listchair">
                             @for (int j = 1; j <= 10; j++)
                             {
-                                bool check = true;
+                                bool check1 = true, check2 = true;
                                 foreach (var item in ViewBag.ListPickedChair)
                                 {
                                     if (item[2].Trim() == ("VIP_" + i.ToString() + j.ToString()))
                                     {
-                                        check = false;
+                                        check1 = false;
                                         break;
                                     }
                                 }
-                                if (check)
+                                foreach (var item in ViewBag.MementoList)
                                 {
-                                    <div id="@i.ToString()@j.ToString()" class="picker chair vip">@i.ToString()@j.ToString()</div>
+                                    if (item.ToString().Trim() == ("VIP_" + i.ToString() + j.ToString()))
+                                    {
+                                        check2 = false;
+                                        break;
+                                    }
+                                }
+                                if (check1)
+                                {
+                                    if (check2)
+                                    {
+                                        <button id="@i.ToString()@j.ToString()" class="picker chair vip">@i.ToString()@j.ToString()</button>
+                                    }
+                                    else
+                                    {
+                                        <button id="@i.ToString()@j.ToString()" class="picker chair @(check2 ? "" : "selected") vip">@i.ToString()@j.ToString()</button>
+                                    }
                                 }
                                 else
                                 {
-                                    <div id="@i.ToString()@j.ToString()" class="picked chair vip">@i.ToString()@j.ToString()</div>
+                                    <button id="@i.ToString()@j.ToString()" class="picked chair vip">@i.ToString()@j.ToString()</button>
                                 }
                                 @*<div id="@i.ToString()@j.ToString()" class="picker chair vip">@i.ToString()@j.ToString()</div>*@
                             }
@@ -292,35 +326,117 @@
 
     <script type="text/javascript">
         var buttons = document.querySelectorAll('.chair.picker');
-        // Gắn sự kiện 'onclick' cho từng thẻ với dữ liệu đầu vào riêng
+        // Bắt đầu lấy ghế lưu tạm
+        var getPickedChair1 = @Html.Raw(Json.Encode(ViewBag.MementoList));
+
+        // Chuyển đổi danh sách ViewBag.MementoList thành một mảng JavaScript
+        var mementoListArray = [];
+        for (var i = 0; i < getPickedChair1.length; i++) {
+            mementoListArray.push(getPickedChair1[i]);
+        }
+
+        // Gán cho chuỗi giá trị đã lưu
+        var getMementoPicked = document.getElementById('picked_chair');
+        var mementoContent = getPickedChair1.join(' ');
+
+        getMementoPicked.innerHTML = mementoContent;
+        updatePrice(1);
+
+        // Gắn sự kiện 'onclick' cho từng ghế với dữ liệu đầu vào riêng (thực hiện memento ở đây)
         buttons.forEach(function (button) {
+
             button.onclick = function () {
                 var getPickedChair = document.getElementById('picked_chair');
+
                 if (button.classList.contains('selected')) {
+
                     button.classList.remove('selected');
+
                     var content = getPickedChair.innerHTML;
-                    if (button.classList.contains('vip')) {
+
+                    if (button.classList.contains('vip'))
+                    {
                         var removedItem = 'VIP_' + button.id;
+
+                        var index = mementoListArray.indexOf(removedItem);
+                        if (index !== -1) {
+                            mementoListArray.splice(index, 1);
+                        }
+
                         var regex = new RegExp(removedItem + "\\s*", "g");
+
                         content = content.replace(regex, "");
                         getPickedChair.innerHTML = content;
-                    } else {
+                    }
+                    else
+                    {
+                        var index = mementoListArray.indexOf(button.id);
+                        if (index !== -1) {
+                            mementoListArray.splice(index, 1);
+                        }
+
                         var regex = new RegExp(button.id + "\\s*", "g");
+
                         content = content.replace(regex, "");
                         getPickedChair.innerHTML = content;
                     }
 
-                } else {
+                }
+                else
+                {
                     button.classList.add('selected');
-                    if (button.classList.contains('vip')) {
+
+                    if (button.classList.contains('vip'))
+                    {
                         getPickedChair.innerHTML += 'VIP_' + button.id + " ";
-                    } else {
+                    }
+                    else
+                    {
                         getPickedChair.innerHTML += button.id + " ";
                     }
                 }
                 updatePrice(1);
+
+                var pickedChairsArray = [];
+
+                if (getPickedChair.innerHTML.trim() !== '') {
+                    pickedChairsArray = getPickedChair.innerHTML.split(" ");
+                }
+
+
+
+                // Thêm giá trị từ mảng mementoListArray vào mảng pickedChairsArray nếu chưa tồn tại
+                for (var i = 0; i < mementoListArray.length; i++) {
+                    if (!pickedChairsArray.includes(mementoListArray[i])) {
+                        pickedChairsArray.push(mementoListArray[i]);
+                    }
+                }
+
+                saveToMemento(pickedChairsArray);
             };
         });
+
+        function saveToMemento(tenGhe) {
+            // Sử dụng Ajax để gửi dữ liệu ghế đến server để lưu vào Memento
+            var getPickedChair = document.getElementById('picked_chair');
+            $.ajax({
+                url: "@Url.Action("ThemGhe", "Booking")",
+                type: "POST",
+                data: JSON.stringify({
+                    "ten": tenGhe,
+                }), // Gửi dữ liệu dưới dạng JSON
+                contentType: "application/json; charset=utf-8", // Định dạng dữ liệu
+                dataType: "json", // Đặt kiểu dữ liệu mà bạn mong đợi từ phản hồi
+
+                success: function (response) {
+                    console.log('Ghế đã được lưu vào Memento!');
+                },
+                error: function (error) {
+                    console.error('Lỗi khi lưu ghế vào Memento!');
+                }
+            });
+
+        }
 
         function updatePrice(maphim) {
             var getPickedChair = document.getElementById('picked_chair');

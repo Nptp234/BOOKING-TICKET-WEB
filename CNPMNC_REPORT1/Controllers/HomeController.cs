@@ -20,6 +20,8 @@ using CNPMNC_REPORT1.Factory.FactoryYT;
 using CNPMNC_REPORT1.Repository.UserRepository;
 using CNPMNC_REPORT1.SQLFolder;
 using CNPMNC_REPORT1.Repository.VePRepository;
+using CNPMNC_REPORT1.Memento.OriginatorFolder;
+using CNPMNC_REPORT1.Memento;
 
 namespace CNPMNC_REPORT1.Controllers
 {
@@ -39,6 +41,15 @@ namespace CNPMNC_REPORT1.Controllers
 
             SingletonPhim singletonPhim = SingletonPhim.Instance;
             singletonPhim.ResetInstance();
+
+            // Reset bộ nhớ memento
+            GheOriginator gheOriginator = GheOriginator.Instance;
+            List<string> lsVG = new List<string>();
+
+            gheOriginator.SetListChair(lsVG);
+
+            // Lưu trạng thái hiện tại của ghế vào Memento
+            IMemento memento = gheOriginator.Save();
 
             //Lấy danh sách phim đang khởi chiếu
             factoryPhim = new NowShowingFilmFactory();

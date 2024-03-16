@@ -5,8 +5,12 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CNPMNC_REPORT1.Memento;
+using CNPMNC_REPORT1.Memento.CaretakerFolder;
+using CNPMNC_REPORT1.Memento.OriginatorFolder;
 using CNPMNC_REPORT1.Models;
 using CNPMNC_REPORT1.Models.User;
+using CNPMNC_REPORT1.Models.VePhim;
 using CNPMNC_REPORT1.SQLData;
 using Newtonsoft.Json;
 
@@ -17,6 +21,8 @@ namespace CNPMNC_REPORT1.Controllers
         // GET: Booking
         SQLData123 db = new SQLData123();
         SQLUser sQLUser = SQLUser.Instance;
+        private GheCaretaker _caretaker = new GheCaretaker();
+        private GheOriginator gheOriginator = GheOriginator.Instance;
 
         public ActionResult LichChieu(string maphim = "1", string ngay = "")
         {
@@ -73,6 +79,7 @@ namespace CNPMNC_REPORT1.Controllers
 
             //LẤY DANH SÁCH GHẾ ĐÃ ĐƯỢC ĐẶT
             ViewBag.ListPickedChair = db.getData($"SELECT VE_GHE.* FROM VEPHIM, VE_GHE WHERE VEPHIM.MaLC = {ViewBag.getChair_STT[0]} AND VEPHIM.MaVe = VE_GHE.MaVe");
+            ViewBag.MementoList = gheOriginator.GetList();
 
             //Tạo ViewBag để gửi dữ liệu cho những lần sau
             ViewBag.Page = stt;
@@ -81,6 +88,32 @@ namespace CNPMNC_REPORT1.Controllers
             ViewBag.Type = Type;
             return View();
         }
+
+        public JsonResult ThemGhe(string[] ten)
+        {
+            gheOriginator = GheOriginator.Instance;
+            List<string> lsVG = new List<string>();
+            VeGhe vg = new VeGhe();
+
+            if (ten != null)
+            {
+                for (int i = 0; i < ten.Length; i++)
+                {
+                    // Thêm ghế vào GheOriginator
+                    lsVG.Add(ten[i].ToString());
+                }
+            }
+
+            gheOriginator.SetListChair(lsVG);
+
+            // Lưu trạng thái hiện tại của ghế vào Memento
+            IMemento memento = gheOriginator.Save();
+            _caretaker.SaveState(memento);
+
+            // Trả về kết quả
+            return Json(new { success = true });
+        }
+
         public JsonResult updateViewPrice(string listloaighe, string maphim = "1")
         {
 
