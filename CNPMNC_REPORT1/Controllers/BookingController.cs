@@ -5,6 +5,8 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CNPMNC_REPORT1.Command;
+using CNPMNC_REPORT1.Command.CommandDV;
 using CNPMNC_REPORT1.Memento;
 using CNPMNC_REPORT1.Memento.CaretakerFolder;
 using CNPMNC_REPORT1.Memento.OriginatorFolder;
@@ -180,19 +182,11 @@ namespace CNPMNC_REPORT1.Controllers
         [HttpPost]
         public ActionResult BookingFinal(string total_price, string slve, string getlistghe, string malc)
          {
-            string getUsername = Session["Username"] as string;
-            ViewBag.getIDUser = db.getData($"SELECT* FROM KHACHHANG WHERE TenTKKH = '{getUsername}'")[0];
+            CommandInterface command = new DatVeCommand(slve, total_price, malc, getlistghe);
+            InvokerClass invoker = new InvokerClass();
+            invoker.SetCommand(command);
+            invoker.ExecuteCommand();
 
-            // total_price sẽ có dữ liệu là " ... VND", nên cần phải tách chuỗi ra dựa theo khoảng trắng và lấy kí tự đầu tiên
-            db.getData($"INSERT INTO VEPHIM VALUES ('{DateTime.Now.ToString()}', N'CHƯA THANH TOÁN', N'CHƯA HẾT HẠN', {slve}, {Convert.ToDouble(total_price.Split(' ')[0].Replace(".", ""))}, {malc}, {ViewBag.getIDUser[0]});");
-            ViewBag.getIDVePhim = db.getData("SELECT TOP(1) * FROM VEPHIM ORDER BY MaVe DESC");
-            string idVePhim = ViewBag.getIDVePhim[0][0].ToString();
-
-            List<string> getListGhe = getlistghe.Split(' ').ToList();
-            foreach(var item in getListGhe)
-            {
-                db.getData($"INSERT INTO VE_GHE VALUES ({idVePhim}, '{item}', N'CHƯA THANH TOÁN')");
-            }
             return RedirectToAction("ThankYouPage", "Booking"); 
         }
         public ActionResult ThankYouPage()

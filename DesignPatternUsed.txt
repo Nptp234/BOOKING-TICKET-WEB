@@ -1,3 +1,6 @@
-1. Factory Method
-2. Singleton
-3. Proxy
+1. Factory Method (Phuoc)
+2. Singleton (Phuoc)
+3. Proxy (Phuoc)
+4. Observer (Phuoc)
+5. Memento (Quan)
+6. Repository (Phuoc)

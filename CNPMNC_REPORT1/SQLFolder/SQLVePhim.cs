@@ -61,6 +61,21 @@ namespace CNPMNC_REPORT1.SQLFolder
             else return null;
         }
 
+        public List<VeP> LayVePhimLonNhat(string maKH)
+        {
+            string query = $"SELECT * FROM VEPHIM WHERE MaKH = '{maKH}' ORDER BY MaVe DESC";
+
+            List<VeP> lsVP = new List<VeP>();
+
+            lsVP = LayDS<VeP>(query);
+
+            if (lsVP.Count > 0)
+            {
+                return lsVP;
+            }
+            else return null;
+        }
+
         public List<VePhimChiTietKH> LayVePhimChoTTKH(string tenTKKH)
         {
             string query = QueryForLayVePhimChoTTKH(tenTKKH);
