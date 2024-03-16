@@ -16,6 +16,35 @@ namespace CNPMNC_REPORT1.SQLFolder
             sQLConnection = SQLConnection.Instance;
         }
 
+
+
+        public bool ThanhToanVP(string tonggia, string tentk)
+        {
+            string query = $"DECLARE @chietkhau FLOAT, @makh INT; " +
+                           $"SELECT @chietkhau = lkh.ChietKhau " +
+                           $"FROM KHACHHANG kh JOIN LOAIKH lkh ON kh.MaLoaiKH = lkh.MaLoaiKH " +
+                           $"WHERE kh.TenTKKH = '{tentk}'; " +
+                           $"SELECT @makh = MaKH FROM KHACHHANG WHERE TenTKKH = '{tentk}'; " +
+                           $"INSERT INTO HOADON VALUES (GETDATE(), {tonggia}, {tonggia} - ({tonggia} * @chietkhau), @chietkhau, @makh, 1);";
+
+            return ThucHienTruyVan(query);
+        }
+
+        public bool ThanhToanVG(string mave, string slve, string thanhtien)
+        {
+            string query = "DECLARE @mahd INT SELECT @mahd=MAX(MaHD) FROM HOADON; " +
+                            $"INSERT INTO CHITIETHD VALUES ('{mave}', @mahd, '{slve}', '{thanhtien}')";
+
+            return ThucHienTruyVan(query);
+        }
+
+        public bool CapNhatThanhToanVeP(string mave)
+        {
+            string query = $"UPDATE VEPHIM SET TRANGTHAITHANHTOAN = N'ĐÃ THANH TOÁN' WHERE MaVe = '{mave}';";
+
+            return ThucHienTruyVan(query);
+        }
+
         public bool XoaVePhim(string maVe)
         {
             string query = $"DELETE FROM VEPHIM WHERE MaVe = '{maVe}';";
@@ -49,6 +78,21 @@ namespace CNPMNC_REPORT1.SQLFolder
         public List<VeP> LayDanhSachVePhimTuMaKH(string maKH)
         {
             string query = $"SELECT * FROM VEPHIM WHERE MaKH = '{maKH}'";
+
+            List<VeP> lsVP = new List<VeP>();
+
+            lsVP = LayDS<VeP>(query);
+
+            if (lsVP.Count > 0)
+            {
+                return lsVP;
+            }
+            else return null;
+        }
+
+        public List<VeP> LayDanhSachVePChuaTTTuMaKH(string maKH)
+        {
+            string query = $"SELECT * FROM VEPHIM WHERE MaKH = '{maKH}' AND TrangThaiThanhToan = N'CHƯA THANH TOÁN'";
 
             List<VeP> lsVP = new List<VeP>();
 
@@ -97,7 +141,7 @@ namespace CNPMNC_REPORT1.SQLFolder
             else return null;
         }
 
-        public string QueryForLayVePhimChoTTKH(string tenTKKH)
+        private string QueryForLayVePhimChoTTKH(string tenTKKH)
         {
             return $"SELECT vp.MaVe, p.TenPhim, pc.TenPC, STRING_AGG(vg.TenGheVG, '') as TenGheVG, vp.NgayDat, lc.NgayLC, xc.GioXC " +
                    $"FROM VEPHIM vp, KHACHHANG kh, LICHCHIEU lc, PHIM p, PHONGCHIEU pc, VE_GHE vg, XUATCHIEU xc " +
