@@ -4,6 +4,7 @@ using CNPMNC_REPORT1.SQLData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace CNPMNC_REPORT1.SQLFolder
@@ -58,6 +59,42 @@ namespace CNPMNC_REPORT1.SQLFolder
                 return lsVP;
             }
             else return null;
+        }
+
+        public List<VePhimChiTietKH> LayVePhimChoTTKH(string tenTKKH)
+        {
+            string query = QueryForLayVePhimChoTTKH(tenTKKH);
+
+            List<VePhimChiTietKH> lsVP = new List<VePhimChiTietKH>();
+
+            lsVP = LayDS<VePhimChiTietKH>(query);
+
+            if (lsVP.Count > 0)
+            {
+                // vì tên ghế vg trả về chuỗi không đẹp nên thay bằng dấu ,
+                foreach (var vePhim in lsVP)
+                {
+                    vePhim.TenGheVG = Regex.Replace(vePhim.TenGheVG, @"\s+", ", ");
+                }
+
+                return lsVP;
+            }
+            else return null;
+        }
+
+        public string QueryForLayVePhimChoTTKH(string tenTKKH)
+        {
+            return $"SELECT vp.MaVe, p.TenPhim, pc.TenPC, STRING_AGG(vg.TenGheVG, '') as TenGheVG, vp.NgayDat, lc.NgayLC, xc.GioXC " +
+                   $"FROM VEPHIM vp, KHACHHANG kh, LICHCHIEU lc, PHIM p, PHONGCHIEU pc, VE_GHE vg, XUATCHIEU xc " +
+                   $"WHERE kh.TenTKKH='{tenTKKH}' " +
+                   $"AND vp.MaKH=kh.MaKH " +
+                   $"AND vp.MaLC=lc.MaLC " +
+                   $"AND lc.MaPhim=p.MaPhim " +
+                   $"AND pc.MaPC=lc.MaPC " +
+                   $"AND vp.MaVe=vg.MaVe " +
+                   $"AND lc.MaXC=xc.MaXC " +
+                   $"GROUP BY vp.MaVe, p.TenPhim, pc.TenPC, vp.NgayDat, lc.NgayLC, xc.GioXC " +
+                   $"ORDER BY vp.NgayDat DESC";
         }
 
         public List<VeGhe> LayDanhSachGheVePhimTuMaVe(string maVe)

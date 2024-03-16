@@ -140,21 +140,21 @@
                 foreach (var item in ViewBag.GetDate)
                 {
                     <div class="col">
-                        <span class="date" style="font-weight: bold; margin-bottom: 15px;">@item[0]</span>
+                        <span class="date" style="font-weight: bold; margin-bottom: 15px;">@item.NgayDat</span>
                         <br />
                         @if (ViewBag.GetVP != null)
                         {
                             foreach (var item1 in ViewBag.GetVP)
                             {
-                                if (item1[4] == item[0])
+                                if (item1.NgayDat == item.NgayDat)
                                 {
                                     <div style="display: flex; flex-direction: row;">
-                                        <input class="form-control" style="margin: 5px;" value="@item1[0]" readonly />
-                                        <input class="form-control" style="margin: 5px;" value="@item1[1]" readonly />
-                                        <input class="form-control" style="margin: 5px;" value="@item1[2]" readonly />
-                                        <input class="form-control" style="margin: 5px;" value="@item1[3]" readonly />
-                                        <input class="form-control" style="margin: 5px;" value="@DateTime.Parse(item1[5]).ToString("dd/MM/yyyy")" readonly />
-                                        <input class="form-control" style="margin: 5px;" value="@DateTime.ParseExact(item1[6], "HH:mm:ss", CultureInfo.InvariantCulture).ToString("HH:mm")" readonly />
+                                        <input class="form-control" style="margin: 5px;" value="@item1.MaVe" readonly />
+                                        <input class="form-control" style="margin: 5px;" value="@item1.TenPhim" readonly />
+                                        <input class="form-control" style="margin: 5px;" value="@item1.TenPC" readonly />
+                                        <input class="form-control" style="margin: 5px;" value="@item1.TenGheVG" readonly />
+                                        <input class="form-control" style="margin: 5px;" value="@DateTime.Parse(item1.NgayLC).ToString("dd/MM/yyyy")" readonly />
+                                        <input class="form-control" style="margin: 5px;" value="@DateTime.ParseExact(item1.GioXC, "HH:mm:ss", CultureInfo.InvariantCulture).ToString("HH:mm")" readonly />
                                     </div>
                                 }
 

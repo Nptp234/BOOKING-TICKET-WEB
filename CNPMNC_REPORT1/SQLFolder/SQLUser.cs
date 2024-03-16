@@ -288,5 +288,21 @@ namespace CNPMNC_REPORT1.SQLData
             }
             else return null;
         }
+
+        public KhachHang LayThongTinKHTuMaKH(string makh)
+        {
+            string query = $"SELECT * FROM KHACHHANG WHERE MaKH = '{makh}'";
+
+            List<KhachHang> lsKH = new List<KhachHang>();
+            lsKH = LayDS<KhachHang>(query);
+
+            KhachHang khachHang = new KhachHang();
+            if (lsKH.Count > 0)
+            {
+                khachHang = lsKH[0];
+            }
+            return khachHang;
+        }
+
     }
 }

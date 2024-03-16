@@ -221,6 +221,7 @@
     <Compile Include="Models\User\YeuThich.cs" />
     <Compile Include="Models\VePhim\VeGhe.cs" />
     <Compile Include="Models\VePhim\VeP.cs" />
+    <Compile Include="Models\VePhim\VePhimChiTietKH.cs" />
     <Compile Include="Observer\Object\BinhLuanObserver.cs" />
     <Compile Include="Observer\Object\GHTObserver.cs" />
     <Compile Include="Observer\IObserver.cs" />
@@ -242,6 +243,10 @@
     <Compile Include="Proxy\NVProxy\QuanLyPhim.cs" />
     <Compile Include="Proxy\NVProxy\PhanTrangNV.cs" />
     <Compile Include="Proxy\NVProxy\QuanLyPhongChieu.cs" />
+    <Compile Include="Repository\UserRepository\AUserRepository.cs" />
+    <Compile Include="Repository\UserRepository\KhachHangRepository.cs" />
+    <Compile Include="Repository\UserRepository\NhanVienRepository.cs" />
+    <Compile Include="Repository\VePRepository\AVePRepository.cs" />
     <Compile Include="Singleton\SingletonBL.cs" />
     <Compile Include="Factory\FactoryPhim\ComingSoonFilmFactory.cs" />
     <Compile Include="Factory\FactoryPhim\MostWatchingFilmFactory.cs" />
@@ -280,8 +285,6 @@
     <Compile Include="SQLFolder\SQLUser.cs" />
     <Compile Include="SQLFolder\SQLVePhim.cs" />
     <Compile Include="SQLFolder\SQLYeuThich.cs" />
-    <Compile Include="State\LoginState.cs" />
-    <Compile Include="State\UserState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\AdminArea\Content\admin_style.css" />

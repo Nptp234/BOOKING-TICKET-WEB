@@ -27,8 +27,14 @@ namespace CNPMNC_REPORT1.Models.LichChieuPhim
             MaPhim = maPhim;
         }
 
-        public LichChieu(string maLC, string ngayLC, string trangThaiLC, string sLVeDat, string maXC, string maPC, string maPhim) : this(maLC, ngayLC, trangThaiLC, sLVeDat, maXC, maPC)
+        public LichChieu(string maLC, string ngayLC, string trangThaiLC, string sLVeDat, string maXC, string maPC, string maPhim)
         {
+            MaLC = maLC;
+            NgayLC = ngayLC;
+            TrangThaiLC = trangThaiLC;
+            SLVeDat = sLVeDat;
+            MaXC = maXC;
+            MaPC = maPC;
             MaPhim = maPhim;
         }
     }

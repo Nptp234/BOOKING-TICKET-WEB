@@ -17,7 +17,9 @@ using CNPMNC_REPORT1.Models.User;
 using CNPMNC_REPORT1.Factory.FactoryPhim;
 using CNPMNC_REPORT1.Observer;
 using CNPMNC_REPORT1.Factory.FactoryYT;
-using CNPMNC_REPORT1.State;
+using CNPMNC_REPORT1.Repository.UserRepository;
+using CNPMNC_REPORT1.SQLFolder;
+using CNPMNC_REPORT1.Repository.VePRepository;
 
 namespace CNPMNC_REPORT1.Controllers
 {
@@ -27,10 +29,14 @@ namespace CNPMNC_REPORT1.Controllers
         BinhLuanFactory factoryBL;
         GHTFactory factoryGHT;
         SQLData123 db = new SQLData123();
-        SubjectObserver subject = new SubjectObserver();
+        private readonly static SubjectObserver subject = new SubjectObserver();
+        KhachHangRepository khachHangRepository;
+        NhanVienRepository nhanVienRepository;
 
         public ActionResult Index(string Logout)
         {
+            khachHangRepository = new KhachHangRepository();
+
             SingletonPhim singletonPhim = SingletonPhim.Instance;
             singletonPhim.ResetInstance();
 
@@ -46,7 +52,7 @@ namespace CNPMNC_REPORT1.Controllers
             factoryPhim = new MostWatchingFilmFactory();
             ViewBag.FilmMostWatching = factoryPhim.CreatePhim();
 
-            if (SQLUser.Instance.KH != null)
+            if (khachHangRepository.GetKH()!=null)
             {
                 YeuThichFactory ytFactory = new CreateListLikedUser();
                 ViewBag.YeuThich = ytFactory.CreateYT();
@@ -58,37 +64,35 @@ namespace CNPMNC_REPORT1.Controllers
 
         public ActionResult Logout()
         {
+            khachHangRepository = new KhachHangRepository();
             Session["isLogined"] = "false";
             Session["Username"] = null;
 
-            SQLUser user = SQLUser.Instance;
-            user.SetKH(null);
-            user.SetNV(null);
+            if (khachHangRepository.Logout())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("LoginPage", "Home");
+            }
 
-            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult LoginPage(string Username, string Password, string status)
         {
-            SQLUser sQLUser = SQLUser.Instance;
-            UserAccount userAccount;
+            khachHangRepository = new KhachHangRepository();
 
             Session["isLoginedQL"] = "false";
 
-            if (status == "Check")
+            if (Username != null && Password != null)
             {
-                userAccount = new KhachHang();
-                LoginState userState = new LoginState(userAccount);
-
-                bool check = sQLUser.KiemTraThongTinDangNhap(Username, Password, userAccount.UserType);
+                bool check = khachHangRepository.Login(Username, Password);
 
                 if (check)
                 {
                     Session["isLogined"] = "true";
                     Session["Username"] = Username;
-
-                    userState.ClickLogin();
-                    ViewBag.Script = userState.ReturnScript();
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -108,27 +112,16 @@ namespace CNPMNC_REPORT1.Controllers
         [HttpPost]
         public ActionResult LoginPageNV(string Username, string Password, string status)
         {
-            SQLUser sQLUser = SQLUser.Instance;
-            UserAccount userAccount;
-
+            nhanVienRepository = new NhanVienRepository();
             Session["isLoginedQL"] = "false";
 
-            if (status == "Check")
+            if (nhanVienRepository.Login(Username, Password))
             {
-                userAccount = new NhanVien();
-
-                bool check = sQLUser.KiemTraThongTinDangNhap(Username, Password, userAccount.UserType);
-
-                if (check)
-                {
-                    Session["isLogined"] = "true";
-
-                    return RedirectToAction("IndexNull", "Admin", new { area = "AdminArea" });
-                }
-                else
-                {
-                    ViewBag.ThongBao = "Error Login!";
-                }
+                return RedirectToAction("IndexNull", "Admin", new { area = "AdminArea" });
+            }
+            else
+            {
+                ViewBag.ThongBao = "Error Login!";
             }
 
             return View();
@@ -142,27 +135,16 @@ namespace CNPMNC_REPORT1.Controllers
         [HttpPost]
         public ActionResult RegisterPage(string Username, string Password, string Email)
         {
-            SQLUser sQLUser = SQLUser.Instance;
-            KhachHang kh = new KhachHang();
+            khachHangRepository = new KhachHangRepository();
 
             if (Username != null && Password != null && Email != null)
             {
-                if (sQLUser.KiemTraTenNDKH(Username) && sQLUser.KiemTraEmailNDKH(Email))
+                if (khachHangRepository.Logup(Username, Password, Email))
                 {
-                    kh.TenTKKH = Username;
-                    kh.MatKhauKH = Password;
-                    kh.EmailKH = Email;
-                    kh.DiemThuongKH = "0";
-                    kh.TrangThaiTKKH = "Actived";
-                    kh.MaLoaiKH = "1";
+                    Session["isLogined"] = "true";
+                    Session["Username"] = Username;
 
-                    if (sQLUser.ThemKH(kh))
-                    {
-                        Session["isLogined"] = "true";
-                        Session["Username"] = kh.TenTKKH;
-
-                        return RedirectToAction("Index", "Home");
-                    }
+                    return RedirectToAction("Index", "Home");
                 }
             }
             
@@ -171,24 +153,14 @@ namespace CNPMNC_REPORT1.Controllers
 
         public ActionResult AccountPage()
         {
-            SQLData123 data = new SQLData123();
-            SQLUser sQLUser = SQLUser.Instance;
-            KhachHang kh = sQLUser.KH;
+            khachHangRepository = new KhachHangRepository();
+            AVePRepository vePRepository = new AVePRepository();
 
-            ViewBag.GetDate = data.getData($"SELECT vp.NgayDat FROM VEPHIM vp, KHACHHANG kh WHERE kh.MaKH=vp.MaKH AND kh.TenTKKH='{kh.TenTKKH}' GROUP BY vp.NgayDat ORDER BY CONVERT(date, vp.NgayDat) DESC");
-            //ViewBag.GetKH = data.getData($"SELECT kh.TenTKKH, kh.EmailKH, kh.MatKhauKH, lkh.TenLKH, lkh.ChietKhau FROM KHACHHANG kh, LOAIKH lkh WHERE kh.MaLoaiKH=lkh.MaLoaiKH AND kh.TenTKKH='{tentk}'");
+            KhachHang kh = khachHangRepository.GetKH();
 
-            ViewBag.GetVP = data.getData($"SELECT vp.MaVe, p.TenPhim, pc.TenPC, STRING_AGG(vg.TenGheVG, ''), vp.NgayDat, lc.NgayLC, xc.GioXC " +
-                                        $"FROM VEPHIM vp, KHACHHANG kh, LICHCHIEU lc, PHIM p, PHONGCHIEU pc, VE_GHE vg, XUATCHIEU xc " +
-                                        $"WHERE kh.TenTKKH='{kh.TenTKKH}' " +
-                                        $"AND vp.MaKH=kh.MaKH " +
-                                        $"AND vp.MaLC=lc.MaLC " +
-                                        $"AND lc.MaPhim=p.MaPhim " +
-                                        $"AND pc.MaPC=lc.MaPC " +
-                                        $"AND vp.MaVe=vg.MaVe " +
-                                        $"AND lc.MaXC=xc.MaXC " +
-                                        $"GROUP BY vp.MaVe, p.TenPhim, pc.TenPC, vp.NgayDat, lc.NgayLC, xc.GioXC " +
-                                        $"ORDER BY vp.NgayDat DESC");
+            ViewBag.GetDate = vePRepository.LayTTVePTuMaKH(kh.MaKH);
+
+            ViewBag.GetVP = vePRepository.LayVePhimChiTietKH(kh.TenTKKH);
 
             ViewBag.ThongBao = TempData["ThongBao"];
 
@@ -197,45 +169,9 @@ namespace CNPMNC_REPORT1.Controllers
         [HttpPost]
         public ActionResult AccountPage(string TenTK, string Email, string Pass)
         {
-            if (Email == null || Pass == null)
-            {
-                TempData["ThongBao"] = "Null Email or Pass!";
-                return RedirectToAction("AccountPage", "Home");
-            }
+            khachHangRepository = new KhachHangRepository();
 
-            SQLData123 data = new SQLData123();
-            SQLUser sQLUser = SQLUser.Instance;
-            KhachHang kh = sQLUser.KH;
-            KhachHang updateKH = new KhachHang();
-
-            updateKH = kh;
-            updateKH.TenTKKH = TenTK;
-            updateKH.EmailKH = Email;
-            updateKH.MatKhauKH = Pass;
-
-            if (TenTK != null)
-            {
-                if (sQLUser.CapNhatTenNDKH(kh))
-                {
-                    kh.TenTKKH = TenTK;
-                }
-            }
-
-            if (Email != null)
-            {
-                if (sQLUser.CapNhatEmailKH(updateKH))
-                {
-                    kh.EmailKH = Email;
-                }
-            }
-            
-            if (Pass != null)
-            {
-                if (sQLUser.CapNhatMatKhauKH(updateKH))
-                {
-                    kh.MatKhauKH = Pass;
-                }
-            }
+            khachHangRepository.CapNhatKH(TenTK, Pass, Email);
 
             return RedirectToAction("AccountPage", "Home");
         }
@@ -247,6 +183,9 @@ namespace CNPMNC_REPORT1.Controllers
             if (MaPhim != null)
             {
                 Console.OutputEncoding = Encoding.GetEncoding("UTF-8");
+
+                var blObserver = new BinhLuanObserver();
+                subject.Attach(blObserver);
 
                 SingletonPhim singletonPhim = SingletonPhim.Instance;
                 List<Phim> lsPhim = singletonPhim.CreatePhim();
@@ -302,9 +241,6 @@ namespace CNPMNC_REPORT1.Controllers
         public ActionResult FilmDetail(string IDPhim, string GhiChu, string IDBL, string status)
         {
             BinhLuan bl = new BinhLuan();
-            var blObserver = new BinhLuanObserver();
-
-            subject.Attach(blObserver);
 
             if (status == "Post")
             {
@@ -338,9 +274,6 @@ namespace CNPMNC_REPORT1.Controllers
         {
 
             BinhLuan bl = new BinhLuan();
-            var blObserver = new BinhLuanObserver();
-
-            subject.Attach(blObserver);
 
             bl.MaBL = maBL;
 
