@@ -6,3 +6,4 @@
 6. Repository (Phuoc)
 7. Command (Ba)
 8. Iterator (Long)
+9. Composite (Ba)
