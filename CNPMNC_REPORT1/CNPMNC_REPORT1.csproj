@@ -182,10 +182,11 @@
     <Compile Include="Command\CommandDV\ThanhToanVeCommand.cs" />
     <Compile Include="Command\CommandInterface.cs" />
     <Compile Include="Command\InvokerClass.cs" />
-    <Compile Include="Composite\AbstractOne.cs" />
-    <Compile Include="Composite\FolderCompo.cs" />
-    <Compile Include="Composite\FileCompo.cs" />
     <Compile Include="Areas\AdminArea\Controllers\AdminController.cs" />
+    <Compile Include="Composite\NVComposite\FolderNV.cs" />
+    <Compile Include="Composite\NVComposite\FolderStorage.cs" />
+    <Compile Include="Composite\NVComposite\AComponent.cs" />
+    <Compile Include="Composite\NVComposite\PageNV.cs" />
     <Compile Include="Controllers\BookingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LikedController.cs" />

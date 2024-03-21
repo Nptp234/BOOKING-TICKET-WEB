@@ -39,7 +39,7 @@ namespace CNPMNC_REPORT1.Observer
 
             if (isAdd)
             {
-                phim.MaPhim = (PhimFactory.allPhim.Count() + 1).ToString();
+                phim.MaPhim = sqlPhim.GetMaxIDFilm();
                 PhimFactory.allPhim.Add(phim);
             }
         }

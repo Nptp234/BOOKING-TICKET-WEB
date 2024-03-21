@@ -32,7 +32,6 @@ namespace CNPMNC_REPORT1.Controllers
         PhimFactory factoryPhim;
         BinhLuanFactory factoryBL;
         GHTFactory factoryGHT;
-        SQLData123 db = new SQLData123();
         private readonly static SubjectObserver subject = new SubjectObserver();
         KhachHangRepository khachHangRepository;
         NhanVienRepository nhanVienRepository;

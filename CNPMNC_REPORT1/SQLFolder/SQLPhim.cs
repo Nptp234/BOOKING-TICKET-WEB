@@ -42,5 +42,12 @@ namespace CNPMNC_REPORT1.SQLData
             return ThucHienTruyVan(query);
         }
 
+        public string GetMaxIDFilm()
+        {
+            string query = "SELECT MAX(MAPHIM) FROM PHIM";
+            List<Phim> phim = LayDS<Phim>(query);
+            return phim[0].MaPhim;
+        }
+
     }
 }

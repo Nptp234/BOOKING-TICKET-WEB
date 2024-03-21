@@ -1,4 +1,5 @@
-﻿using CNPMNC_REPORT1.Models.User;
+﻿using CNPMNC_REPORT1.Composite.NVComposite;
+using CNPMNC_REPORT1.Models.User;
 using CNPMNC_REPORT1.SQLData;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace CNPMNC_REPORT1.Proxy.NVProxy
         private NhanVien nhanVien;
         private PhanTrangNV phanTrangNV;
         private SQLUser sQLUser;
+        private FolderStorage folderStorage = FolderStorage.Instance;
+        private FolderNV folder;
 
         public NhanVienProxy(NhanVien _nhanVien)
         {
@@ -20,8 +23,9 @@ namespace CNPMNC_REPORT1.Proxy.NVProxy
         }
 
         public List<string> PhanLoaiTrangTheoLNV()
-        {
-            List<string> managedPages = new List<string>(); // Danh sách các trang quản lý được phân loại
+        { 
+            // Danh sách các trang quản lý được phân loại
+            List<string> managedPages = new List<string>();
             List<string> dsLNV = sQLUser.LayDSLoaiNhanVienTuMaNV(nhanVien.MaNV);
 
             if (dsLNV != null)
@@ -34,7 +38,7 @@ namespace CNPMNC_REPORT1.Proxy.NVProxy
                     {
                         foreach (string trang in phanTrangNV.LayDSTrangTheoNV())
                         {
-                            if (!managedPages.Contains(trang)) // Kiểm tra trang đã tồn tại trong danh sách chưa
+                            if (!managedPages.Contains(trang) && trang != "IndexNull" && trang != "HDDetail") // Kiểm tra trang đã tồn tại trong danh sách chưa
                             {
                                 managedPages.Add(trang);
                             }
