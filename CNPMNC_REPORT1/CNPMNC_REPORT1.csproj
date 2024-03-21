@@ -203,7 +203,7 @@
     <Compile Include="Factory\FactoryLoaiPhim\LoaiPhimFactory.cs" />
     <Compile Include="Factory\FactoryPC\CreateAllPC.cs" />
     <Compile Include="Factory\FactoryPC\RoomFactory.cs" />
-    <Compile Include="Factory\FactoryPhim\CreateAllPhim.cs" />
+    <Compile Include="Factory\FactoryPhim\CreateAllFilm.cs" />
     <Compile Include="Factory\FactoryRoomType\CreateAllLPC.cs" />
     <Compile Include="Factory\FactoryRoomType\RoomTypeFactory.cs" />
     <Compile Include="Factory\FactoryTLVP\CreateAllTLVP.cs" />

@@ -19,7 +19,7 @@ namespace CNPMNC_REPORT1.Factory.FactoryYT
             SingletonYT singleton = SingletonYT.Instance;
             List<YeuThich> ls = singleton.CreateYT();
 
-            PhimFactory phimFac = new CreateAllPhim();
+            PhimFactory phimFac = new CreateAllFilm();
             List<Phim> lsPhim = phimFac.CreatePhim();
 
             foreach (YeuThich tlp in ls)

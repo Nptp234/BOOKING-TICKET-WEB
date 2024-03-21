@@ -9,6 +9,7 @@ namespace CNPMNC_REPORT1.Factory
 {
     public abstract class PhimFactory
     {
+        public static SingletonPhim singletonPhim = SingletonPhim.Instance;
         public static List<Phim> allPhim { get; set; }
 
         public abstract List<Phim> CreatePhim();

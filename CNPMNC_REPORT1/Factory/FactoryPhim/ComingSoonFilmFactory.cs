@@ -15,7 +15,6 @@ namespace CNPMNC_REPORT1.Factory
             convertDateTime = new ConvertDateTime();
             List<Phim> dsPhim = new List<Phim>();
 
-            SingletonPhim singletonPhim = SingletonPhim.Instance;
             List<Phim> lsPhim = singletonPhim.CreatePhim();
 
             DateTime now = DateTime.Now.Date;

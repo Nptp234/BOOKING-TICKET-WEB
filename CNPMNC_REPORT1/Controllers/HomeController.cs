@@ -312,7 +312,7 @@ namespace CNPMNC_REPORT1.Controllers
             List<Phim> filteredPhimList = new List<Phim>();
 
             // Lấy danh sách phim có sẵn
-            factoryPhim = new CreateAllPhim();
+            factoryPhim = new CreateAllFilm();
             List<Phim> GetPhimList = factoryPhim.CreatePhim();
 
             if (searchValue == "")

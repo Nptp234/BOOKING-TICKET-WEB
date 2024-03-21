@@ -68,7 +68,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             subject.Attach(phimObserver);
 
             loaiPhimFactory = new CreateAllLP();
-            phimFactory = new CreateAllPhim();
+            phimFactory = new CreateAllFilm();
             ghtFactory = new CreateAllGHT();
 
             ViewBag.DSGHTP = ghtFactory.CreateGHT();
@@ -122,7 +122,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
         public ActionResult UpdateFilm(string MaP, string TenF, string MoTaF, string NgayCC, string ThoiLuongP, string HinhAnhP, string TrailerP, string GiaP, string MaGHT, HttpPostedFileBase HinhAnhFiledetail1, string HinhAnhFiledetail2)
         {
-            PhimFactory phimFactory = new CreateAllPhim();
+            PhimFactory phimFactory = new CreateAllFilm();
             List<Phim> dsPhim = phimFactory.CreatePhim();
             string fileName1 = "", path1 = "";
 
