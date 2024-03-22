@@ -211,6 +211,8 @@
     <Compile Include="Factory\FactoryVP\VePhimFactory.cs" />
     <Compile Include="Factory\FactoryYT\CreateListLikedUser.cs" />
     <Compile Include="Factory\FactoryYT\YeuThichFactory.cs" />
+    <Compile Include="Iterator\BLIterator\BLCollect.cs" />
+    <Compile Include="Iterator\BLIterator\BLIterator.cs" />
     <Compile Include="Iterator\IterableCollection.cs" />
     <Compile Include="Iterator\Iterator.cs" />
     <Compile Include="Iterator\PhimIterator\PhimCollect.cs" />
@@ -457,6 +459,7 @@
     <Content Include="Views\Liked\Index.cshtml" />
     <Content Include="Views\Store\KiemTraChuyenTrang.cshtml" />
     <Content Include="Views\Liked\YTList.cshtml" />
+    <Content Include="Views\Home\BLList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

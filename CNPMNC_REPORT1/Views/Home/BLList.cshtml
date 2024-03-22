@@ -1,0 +1,25 @@
+﻿@using CNPMNC_REPORT1.Models;
+
+@model List<BinhLuan>
+
+<div class="comment-container">
+    <div class="comments">
+
+        <!-- Danh sách bình luận -->
+        @foreach (var bl in Model)
+        {
+            <div class="comment mt-2 text-justify float-left">
+                <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="30" height="30">
+                <h4 style="margin-right: 10px; margin-bottom: 20px;">@bl.TenTK</h4>
+                <span>@DateTime.Parse(bl.NgayTao).ToString("MMM dd, yyyy HH:mm:ss tt")</span>
+                <br>
+                <p style="margin-left: 20px; margin-top: 20px;">@bl.GhiChu</p>
+                @if (Session["Username"] as string == bl.TenTK)
+                {
+                    <a href="@Url.Action("DeleteComment", "Home", new { maPhim = bl.MaPhim, maBL = bl.MaBL})" name="status" value="Delete" style="color: white; float: right; padding-bottom: 20px;">Xoá bình luận</a>
+                }
+            </div>
+        }
+    </div>
+</div>
+

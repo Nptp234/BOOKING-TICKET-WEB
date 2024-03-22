@@ -24,6 +24,7 @@ using CNPMNC_REPORT1.Memento.OriginatorFolder;
 using CNPMNC_REPORT1.Memento;
 using CNPMNC_REPORT1.Iterator.PhimIterator;
 using CNPMNC_REPORT1.Factory.FactoryLoaiPhim;
+using CNPMNC_REPORT1.Iterator.BLIterator;
 
 namespace CNPMNC_REPORT1.Controllers
 {
@@ -197,6 +198,7 @@ namespace CNPMNC_REPORT1.Controllers
                 Console.OutputEncoding = Encoding.GetEncoding("UTF-8");
 
                 var blObserver = new BinhLuanObserver();
+                subject.DetachAll();
                 subject.Attach(blObserver);
 
                 SingletonPhim singletonPhim = SingletonPhim.Instance;
@@ -215,12 +217,6 @@ namespace CNPMNC_REPORT1.Controllers
                     string embedLink = youtube.GetEmbedLink(youtubeLink);
 
                     ViewBag.EmbedLink = embedLink;
-
-                    //lấy danh sách bình luận
-                    factoryBL = new CreateBLWithFilm(MaPhim);
-                    List<BinhLuan> dsBL = factoryBL.CreateBL();
-
-                    ViewBag.BinhLuan = dsBL;
 
                     //xác định giới hạn tuổi
                     factoryGHT = new CreateAllGHT();
@@ -249,14 +245,76 @@ namespace CNPMNC_REPORT1.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult FilmDetail(string IDPhim, string GhiChu, string IDBL, string status)
+        //[HttpPost]
+        //public ActionResult FilmDetail(string IDPhim, string GhiChu, string status)
+        //{
+        //    BinhLuan bl = new BinhLuan();
+
+        //    if (status == "Post")
+        //    {
+        //        if (IDPhim != null && GhiChu != null)
+        //        {
+        //            Console.OutputEncoding = Encoding.GetEncoding("UTF-8");
+
+        //            string tentk = Session["Username"].ToString();
+
+        //            if (tentk != null)
+        //            {
+        //                DateTime now = DateTime.Now;
+        //                bl.NgayTao = now.ToString();
+        //                bl.MaPhim = IDPhim;
+        //                bl.TenTK = tentk;
+        //                bl.GhiChu = GhiChu;
+        //                bl.TrangThai = "Active";
+
+        //                subject.Notify(bl, ActionType.Add);
+
+        //                return RedirectToAction("FilmDetail", "Home", new { MaPhim = IDPhim });
+        //            }
+        //            else
+        //                ViewBag.ThongBao = "Error TenTK = null!";
+        //        }
+        //    }
+
+        //    return RedirectToAction("FilmDetail", "Home", new { MaPhim = IDPhim });
+        //}
+
+        public ActionResult BLList(string MaPhim, string value)
+        {
+            //lấy danh sách bình luận
+            factoryBL = new CreateBLWithFilm(MaPhim);
+            List<BinhLuan> dsBL = factoryBL.CreateBL();
+
+            // Sử dụng YTCollect để lưu lại danh sách yt
+            BLCollect collect = new BLCollect(dsBL);
+
+            // Sử dụng cách duyệt dành cho yt
+            BLIterator iterator = (BLIterator)collect.CreateIterator();
+
+            List<BinhLuan> sortedList;
+            switch (value)
+            {
+                case "1":
+                    sortedList = iterator.SortNewest();
+                    break;
+                case "2":
+                    sortedList = iterator.SortOldest();
+                    break;
+                default:
+                    sortedList = dsBL;
+                    break;
+            }
+
+
+            return PartialView("BLList", sortedList);
+        }
+
+        public ActionResult AddBL(string IDPhim, string GhiChu)
         {
             BinhLuan bl = new BinhLuan();
+            bool success = false;
 
-            if (status == "Post")
-            {
-                if (IDPhim != null && GhiChu != null)
+            if (IDPhim != null && GhiChu != null && GhiChu != "")
                 {
                     Console.OutputEncoding = Encoding.GetEncoding("UTF-8");
 
@@ -273,15 +331,16 @@ namespace CNPMNC_REPORT1.Controllers
 
                         subject.Notify(bl, ActionType.Add);
 
-                        return RedirectToAction("FilmDetail", "Home", new { MaPhim = IDPhim });
-                    }
-                    else
-                        ViewBag.ThongBao = "Error TenTK = null!";
-                }
-            } 
+                        success = true;
 
-            return RedirectToAction("FilmDetail", "Home", new { MaPhim = IDPhim });
+                    }
+                    else ViewBag.ThongBao = "Error TenTK = null!";
+                }
+
+            return Json(new { success = success });
         }
+
+
         public ActionResult DeleteComment(string maBL, string maPhim)
         {
 
@@ -291,6 +350,7 @@ namespace CNPMNC_REPORT1.Controllers
 
             subject.Notify(bl, ActionType.Remove);
 
+            //return Json(new { success = true });
             return RedirectToAction("FilmDetail", "Home", new { MaPhim = maPhim });
         }
 

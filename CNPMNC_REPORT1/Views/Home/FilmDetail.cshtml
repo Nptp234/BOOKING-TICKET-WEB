@@ -326,7 +326,22 @@
 
         @* Post comment *@
         <div class="row">
-            <form action="@Url.Action("FilmDetail","Home")" method="post" style="border: none; background-color:  inherit">
+            @*<form action="@Url.Action("AddBL","Home")" method="post" style="border: none; background-color:  inherit">
+                    <h4 style="color: white">Leave your comment here</h4>
+                    <input name="IDPhim" style="display: none;" value="@Model.MaPhim" />
+                    <div class="bg-light p-2" style="border-radius: 10px">
+                        <p class="smaller_content" style="color:red;">@ViewBag.ThongBao</p>
+                        <div class="d-flex flex-row align-items-start">
+                            <img class="rounded-circle" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" width="40">
+                            <textarea id="inputComment" class="form-control ml-1 shadow-none textarea" name="GhiChu" placeholder="Đăng nhập để có thể bình luận phim" required></textarea>
+                        </div>
+                        <div class="mt-2 text-right">
+                            <button id="btnSubmit" name="status" value="Post" class="btn btn-info" type="submit">Post comment</button>
+                        </div>
+                    </div>
+                </form>*@
+
+            <div style="border: none; background-color:  inherit">
                 <h4 style="color: white">Leave your comment here</h4>
                 <input name="IDPhim" style="display: none;" value="@Model.MaPhim" />
                 <div class="bg-light p-2" style="border-radius: 10px">
@@ -336,19 +351,21 @@
                         <textarea id="inputComment" class="form-control ml-1 shadow-none textarea" name="GhiChu" placeholder="Đăng nhập để có thể bình luận phim" required></textarea>
                     </div>
                     <div class="mt-2 text-right">
-                        <button id="btnSubmit" name="status" value="Post" class="btn btn-info" type="submit">Post comment</button>
+                        <button id="btnSubmit" class="btn btn-info" type="submit">Post comment</button>
                     </div>
                 </div>
-            </form>
+            </div>
+
+
         </div>
 
         @* List comments *@
 
         <style>
             .comment-container {
-                height: 500px; 
-                overflow-y: auto; 
-                border: 2px solid #ccc; 
+                height: 500px;
+                overflow-y: auto;
+                border: 2px solid #ccc;
                 border-radius: 5px;
             }
 
@@ -358,12 +375,12 @@
 
             /* Tùy chỉnh thanh cuộn */
             .comment-container::-webkit-scrollbar {
-                width: 12px; 
+                width: 12px;
             }
 
             .comment-container::-webkit-scrollbar-thumb {
-                background-color: #888; 
-                border-radius: 2px; 
+                background-color: #888;
+                border-radius: 2px;
             }
         </style>
 
@@ -371,27 +388,19 @@
             <div class="col-sm-7 col-md-9 col-12 pb-4">
                 <h1>Comments</h1>
 
-                <div class="comment-container">
-                    <div class="comments">
-
-                        <!-- Danh sách bình luận -->
-                        @foreach (var bl in ViewBag.BinhLuan)
-                        {
-                            <div class="comment mt-2 text-justify float-left">
-                                <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="30" height="30">
-                                <h4 style="margin-right: 10px; margin-bottom: 20px;">@bl.TenTK</h4>
-                                <span>@DateTime.Parse(bl.NgayTao).ToString("MMM dd, yyyy HH:mm:ss tt")</span>
-                                <br>
-                                <p style="margin-left: 20px; margin-top: 20px;">@bl.GhiChu</p>
-                                @if (Session["Username"] as string == bl.TenTK)
-                                {
-                                    <a href="@Url.Action("DeleteComment", "Home", new { maPhim = bl.MaPhim, maBL = bl.MaBL})" name="status" value="Delete" style="color: white; float: right; padding-bottom: 20px;">Xoá bình luận</a>
-                                }
-                            </div>
-                        }
-                    </div>
+                <div id="choice_sort" style="margin-bottom: 10px;">
+                    <label for="sortingOptions">Sắp xếp theo: </label>
+                    <select id="sortingOptions" onchange="GoIndex()">
+                        <option value="0"></option>
+                        <option value="1">Mới nhất</option>
+                        <option value="2">Cũ nhất</option>
+                    </select>
                 </div>
-                
+
+                <div id="blList">
+                    @*BinhLuan List Here*@
+                </div>
+
             </div>
         </div>
     </div>
@@ -408,4 +417,59 @@
         inputComment.disabled = true;
     </script>
 }
+
+@*script for binhluan*@
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            GoIndex();
+        });
+
+    function GoIndex() {
+
+        var selectedValue = document.getElementById("sortingOptions").value;
+        var idFilm = '@Model.MaPhim';
+
+        // Gọi AJAX để gửi yêu cầu đến hàm
+        $.ajax({
+            url: '@Url.Action("BLList", "Home")',
+            type: 'POST',
+            data: { MaPhim: idFilm, value: selectedValue },
+            success: function (data) {
+
+                // Cập nhật lại phần tử HTML chứa danh sách
+                $('#blList').html(data);
+            },
+            error: function () {
+                alert('Error.');
+            }
+            });
+        }
+</script>
+
+@*script them bl*@
+<script>
+    $(document).ready(function () {
+        $('#btnSubmit').click(function () {
+            var IDPhim = '@Model.MaPhim';
+            var GhiChu = $('#inputComment').val();
+
+            $.ajax({
+                url: '@Url.Action("AddBL", "Home")',
+                type: 'POST',
+                data: { IDPhim: IDPhim, GhiChu: GhiChu },
+                success: function (response) {
+                    if (response.success) {
+                        $('#inputComment').val('');
+                        GoIndex();
+                    }
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi khi gửi yêu cầu.');
+                }
+            });
+        });
+    });
+</script>
+
+
 
