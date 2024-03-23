@@ -1,16 +1,15 @@
-﻿using NPOI.SS.Formula.Functions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CNPMNC_REPORT1.Observer
+namespace CNPMNC_REPORT1.Observer.Subject
 {
-    public class SubjectObserver
+    public class XuatChieuSubject
     {
         private List<IObserver> _observers = new List<IObserver>();
 
-        public SubjectObserver() { }
+        public XuatChieuSubject() { }
 
         public void Attach(IObserver observer)
         {

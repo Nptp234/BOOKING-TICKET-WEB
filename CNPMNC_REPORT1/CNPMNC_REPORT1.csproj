@@ -251,8 +251,10 @@
     <Compile Include="Observer\Object\PhimObserver.cs" />
     <Compile Include="Observer\Object\PhongChieuObserver.cs" />
     <Compile Include="Observer\Object\TLVPObserver.cs" />
+    <Compile Include="Observer\Object\XuatChieuObserver.cs" />
     <Compile Include="Observer\Object\YeuThichObserver.cs" />
     <Compile Include="Observer\SubjectObserver.cs" />
+    <Compile Include="Observer\Subject\XuatChieuSubject.cs" />
     <Compile Include="Proxy\NVProxy\INhanVienProxy.cs" />
     <Compile Include="Proxy\NVProxy\NhanVienProxy.cs" />
     <Compile Include="Proxy\NVProxy\QuanLyHeThong.cs" />
