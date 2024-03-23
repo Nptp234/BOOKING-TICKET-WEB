@@ -255,6 +255,10 @@
     <Compile Include="Observer\Object\YeuThichObserver.cs" />
     <Compile Include="Observer\SubjectObserver.cs" />
     <Compile Include="Observer\Subject\XuatChieuSubject.cs" />
+    <Compile Include="Prototype\BinhLuanPrototype\CommentConcrete.cs" />
+    <Compile Include="Prototype\BinhLuanPrototype\CommentPrototype.cs" />
+    <Compile Include="Prototype\ButtonConcrete.cs" />
+    <Compile Include="Prototype\ButtonPrototype.cs" />
     <Compile Include="Proxy\NVProxy\INhanVienProxy.cs" />
     <Compile Include="Proxy\NVProxy\NhanVienProxy.cs" />
     <Compile Include="Proxy\NVProxy\QuanLyHeThong.cs" />

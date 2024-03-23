@@ -1,9 +1,12 @@
 ﻿@using System.Collections;
+@using CNPMNC_REPORT1.Prototype;
 @{
     ViewBag.Title = "ChonGhe";
     Layout = "~/Views/Shared/_Layout.cshtml";
     char checkNor = 'F';
     ArrayList getLichChieu = ViewBag.getChair_STT as ArrayList;
+
+    var buttonPrototype = new ButtonConcrete();
 }
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -223,24 +226,19 @@
                                         break;
                                     }
                                 }
-                                if (check1)
-                                {
-                                    if (check2)
-                                    {
-                                        <button id="@i.ToString()@j.ToString()" class="picker chair">@i.ToString()@j.ToString()</button>
-                                    }
-                                    else
-                                    {
-                                        <button id="@i.ToString()@j.ToString()" class="picker chair @(check2 ? "" : "selected")">@i.ToString()@j.ToString()</button>
-                                    }
-                                }
-                                else
-                                {
-                                    <button id="@i.ToString()@j.ToString()" class="picked chair">@i.ToString()@j.ToString()</button>
-                                }
+
+                                var button = buttonPrototype.Clone() as ButtonPrototype;
+                                button.ID = $"{i}{j}";
+                                button.Text = $"{i}{j}";
+                                button.Class = check1 ? (check2 ? "picker chair" : "picker chair selected") : "picked chair";
+
+                                <button id="@button.ID" class="@button.Class">@button.Text</button>
                             }
                         </div>
-                        checkNor = (char)(i + 1);
+                    }
+
+                    @{
+                        var vipButtonPrototype = new ButtonConcrete();
                     }
 
                     @for (char i = checkNor; i <= checkNor + ((int.Parse(ViewBag.getChair_STT[8]) - 1) / 10); i++)
@@ -265,22 +263,13 @@
                                         break;
                                     }
                                 }
-                                if (check1)
-                                {
-                                    if (check2)
-                                    {
-                                        <button id="@i.ToString()@j.ToString()" class="picker chair vip">@i.ToString()@j.ToString()</button>
-                                    }
-                                    else
-                                    {
-                                        <button id="@i.ToString()@j.ToString()" class="picker chair @(check2 ? "" : "selected") vip">@i.ToString()@j.ToString()</button>
-                                    }
-                                }
-                                else
-                                {
-                                    <button id="@i.ToString()@j.ToString()" class="picked chair vip">@i.ToString()@j.ToString()</button>
-                                }
-                                @*<div id="@i.ToString()@j.ToString()" class="picker chair vip">@i.ToString()@j.ToString()</div>*@
+
+                                var vipButton = vipButtonPrototype.Clone() as ButtonPrototype;
+                                vipButton.ID = $"{i}{j}";
+                                vipButton.Text = $"{i}{j}";
+                                vipButton.Class = check1 ? (check2 ? "picker chair vip" : "picker chair selected vip") : "picked chair vip";
+
+                                <button id="@vipButton.ID" class="@vipButton.Class">@vipButton.Text</button>
                             }
                         </div>
                     }
