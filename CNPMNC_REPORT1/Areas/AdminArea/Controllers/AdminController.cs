@@ -47,7 +47,8 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             List<string> managedPages = new List<string>();
             NhanVienProxy nvProxy = new NhanVienProxy(nv);
 
-            managedPages = nvProxy.PhanLoaiTrangTheoLNV();
+            //managedPages = nvProxy.PhanLoaiTrangTheoLNV();
+            managedPages = nvProxy.PhanTrang();
 
             if (managedPages == null)
             {

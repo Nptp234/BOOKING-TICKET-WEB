@@ -12,11 +12,11 @@ namespace CNPMNC_REPORT1.Composite.NVComposite
         private static FolderStorage instance;
 
         // Sử dụng dictionary vì một folder có danh sách file con
-        private Dictionary<FolderNV, List<AComponent>> Folder;
+        private Dictionary<string, List<AComponent>> Folder;
 
         private FolderStorage()
         {
-            Folder = new Dictionary<FolderNV, List<AComponent>>();
+            Folder = new Dictionary<string, List<AComponent>>();
         }
 
         public static FolderStorage Instance
@@ -31,12 +31,12 @@ namespace CNPMNC_REPORT1.Composite.NVComposite
             }
         }
 
-        public void SaveFolder(FolderNV folder, List<AComponent> files)
+        public void SaveFolder(string folder, List<AComponent> files)
         {
             Folder.Add(folder, files);
         }
 
-        public void RemoveFolder(FolderNV folder)
+        public void RemoveFolder(string folder)
         {
             if (Folder.ContainsKey(folder))
             {
@@ -49,7 +49,7 @@ namespace CNPMNC_REPORT1.Composite.NVComposite
             Folder.Clear();
         }
 
-        public List<string> GetPageWithFolder(FolderNV folder)
+        public List<string> GetPageWithFolder(string folder)
         {
             List<string> pages = new List<string>();
             if (Folder.ContainsKey(folder))
@@ -63,7 +63,7 @@ namespace CNPMNC_REPORT1.Composite.NVComposite
             else return null;
         }
 
-        public Dictionary<FolderNV, List<AComponent>> GetAllFolder()
+        public Dictionary<string, List<AComponent>> GetAllFolder()
         {
             return Folder;
         }

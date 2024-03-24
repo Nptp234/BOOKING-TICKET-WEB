@@ -11,6 +11,8 @@ namespace CNPMNC_REPORT1.Proxy.NVProxy
     public abstract class PhanTrangNV
     {
         public abstract List<string> LayDSTrangTheoNV();
+        public abstract void SetupFolderNV();
+        public abstract void SetupFolderStorage();
 
         // Người viết Phuoc.
         // Lý do tạo hàm này:

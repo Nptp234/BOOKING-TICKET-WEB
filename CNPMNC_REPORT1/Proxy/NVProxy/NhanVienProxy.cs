@@ -13,8 +13,6 @@ namespace CNPMNC_REPORT1.Proxy.NVProxy
         private NhanVien nhanVien;
         private PhanTrangNV phanTrangNV;
         private SQLUser sQLUser;
-        private FolderStorage folderStorage = FolderStorage.Instance;
-        private FolderNV folder;
 
         public NhanVienProxy(NhanVien _nhanVien)
         {
@@ -44,6 +42,35 @@ namespace CNPMNC_REPORT1.Proxy.NVProxy
                             }
                         }
                     }
+                }
+            }
+            else return null;
+
+            return managedPages;
+        }
+
+        //----------------------------------------------------------------
+
+        private FolderStorage folderStorage = FolderStorage.Instance;
+        private Dictionary<FolderNV, List<AComponent>> Folder;
+        private FolderNV folder;
+
+        public List<string> PhanTrang()
+        {
+            // Danh sách các trang quản lý được phân loại
+            List<string> managedPages = new List<string>();
+            List<string> dsLNV = sQLUser.LayDSLoaiNhanVienTuMaNV(nhanVien.MaNV);
+
+            folder = new FolderNV();
+
+            if (dsLNV != null)
+            {
+                foreach (string lnv in dsLNV)
+                {
+                    phanTrangNV = PhanTrangNV.XacDinhNVQL(lnv);
+
+                    folder = new FolderNV(lnv);
+                    managedPages.AddRange(folderStorage.GetPageWithFolder(folder.GetName()));
                 }
             }
             else return null;

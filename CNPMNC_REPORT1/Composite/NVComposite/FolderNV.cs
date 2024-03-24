@@ -10,9 +10,21 @@ namespace CNPMNC_REPORT1.Composite.NVComposite
         private List<AComponent> Page = new List<AComponent>();
         private string FolderName { get; set; }
 
+        public FolderNV() { }
+
         public FolderNV(string name)
         {
             FolderName = name;
+        }
+
+        public void SetName(string name)
+        {
+            FolderName = name;
+        }
+
+        public string GetName()
+        {
+            return FolderName;
         }
 
         public void AddPage(AComponent page)

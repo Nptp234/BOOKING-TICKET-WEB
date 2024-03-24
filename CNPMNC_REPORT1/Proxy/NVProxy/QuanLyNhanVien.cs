@@ -13,6 +13,12 @@ namespace CNPMNC_REPORT1.Proxy.NVProxy
         List<AComponent> lst = new List<AComponent>();
         FolderStorage storage = FolderStorage.Instance;
 
+        public QuanLyNhanVien()
+        {
+            SetupFolderNV();
+            SetupFolderStorage();
+        }
+
         public override List<string> LayDSTrangTheoNV()
         {
             //List<string> managedPages = new List<string>(); // Danh sách các trang quản lý được phân loại
@@ -23,16 +29,22 @@ namespace CNPMNC_REPORT1.Proxy.NVProxy
 
             //return managedPages;
 
+            return storage.GetPageWithFolder(managedPages.GetName());
+        }
+
+        public override void SetupFolderNV()
+        {
             nv = new PageNV("NhanVien");
             nvtype = new PageNV("NVType");
             lst = new List<AComponent> { nv, nvtype };
 
             managedPages.AddListPage(lst);
+        }
 
-            storage.RemoveFolder(managedPages);
-            storage.SaveFolder(managedPages, managedPages.GetListComponentPage());
-
-            return storage.GetPageWithFolder(managedPages);
+        public override void SetupFolderStorage()
+        {
+            storage.RemoveFolder(managedPages.GetName());
+            storage.SaveFolder(managedPages.GetName(), managedPages.GetListComponentPage());
         }
     }
 }
