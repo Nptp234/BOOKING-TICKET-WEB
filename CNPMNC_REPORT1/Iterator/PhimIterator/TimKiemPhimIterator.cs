@@ -56,6 +56,7 @@ namespace CNPMNC_REPORT1.Iterator.PhimIterator
                     searchResults.Add(Current);
                 }
             }
+            ResetIterator();
 
             return searchResults;
         }
@@ -72,6 +73,7 @@ namespace CNPMNC_REPORT1.Iterator.PhimIterator
                     searchResults.Add(Current);
                 }
             }
+            ResetIterator();
 
             return searchResults;
         }

@@ -45,10 +45,10 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             nv = sQLUser.NV;
 
             List<string> managedPages = new List<string>();
-            NhanVienProxy nvProxy = new NhanVienProxy(nv);
+            INhanVienProxy nvProxy = new NhanVienProxy(nv);
 
             //managedPages = nvProxy.PhanLoaiTrangTheoLNV();
-            managedPages = nvProxy.PhanTrang();
+            managedPages = nvProxy.PhanLoaiTrangTheoLNV();
 
             if (managedPages == null)
             {

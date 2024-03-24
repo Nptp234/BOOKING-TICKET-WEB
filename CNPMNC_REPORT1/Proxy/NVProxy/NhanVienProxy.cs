@@ -21,32 +21,34 @@ namespace CNPMNC_REPORT1.Proxy.NVProxy
         }
 
         public List<string> PhanLoaiTrangTheoLNV()
-        { 
+        {
             // Danh sách các trang quản lý được phân loại
-            List<string> managedPages = new List<string>();
-            List<string> dsLNV = sQLUser.LayDSLoaiNhanVienTuMaNV(nhanVien.MaNV);
+            //List<string> managedPages = new List<string>();
+            //List<string> dsLNV = sQLUser.LayDSLoaiNhanVienTuMaNV(nhanVien.MaNV);
 
-            if (dsLNV != null)
-            {
-                foreach (string tenLNV in dsLNV)
-                {
-                    phanTrangNV = PhanTrangNV.XacDinhNVQL(tenLNV);
+            //if (dsLNV != null)
+            //{
+            //    foreach (string tenLNV in dsLNV)
+            //    {
+            //        phanTrangNV = PhanTrangNV.XacDinhNVQL(tenLNV);
 
-                    if (phanTrangNV != null)
-                    {
-                        foreach (string trang in phanTrangNV.LayDSTrangTheoNV())
-                        {
-                            if (!managedPages.Contains(trang) && trang != "IndexNull" && trang != "HDDetail") // Kiểm tra trang đã tồn tại trong danh sách chưa
-                            {
-                                managedPages.Add(trang);
-                            }
-                        }
-                    }
-                }
-            }
-            else return null;
+            //        if (phanTrangNV != null)
+            //        {
+            //            foreach (string trang in phanTrangNV.LayDSTrangTheoNV())
+            //            {
+            //                if (!managedPages.Contains(trang) && trang != "IndexNull" && trang != "HDDetail") // Kiểm tra trang đã tồn tại trong danh sách chưa
+            //                {
+            //                    managedPages.Add(trang);
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+            //else return null;
 
-            return managedPages;
+            //return managedPages;
+
+            return PhanTrang();
         }
 
         //----------------------------------------------------------------
