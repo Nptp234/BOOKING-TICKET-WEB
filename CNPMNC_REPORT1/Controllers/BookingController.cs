@@ -25,6 +25,7 @@ namespace CNPMNC_REPORT1.Controllers
         SQLUser sQLUser = SQLUser.Instance;
         private GheCaretaker _caretaker = new GheCaretaker();
         private GheOriginator gheOriginator = GheOriginator.Instance;
+        private ReceiverDV receiver = new ReceiverDV();
 
         public ActionResult LichChieu(string maphim = "1", string ngay = "")
         {
@@ -182,7 +183,7 @@ namespace CNPMNC_REPORT1.Controllers
         [HttpPost]
         public ActionResult BookingFinal(string total_price, string slve, string getlistghe, string malc)
          {
-            CommandInterface command = new DatVeCommand(slve, total_price, malc, getlistghe);
+            CommandInterface command = new DatVeCommand(receiver, slve, total_price, malc, getlistghe);
             InvokerClass invoker = new InvokerClass();
             invoker.SetCommand(command);
             invoker.ExecuteCommand();

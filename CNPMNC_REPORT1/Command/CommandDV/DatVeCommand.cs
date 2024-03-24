@@ -17,6 +17,8 @@ namespace CNPMNC_REPORT1.Command.CommandDV
 
         List<VeP> vePs;
 
+        ReceiverDV Receiver;
+
         string SLVe { get; set; }
         string Total_price { get; set; }
         string Malc { get; set; }
@@ -32,20 +34,20 @@ namespace CNPMNC_REPORT1.Command.CommandDV
             vePs = new List<VeP>();
         }
 
+        public DatVeCommand(ReceiverDV receiver, string sLVe, string total_price, string malc, string getlistghe)
+        {
+            SLVe = sLVe;
+            Total_price = total_price;
+            Malc = malc;
+            this.ListGhe = getlistghe;
+
+            vePs = new List<VeP>();
+            Receiver = receiver;
+        }
+
         public void ExecuteCommand()
         {
-            string getUsername = sQLUser.KH.TenTKKH;
-
-            // total_price sẽ có dữ liệu là " ... VND", nên cần phải tách chuỗi ra dựa theo khoảng trắng và lấy kí tự đầu tiên
-            db.getData($"INSERT INTO VEPHIM VALUES ('{DateTime.Now.ToString()}', N'CHƯA THANH TOÁN', N'CHƯA HẾT HẠN', {SLVe}, {Convert.ToDouble(Total_price.Split(' ')[0].Replace(".", ""))}, {Malc}, {sQLUser.KH.MaKH});");
-            vePs = sQLve.LayVePhimLonNhat(sQLUser.KH.MaKH);
-            string idVePhim = vePs[0].MaVe.ToString();
-
-            List<string> getListGhe = ListGhe.Split(' ').ToList();
-            foreach (var item in getListGhe)
-            {
-                db.getData($"INSERT INTO VE_GHE VALUES ({idVePhim}, '{item}', N'CHƯA THANH TOÁN')");
-            }
+            Receiver.DatVe(SLVe, Total_price, Malc, ListGhe);
         }
     }
 }

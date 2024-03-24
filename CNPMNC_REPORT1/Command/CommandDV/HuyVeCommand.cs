@@ -16,6 +16,8 @@ namespace CNPMNC_REPORT1.Command.CommandDV
 
         SQLVePhim vePhim;
 
+        ReceiverDV Receiver;
+
         string MaVe {  get; set; }
 
         public HuyVeCommand(string mave)
@@ -24,13 +26,16 @@ namespace CNPMNC_REPORT1.Command.CommandDV
             vePhim = new SQLVePhim();
         }
 
+        public HuyVeCommand(ReceiverDV receiver, string mave)
+        {
+            this.MaVe = mave;
+            vePhim = new SQLVePhim();
+            Receiver = receiver;
+        }
+
         public void ExecuteCommand()
         {
-            bool isDelete = vePhim.KiemTraXoaVe(MaVe);
-            if (!isDelete)
-            {
-                ThongBao("Lỗi xóa!");
-            }
+            Receiver.HuyVe(MaVe);
         }
 
         public string ThongBao(string text)

@@ -179,6 +179,7 @@
     <Compile Include="Areas\AdminArea\AdminAreaAreaRegistration.cs" />
     <Compile Include="Command\CommandDV\DatVeCommand.cs" />
     <Compile Include="Command\CommandDV\HuyVeCommand.cs" />
+    <Compile Include="Command\CommandDV\ReceiverDV.cs" />
     <Compile Include="Command\CommandDV\ThanhToanVeCommand.cs" />
     <Compile Include="Command\CommandInterface.cs" />
     <Compile Include="Command\InvokerClass.cs" />

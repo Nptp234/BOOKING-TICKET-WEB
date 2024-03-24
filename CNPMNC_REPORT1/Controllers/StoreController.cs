@@ -20,6 +20,7 @@ namespace CNPMNC_REPORT1.Controllers
         SQLData123 data = new SQLData123();
         SQLUser user = SQLUser.Instance;
         SQLVePhim veP = new SQLVePhim();
+        ReceiverDV receiver = new ReceiverDV();
 
         public ActionResult KiemTraChuyenTrang()
         {
@@ -65,7 +66,7 @@ namespace CNPMNC_REPORT1.Controllers
 
         public ActionResult ThanhToanVeP(string MaVe, string TongGia, string ThanhTien)
         {
-            CommandInterface command = new ThanhToanVeCommand(MaVe, TongGia, ThanhTien);
+            CommandInterface command = new ThanhToanVeCommand(receiver, MaVe, TongGia, ThanhTien);
             InvokerClass invoker = new InvokerClass();
             invoker.SetCommand(command);
             invoker.ExecuteCommand();
@@ -75,7 +76,7 @@ namespace CNPMNC_REPORT1.Controllers
 
         public ActionResult XoaVe(string maVe)
         {
-            CommandInterface command = new HuyVeCommand(maVe);
+            CommandInterface command = new HuyVeCommand(receiver, maVe);
             InvokerClass invoker = new InvokerClass();
             invoker.SetCommand(command);
             invoker.ExecuteCommand();
