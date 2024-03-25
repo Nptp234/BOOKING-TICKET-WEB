@@ -10,7 +10,8 @@ namespace CNPMNC_REPORT1.Observer.Object
 {
     public class YeuThichObserver : IObserver
     {
-        SQLYeuThich sqlObject;
+        SQLYeuThich sqlObject = new SQLYeuThich();
+        List<YeuThich> obj = new List<YeuThich>();
 
         public YeuThichObserver()
         {
@@ -57,6 +58,20 @@ namespace CNPMNC_REPORT1.Observer.Object
             {
                 int index = YeuThichFactory.allYT.FindIndex(p => p.MaPhim == obj.MaPhim);
                 YeuThichFactory.allYT.RemoveAt(index);
+            }
+        }
+
+        public override void GetData()
+        {
+            obj = sqlObject.GetList();
+            CheckChanges();
+        }
+
+        public override void CheckChanges()
+        {
+            if (!IsListEqual(YeuThichFactory.allYT, obj))
+            {
+                YeuThichFactory.allYT = obj;
             }
         }
     }

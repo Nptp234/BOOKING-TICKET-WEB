@@ -10,7 +10,8 @@ namespace CNPMNC_REPORT1.Observer.Object
 {
     public class LoaiNVObserver : IObserver
     {
-        SQLLoaiNV sqlObject;
+        SQLLoaiNV sqlObject = new SQLLoaiNV();
+        List<LoaiNV> obj = new List<LoaiNV>();
 
         public LoaiNVObserver()
         {
@@ -72,6 +73,20 @@ namespace CNPMNC_REPORT1.Observer.Object
             {
                 int index = LNVFactory.allLNV.FindIndex(p => p.MaLNV == obj.MaLNV);
                 LNVFactory.allLNV.RemoveAt(index);
+            }
+        }
+
+        public override void GetData()
+        {
+            obj = sqlObject.GetList();
+            CheckChanges();
+        }
+
+        public override void CheckChanges()
+        {
+            if (!IsListEqual(LNVFactory.allLNV, obj))
+            {
+                LNVFactory.allLNV = obj;
             }
         }
     }

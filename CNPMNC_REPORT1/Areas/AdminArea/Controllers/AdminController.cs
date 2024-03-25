@@ -67,6 +67,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             var phimObserver = new PhimObserver();
             subject.DetachAll();
             subject.Attach(phimObserver);
+            subject.GetData();
 
             loaiPhimFactory = new CreateAllLP();
             phimFactory = new CreateAllFilm();
@@ -167,6 +168,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             var lpObserver = new LoaiPhimObserver();
             subject.DetachAll();
             subject.Attach(lpObserver);
+            subject.GetData();
 
             loaiPhimFactory = new CreateAllLP();
             ViewBag.DSTLF = loaiPhimFactory.CreateLoaiP();
@@ -218,6 +220,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             var ghtObserver = new GHTObserver();
             subject.DetachAll();
             subject.Attach(ghtObserver);
+            subject.GetData();
 
             GHTFactory ghtFactory = new CreateAllGHT();
             ViewBag.DSGHT = ghtFactory.CreateGHT();
@@ -271,6 +274,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             var roomObserver = new PhongChieuObserver();
             subject.DetachAll();
             subject.Attach(roomObserver);
+            subject.GetData();
 
             RoomFactory roomFac = new CreateAllPC();
             ViewBag.DSPC = roomFac.CreatePC();
@@ -333,6 +337,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             var lpcObserver = new LPCObserver();
             subject.DetachAll();
             subject.Attach(lpcObserver);
+            subject.GetData();
 
             RoomTypeFactory roomType = new CreateAllLPC();
             ViewBag.DSLPC = roomType.CreateLPC();
@@ -388,6 +393,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             var tlvpObserver = new TLVPObserver();
             subject.DetachAll();
             subject.Attach(tlvpObserver);
+            subject.GetData();
 
             TLVPFactory tlvp = new CreateAllTLVP();
             ViewBag.DSTLVP = tlvp.CreateTLVP();
@@ -476,6 +482,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             var lkhObserver = new LoaiKHObserver();
             subject.DetachAll();
             subject.Attach(lkhObserver);
+            subject.GetData();
 
             LoaiKHFactory lkh = new CreateAllLKH();
             ViewBag.GetLKH = lkh.CreateLoaiKH();
@@ -532,6 +539,7 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
             var lnvObserver = new LoaiNVObserver();
             subject.DetachAll();
             subject.Attach(lnvObserver);
+            subject.GetData();
 
             LNVFactory lnv = new CreateAllLNV();
             ViewBag.GetLNV = lnv.CreateLNV();

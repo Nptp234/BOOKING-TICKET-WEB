@@ -10,7 +10,8 @@ namespace CNPMNC_REPORT1.Observer.Object
 {
     public class LoaiKHObserver : IObserver
     {
-        SQLLoaiKH sqlLKH;
+        SQLLoaiKH sqlLKH = new SQLLoaiKH();
+        List<LoaiKH> obj = new List<LoaiKH>();
 
         public LoaiKHObserver()
         {
@@ -74,6 +75,20 @@ namespace CNPMNC_REPORT1.Observer.Object
             {
                 int index = LoaiKHFactory.allLKH.FindIndex(p => p.MaLoaiKH == lkh.MaLoaiKH);
                 LoaiKHFactory.allLKH.RemoveAt(index);
+            }
+        }
+
+        public override void GetData()
+        {
+            obj = sqlLKH.GetList();
+            CheckChanges();
+        }
+
+        public override void CheckChanges()
+        {
+            if (!IsListEqual(LoaiKHFactory.allLKH, obj))
+            {
+                LoaiKHFactory.allLKH = obj;
             }
         }
     }

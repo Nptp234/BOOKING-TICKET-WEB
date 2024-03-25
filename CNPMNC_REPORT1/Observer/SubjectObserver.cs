@@ -34,5 +34,13 @@ namespace CNPMNC_REPORT1.Observer
                 observer.PerformAction(obj, actionType);
             }
         }
+
+        public void GetData()
+        {
+            foreach (var observer in _observers)
+            {
+                observer.GetData();
+            }
+        }
     }
 }

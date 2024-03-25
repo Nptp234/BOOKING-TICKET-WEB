@@ -10,7 +10,8 @@ namespace CNPMNC_REPORT1.Observer
 {
     public class GHTObserver : IObserver
     {
-        SQLGioiHanTuoi sqlObject;
+        SQLGioiHanTuoi sqlObject = new SQLGioiHanTuoi();
+        List<GioiHanTuoi> obj = new List<GioiHanTuoi>();
 
         public GHTObserver()
         {
@@ -75,6 +76,18 @@ namespace CNPMNC_REPORT1.Observer
             }
         }
 
-        
+        public override void GetData()
+        {
+            obj = sqlObject.GetList();
+            CheckChanges();
+        }
+
+        public override void CheckChanges()
+        {
+            if (!IsListEqual(GHTFactory.allGHT, obj))
+            {
+                GHTFactory.allGHT = obj;
+            }
+        }
     }
 }

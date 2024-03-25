@@ -10,7 +10,8 @@ namespace CNPMNC_REPORT1.Observer
 {
     public class LoaiPhimObserver : IObserver
     {
-        SQLLoaiP sqlLP;
+        SQLLoaiP sqlLP = new SQLLoaiP();
+        List<LoaiPhim> obj = new List<LoaiPhim>();
 
         public LoaiPhimObserver()
         {
@@ -74,6 +75,20 @@ namespace CNPMNC_REPORT1.Observer
             {
                 int index = LoaiPhimFactory.allLoaiP.FindIndex(p => p.MaTL == lphim.MaTL);
                 LoaiPhimFactory.allLoaiP.RemoveAt(index);
+            }
+        }
+
+        public override void GetData()
+        {
+            obj = sqlLP.GetList();
+            CheckChanges();
+        }
+
+        public override void CheckChanges()
+        {
+            if (!IsListEqual(LoaiPhimFactory.allLoaiP, obj))
+            {
+                LoaiPhimFactory.allLoaiP = obj;
             }
         }
     }

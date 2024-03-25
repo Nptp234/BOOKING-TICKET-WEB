@@ -10,7 +10,9 @@ namespace CNPMNC_REPORT1.Observer
 {
     public class BinhLuanObserver : IObserver
     {
-        SQLBinhLuan sqlObject;
+        SQLBinhLuan sqlObject = new SQLBinhLuan();
+        List<BinhLuan> bls = new List<BinhLuan>();
+
         public override void PerformAction(object obj, ActionType actionType)
         {
             if (obj is BinhLuan)
@@ -50,6 +52,20 @@ namespace CNPMNC_REPORT1.Observer
                 int index = BinhLuanFactory.allBL.FindIndex(p => p.MaBL == obj.MaBL);
                 BinhLuanFactory.allBL.RemoveAt(index);
             }
+        }
+
+        public override void CheckChanges()
+        {
+            if (!IsListEqual(BinhLuanFactory.allBL, bls))
+            {
+                BinhLuanFactory.allBL = bls;
+            }
+        }
+
+        public override void GetData()
+        {
+            bls = sqlObject.GetList();
+            CheckChanges();
         }
     }
 }

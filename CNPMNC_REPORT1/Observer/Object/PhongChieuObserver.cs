@@ -10,7 +10,8 @@ namespace CNPMNC_REPORT1.Observer
 {
     public class PhongChieuObserver : IObserver
     {
-        SQLRoom sqlObject;
+        SQLRoom sqlObject = new SQLRoom();
+        List<PhongChieu> obj = new List<PhongChieu>();
 
         public PhongChieuObserver()
         {
@@ -72,6 +73,20 @@ namespace CNPMNC_REPORT1.Observer
             {
                 int index = RoomFactory.allPC.FindIndex(p => p.MaPC == obj.MaPC);
                 RoomFactory.allPC.RemoveAt(index);
+            }
+        }
+
+        public override void GetData()
+        {
+            obj = sqlObject.GetList();
+            CheckChanges();
+        }
+
+        public override void CheckChanges()
+        {
+            if (!IsListEqual(RoomFactory.allPC, obj))
+            {
+                RoomFactory.allPC = obj;
             }
         }
     }

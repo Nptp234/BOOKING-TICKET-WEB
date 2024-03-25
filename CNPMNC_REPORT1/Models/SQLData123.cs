@@ -901,7 +901,7 @@ namespace CNPMNC_REPORT1.Models
         {
             bool isSaved = false;
 
-            if (name != null && des != null)
+            if (name != null && des != 0)
             {
                 //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
                 SqlConnection connection = new SqlConnection(connectionString);
@@ -935,7 +935,7 @@ namespace CNPMNC_REPORT1.Models
         {
             bool isUpdate = false;
 
-            if (name != null && des != null)
+            if (name != null && des != 0)
             {
                 //Đối tương SqlConnection sẽ nhận tham số là thông tin chuỗi kết nối CSDL
                 SqlConnection connection = new SqlConnection(connectionString);

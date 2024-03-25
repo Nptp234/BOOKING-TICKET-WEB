@@ -11,7 +11,9 @@ namespace CNPMNC_REPORT1.Observer
 {
     public class PhimObserver : IObserver
     {
-        SQLPhim sqlPhim;
+        SQLPhim sqlPhim = new SQLPhim();
+        List<Phim> obj = new List<Phim>();
+
         public override void PerformAction(object obj, ActionType actionType)
         {
             if (obj is Phim)
@@ -69,6 +71,20 @@ namespace CNPMNC_REPORT1.Observer
             {
                 int index = PhimFactory.allPhim.FindIndex(p => p.MaPhim == phim.MaPhim);
                 PhimFactory.allPhim.RemoveAt(index);
+            }
+        }
+
+        public override void GetData()
+        {
+            obj = sqlPhim.GetList();
+            CheckChanges();
+        }
+
+        public override void CheckChanges()
+        {
+            if (!IsListEqual(PhimFactory.allPhim, obj))
+            {
+                PhimFactory.allPhim = obj;
             }
         }
     }

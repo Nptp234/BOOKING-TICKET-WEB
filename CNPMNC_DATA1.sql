@@ -358,3 +358,16 @@ BEGIN
 		JOIN inserted i ON i.MaLC = lc.MaLC
 		)
 END;
+
+select * from binhluan;
+insert into binhluan values ('3', 'phuoc1', 'bnm', 'Active', GETDATE())
+insert into binhluan values ('3', 'phuoc1', 'bnm', 'Active', GETDATE())
+insert into binhluan values ('3', 'phuoc1', 'bnm', 'Active', GETDATE())
+insert into binhluan values ('3', 'phuoc1', 'bnm', 'Active', GETDATE())
+insert into binhluan values ('3', 'phuoc1', 'bnm', 'Active', GETDATE())
+insert into binhluan values ('3', 'phuoc1', 'bnm', 'Active', GETDATE())
+
+insert into binhluan values ('3', 'phuoc1', 'bnm', 'Active', GETDATE())
+
+--Thêm LICHCHIEU vào ngày 20-10-2023, 'ENABLE', số vé là 0, Ca chiếu 2, Phòng 4(3D), Mã phim 1
+INSERT INTO LICHCHIEU VALUES(GETDATE(), 'ENABLE', 0, 3, 4, 3)

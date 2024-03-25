@@ -8,6 +8,16 @@ namespace CNPMNC_REPORT1.Observer.Object
 {
     public class XuatChieuObserver : IObserver
     {
+        public override void CheckChanges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void GetData()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void PerformAction(object obj, ActionType actionType)
         {
             if (obj is XuatChieu)

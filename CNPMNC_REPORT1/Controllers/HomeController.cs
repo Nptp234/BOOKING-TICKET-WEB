@@ -200,6 +200,7 @@ namespace CNPMNC_REPORT1.Controllers
                 var blObserver = new BinhLuanObserver();
                 subject.DetachAll();
                 subject.Attach(blObserver);
+                subject.GetData();
 
                 SingletonPhim singletonPhim = SingletonPhim.Instance;
                 List<Phim> lsPhim = singletonPhim.CreatePhim();

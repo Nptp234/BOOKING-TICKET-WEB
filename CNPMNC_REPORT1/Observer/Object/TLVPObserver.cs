@@ -10,7 +10,8 @@ namespace CNPMNC_REPORT1.Observer.Object
 {
     public class TLVPObserver : IObserver
     {
-        SQLTheLVP sqlObject;
+        SQLTheLVP sqlObject = new SQLTheLVP();
+        List<TheLoaiVaPhim> obj = new List<TheLoaiVaPhim>();
 
         public TLVPObserver()
         {
@@ -72,6 +73,20 @@ namespace CNPMNC_REPORT1.Observer.Object
             {
                 int index = TLVPFactory.allTLVP.FindIndex(p => p.MaTLP == obj.MaTLP);
                 TLVPFactory.allTLVP.RemoveAt(index);
+            }
+        }
+
+        public override void GetData()
+        {
+            obj = sqlObject.GetList();
+            CheckChanges();
+        }
+
+        public override void CheckChanges()
+        {
+            if (!IsListEqual(TLVPFactory.allTLVP, obj))
+            {
+                TLVPFactory.allTLVP = obj;
             }
         }
     }

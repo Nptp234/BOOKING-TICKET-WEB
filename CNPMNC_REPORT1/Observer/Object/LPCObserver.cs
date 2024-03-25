@@ -10,7 +10,8 @@ namespace CNPMNC_REPORT1.Observer.Object
 {
     public class LPCObserver : IObserver
     {
-        SQLRoomType sqlObject;
+        SQLRoomType sqlObject = new SQLRoomType();
+        List<LoaiPC> obj = new List<LoaiPC>();
 
         public LPCObserver()
         {
@@ -72,6 +73,20 @@ namespace CNPMNC_REPORT1.Observer.Object
             {
                 int index = RoomTypeFactory.allLPC.FindIndex(p => p.MaLPC == obj.MaLPC);
                 RoomTypeFactory.allLPC.RemoveAt(index);
+            }
+        }
+
+        public override void GetData()
+        {
+            obj = sqlObject.GetList();
+            CheckChanges();
+        }
+
+        public override void CheckChanges()
+        {
+            if (!IsListEqual(RoomTypeFactory.allLPC, obj))
+            {
+                RoomTypeFactory.allLPC = obj;
             }
         }
     }
