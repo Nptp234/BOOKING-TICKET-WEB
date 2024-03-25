@@ -10,30 +10,29 @@ namespace CNPMNC_REPORT1.Factory
     public class SingletonPhim : PhimFactory
     {
         private static SingletonPhim instance;
-        private static readonly object lockObject = new object();
+        private SQLPhim sQLPhim;
 
         private SingletonPhim()
         {
+            sQLPhim = new SQLPhim();
+            allPhim = sQLPhim.GetList();
             // Logic tạo danh sách phim
-            SQLConnection db = SQLConnection.Instance;
-            string query = "SELECT * FROM PHIM;";
-            db.OpenConnection();
-            allPhim = db.Select<Phim>(query);
-            db.CloseConnection();
+            //SQLConnection db = SQLConnection.Instance;
+            //string query = "SELECT * FROM PHIM;";
+            //db.OpenConnection();
+            //allPhim = db.Select<Phim>(query);
+            //db.CloseConnection();
         }
 
         public static SingletonPhim Instance
         {
             get
             {
-                lock (lockObject)
+                if (instance == null)
                 {
-                    if (instance == null)
-                    {
-                        instance = new SingletonPhim();
-                    }
-                    return instance;
+                    instance = new SingletonPhim();
                 }
+                return instance;
             }
         }
 

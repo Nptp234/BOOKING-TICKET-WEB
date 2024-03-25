@@ -14,6 +14,11 @@ namespace CNPMNC_REPORT1.SQLData
             sQLConnection = SQLConnection.Instance;
         }
 
+        public List<GioiHanTuoi> GetList()
+        {
+            return LayDS<GioiHanTuoi>("SELECT * FROM GIOIHANTUOI;");
+        }
+
         public bool ThemGHT(GioiHanTuoi ght)
         {
             string query = $"INSERT INTO GIOIHANTUOI VALUES(N'{ght.TenGHT}', N'{ght.MoTaGHT}')";

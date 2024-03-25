@@ -9,9 +9,17 @@ namespace CNPMNC_REPORT1.SQLFolder
 {
     public class SQLYeuThich : SQLObject
     {
+        SQLUser user;
+
         public SQLYeuThich()
         {
             sQLConnection = SQLConnection.Instance;
+            user = SQLUser.Instance;
+        }
+
+        public List<YeuThich> GetList()
+        {
+            return LayDS<YeuThich>($"SELECT * FROM YEUTHICH WHERE MaKH = '{user.KH.MaKH}';");
         }
 
         public bool ThemYT(YeuThich yt)

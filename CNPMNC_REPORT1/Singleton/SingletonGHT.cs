@@ -11,29 +11,28 @@ namespace CNPMNC_REPORT1.Singleton
     public class SingletonGHT : GHTFactory
     {
         private static SingletonGHT instance;
-        private static readonly object lockObject = new object();
+        private SQLGioiHanTuoi sQLGioiHanTuoi;
 
         private SingletonGHT()
         {
-            SQLConnection db = SQLConnection.Instance;
-            string query = "SELECT * FROM GIOIHANTUOI;";
-            db.OpenConnection();
-            allGHT = db.Select<GioiHanTuoi>(query);
-            db.CloseConnection();
+            sQLGioiHanTuoi = new SQLGioiHanTuoi();
+            allGHT = sQLGioiHanTuoi.GetList();
+            //SQLConnection db = SQLConnection.Instance;
+            //string query = "SELECT * FROM GIOIHANTUOI;";
+            //db.OpenConnection();
+            //allGHT = db.Select<GioiHanTuoi>(query);
+            //db.CloseConnection();
         }
 
         public static SingletonGHT Instance
         {
             get
             {
-                lock (lockObject)
+                if (instance == null)
                 {
-                    if (instance == null)
-                    {
-                        instance = new SingletonGHT();
-                    }
-                    return instance;
+                    instance = new SingletonGHT();
                 }
+                return instance;
             }
         }
 

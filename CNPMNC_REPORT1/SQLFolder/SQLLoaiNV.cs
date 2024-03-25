@@ -14,6 +14,11 @@ namespace CNPMNC_REPORT1.SQLFolder
             sQLConnection = SQLConnection.Instance;
         }
 
+        public List<LoaiNV> GetList()
+        {
+            return LayDS<LoaiNV>("SELECT * FROM LOAITKNV;");
+        }
+
         public bool ThemLoaiNV(LoaiNV lnv)
         {
             string query = $"INSERT INTO LOAITKNV VALUES(N'{lnv.TenLNV}')";

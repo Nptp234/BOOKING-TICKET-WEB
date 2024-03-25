@@ -10,29 +10,28 @@ namespace CNPMNC_REPORT1.Factory.FactoryBL
     public class SingletonBL : BinhLuanFactory
     {
         private static SingletonBL instance;
-        private static readonly object lockObject = new object();
+        private SQLBinhLuan sQLBinhLuan;
 
         private SingletonBL()
         {
-            SQLConnection db = SQLConnection.Instance;
-            string query = "SELECT * FROM BINHLUAN;";
-            db.OpenConnection();
-            allBL = db.Select<BinhLuan>(query);
-            db.CloseConnection();
+            sQLBinhLuan = new SQLBinhLuan();
+            allBL = sQLBinhLuan.GetList();
+            //SQLConnection db = SQLConnection.Instance;
+            //string query = "SELECT * FROM BINHLUAN;";
+            //db.OpenConnection();
+            //allBL = db.Select<BinhLuan>(query);
+            //db.CloseConnection();
         }
 
         public static SingletonBL Instance
         {
             get
             {
-                lock (lockObject)
+                if (instance == null)
                 {
-                    if (instance == null)
-                    {
-                        instance = new SingletonBL();
-                    }
-                    return instance;
+                    instance = new SingletonBL();
                 }
+                return instance;
             }
         }
 

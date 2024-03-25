@@ -14,6 +14,11 @@ namespace CNPMNC_REPORT1.SQLFolder
             sQLConnection = SQLConnection.Instance;
         }
 
+        public List<LoaiPC> GetList()
+        {
+            return LayDS<LoaiPC>("SELECT * FROM LOAIPC;");
+        }
+
         public bool ThemLPC(LoaiPC lpc)
         {
             string query = $"INSERT INTO LOAIPC VALUES(N'{lpc.TenLPC}', N'{lpc.MoTaLPC}')";

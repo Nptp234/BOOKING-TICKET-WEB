@@ -9,12 +9,14 @@ namespace CNPMNC_REPORT1.SQLData
 {
     public class SQLBinhLuan : SQLObject
     {
-        SingletonBL singletonBL;
-
         public SQLBinhLuan()
         {
             sQLConnection = SQLConnection.Instance;
-            singletonBL = SingletonBL.Instance;
+        }
+
+        public List<BinhLuan> GetList()
+        {
+            return LayDS<BinhLuan>("SELECT * FROM BINHLUAN;");
         }
 
         public bool ThemBL(BinhLuan bl)

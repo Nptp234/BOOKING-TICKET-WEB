@@ -15,6 +15,11 @@ namespace CNPMNC_REPORT1.SQLFolder
             sQLConnection = SQLConnection.Instance;
         }
 
+        public List<TheLoaiVaPhim> GetList()
+        {
+            return LayDS<TheLoaiVaPhim>("SELECT * FROM TL_P;");
+        }
+
         public bool ThemTLVP(TheLoaiVaPhim lPhim)
         {
             string query = $"INSERT INTO TL_P VALUES('{lPhim.MaPhim}', '{lPhim.MaTL}')";

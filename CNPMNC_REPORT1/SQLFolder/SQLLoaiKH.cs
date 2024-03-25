@@ -14,6 +14,11 @@ namespace CNPMNC_REPORT1.SQLFolder
             sQLConnection = SQLConnection.Instance;
         }
 
+        public List<LoaiKH> GetList()
+        {
+            return LayDS<LoaiKH>("SELECT * FROM LOAIKH;");
+        }
+
         public bool ThemLoaiKH(LoaiKH lkh)
         {
             string query = $"INSERT INTO LOAIKH VALUES(N'{lkh.TenLKH}', '{lkh.ChietKhau}')";

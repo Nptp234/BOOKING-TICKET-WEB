@@ -11,11 +11,14 @@ namespace CNPMNC_REPORT1.SQLData
 {
     public class SQLPhim : SQLObject
     {
-        SingletonPhim singletonPhim;
         public SQLPhim()
         {
             sQLConnection = SQLConnection.Instance;
-            singletonPhim = SingletonPhim.Instance;
+        }
+
+        public List<Phim> GetList()
+        {
+            return LayDS<Phim>("SELECT * FROM PHIM;");
         }
 
         public bool ThemPhim(Phim phim)

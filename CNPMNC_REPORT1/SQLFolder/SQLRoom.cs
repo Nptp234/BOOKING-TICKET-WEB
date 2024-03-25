@@ -14,6 +14,11 @@ namespace CNPMNC_REPORT1.SQLFolder
             sQLConnection = SQLConnection.Instance;
         }
 
+        public List<PhongChieu> GetList()
+        {
+            return LayDS<PhongChieu>("SELECT * FROM PHONGCHIEU;");
+        }
+
         public bool ThemPC(PhongChieu room)
         {
             string query = $"INSERT INTO PHONGCHIEU VALUES(N'{room.TenPC}', '{room.SLGheThuong}', '{room.SLGheVIP}', '{room.MaLPC}')";

@@ -14,6 +14,11 @@ namespace CNPMNC_REPORT1.SQLData
             sQLConnection = SQLConnection.Instance;
         }
 
+        public List<LoaiPhim> GetList()
+        {
+            return LayDS<LoaiPhim>("SELECT * FROM THELOAIP;");
+        }
+
         public bool ThemLoaiPhim(LoaiPhim lPhim)
         {
             string query = $"INSERT INTO THELOAIP VALUES(N'{lPhim.TenTL}', N'{lPhim.MoTaTL}')";
