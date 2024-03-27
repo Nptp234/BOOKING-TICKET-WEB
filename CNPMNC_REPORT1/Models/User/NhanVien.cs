@@ -28,8 +28,12 @@ namespace CNPMNC_REPORT1.Models.User
             TrangThaiTKNV = trangThaiTKNV;
         }
 
-        public NhanVien(string maNV, string hoTenNV, string email, string matKhauNV, string trangThaiTKNV) : this(maNV, hoTenNV, email, matKhauNV)
+        public NhanVien(string maNV, string hoTenNV, string email, string matKhauNV, string trangThaiTKNV)
         {
+            MaNV = maNV;
+            HoTenNV = hoTenNV;
+            Email = email;
+            MatKhauNV = matKhauNV;
             TrangThaiTKNV = trangThaiTKNV;
         }
     }

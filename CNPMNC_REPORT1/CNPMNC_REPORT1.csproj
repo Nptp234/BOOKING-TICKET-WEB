@@ -177,6 +177,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\AdminArea\AdminAreaAreaRegistration.cs" />
+    <Compile Include="Areas\AdminArea\Controllers\ManagerController.cs" />
     <Compile Include="Command\CommandDV\DatVeCommand.cs" />
     <Compile Include="Command\CommandDV\HuyVeCommand.cs" />
     <Compile Include="Command\CommandDV\ReceiverDV.cs" />
@@ -232,6 +233,7 @@
     <Compile Include="Models\PhongChieuPhim\LoaiPC.cs" />
     <Compile Include="Models\PhongChieuPhim\PhongChieu.cs" />
     <Compile Include="Models\SQLData123.cs" />
+    <Compile Include="Models\User\CapBacNV.cs" />
     <Compile Include="Models\User\KhachHang.cs" />
     <Compile Include="Models\User\LoaiKH.cs" />
     <Compile Include="Models\User\LoaiNV.cs" />
@@ -426,6 +428,9 @@
     <Content Include="Areas\AdminArea\Views\Admin\ReportHD.cshtml" />
     <Content Include="Areas\AdminArea\Views\Admin\HDDetail.cshtml" />
     <Content Include="Areas\AdminArea\Views\Admin\IndexNull.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Manager\Index.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Shared\_ManagerLayout.cshtml" />
+    <Content Include="Areas\AdminArea\Views\Manager\AddStaffForm.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />

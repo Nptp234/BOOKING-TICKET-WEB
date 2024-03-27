@@ -118,6 +118,38 @@ namespace CNPMNC_REPORT1.SQLData
             else return false;
         }
 
+        private bool ThucHienTruyVanThemNV(NhanVien nv)
+        {
+            string query = $"INSERT INTO NHANVIEN VALUES( N'{nv.HoTenNV}', '{nv.Email}', '{nv.MatKhauNV}', '{nv.TrangThaiTKNV}')";
+
+            return ThucHienTruyVan(query);
+        }
+
+        private bool ThucHienTruyVanThemLoaiNV(string manv, string malnv)
+        {
+            string query = $"INSERT INTO PHANQUYENNV VALUES( '{malnv}', '{manv}'";
+
+            return ThucHienTruyVan(query);
+        }
+
+        public bool ThemNV(NhanVien nv, string tenlnv)
+        {
+            if (!KiemTraEmailNDNV(nv.Email)) return false;
+
+            if (ThucHienTruyVanThemNV(nv))
+            {
+                string query = $"SELECT * FROM NHANVIEN WHERE Email = '{nv.Email}'";
+                List<NhanVien> ls = LayDS<NhanVien>(query);
+
+                string manv = ls[0].MaNV.ToString().Trim();
+                string malnv = LayMaLNVTuTenLNV(tenlnv);
+
+                if (ThucHienTruyVanThemLoaiNV(manv, malnv)) return true;
+                else return false;
+            }
+            else return false;
+        }
+
         public bool CapNhatKH(KhachHang kh)
         {
             bool updateEmail = CapNhatEmailKH(kh);
@@ -197,6 +229,21 @@ namespace CNPMNC_REPORT1.SQLData
                 return true;
             }
         }
+        public bool KiemTraEmailNDNV(string email)
+        {
+            string query = $"SELECT * FROM NHANVIEN WHERE Email = '{email}'";
+
+            List<NhanVien> ls = new List<NhanVien>();
+
+            ls = LayDS<NhanVien>(query);
+
+            if (ls.Count > 0)
+            {
+                return false;
+            }
+            else return true;
+        }
+
 
         public List<PhanQuyenNV> LayDanhSachPhanQuyen(string maNV)
         {
@@ -302,6 +349,31 @@ namespace CNPMNC_REPORT1.SQLData
                 khachHang = lsKH[0];
             }
             return khachHang;
+        }
+
+        public CapBacNV LayMaCBTuMaNV(string manv)
+        {
+            string query = $"SELECT * FROM PHANQUYENCB WHERE MaNV = '{manv}'";
+
+            List<CapBacNV> ls = new List<CapBacNV>();
+            ls = LayDS<CapBacNV>(query);
+
+            CapBacNV cb = new CapBacNV();
+            if (ls.Count > 0)
+            {
+                cb = ls[0];
+            }
+            return cb;
+        }
+
+        public string LayMaLNVTuTenLNV(string tenlnv)
+        {
+            string query = $"SELECT MaLNV FROM LOAITKNV WHERE TenLNV = '{tenlnv}'";
+            List<LoaiNV> ls = new List<LoaiNV>();
+
+            ls = LayDS<LoaiNV>(query);
+            if (ls == null) return null;
+            else return ls[0].MaLNV.ToString().Trim();
         }
 
     }

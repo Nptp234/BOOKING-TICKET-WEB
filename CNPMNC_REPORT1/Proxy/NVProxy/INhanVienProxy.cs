@@ -8,5 +8,6 @@ namespace CNPMNC_REPORT1.Proxy.NVProxy
     public interface INhanVienProxy
     {
         List<string> PhanLoaiTrangTheoLNV();
+        bool PhanQuyenQL();
     }
 }

@@ -34,10 +34,30 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
         PhimFactory phimFactory;
         LoaiPhimFactory loaiPhimFactory;
 
+        
+
         // SubjectObserver ở mức Controller
         private static readonly SubjectObserver subject = new SubjectObserver();
 
         public ActionResult IndexNull()
+        {
+            SQLUser sQLUser = SQLUser.Instance;
+            NhanVien nv = new NhanVien();
+
+            nv = sQLUser.NV;
+
+            if (!CheckManager(nv.MaNV))
+            {
+                return GoToPageStaff();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Manager");
+            }
+
+        }
+
+        public ActionResult GoToPageStaff()
         {
             SQLUser sQLUser = SQLUser.Instance;
             NhanVien nv = new NhanVien();
@@ -52,15 +72,24 @@ namespace CNPMNC_REPORT1.Areas.AdminArea.Controllers
 
             if (managedPages == null)
             {
-                return View();
+                return View("IndexNull");
             }
             else
             {
                 string page = managedPages[0].ToString();
                 return RedirectToAction(page, "Admin");
             }
-
         }
+
+
+        public bool CheckManager(string manv)
+        {
+            SQLUser sQLUser = SQLUser.Instance;
+            INhanVienProxy nvProxy = new NhanVienProxy(sQLUser.NV);
+
+            return nvProxy.PhanQuyenQL();
+        }
+
 
         public ActionResult Film()
         {

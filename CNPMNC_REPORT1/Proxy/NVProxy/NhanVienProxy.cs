@@ -57,6 +57,27 @@ namespace CNPMNC_REPORT1.Proxy.NVProxy
         private Dictionary<FolderNV, List<AComponent>> Folder;
         private FolderNV folder;
 
+        public bool PhanQuyenQL()
+        {
+            CapBacNV cb = new CapBacNV();
+            string tenCB = "";
+
+            if (sQLUser.NV != null)
+            {
+                cb = sQLUser.LayMaCBTuMaNV(sQLUser.NV.MaNV);
+
+                if (cb != null) tenCB = cb.MaCB;
+                else return false;
+
+                switch (tenCB.Trim())
+                {
+                    case "TP": return true;
+                    default: return false;
+                }
+            }
+            else return false;
+        }
+
         public List<string> PhanTrang()
         {
             // Danh sách các trang quản lý được phân loại

@@ -1,0 +1,125 @@
+﻿
+
+<div id="formaddnew">
+
+    @*<form action="@Url.Action("AddStaff", "Manager")" method="post">
+
+        </form>*@
+
+    @*//Full Name*@
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Full name: </span>
+        </div>
+        <input type="text" class="form-control" min="5" name="HoTenNV" required>
+    </div>
+
+    @*//Email*@
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Email: </span>
+        </div>
+        <input type="email" class="form-control" name="Email" required>
+    </div>
+
+    @*//Pass*@
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Pass: </span>
+        </div>
+        <input type="text" class="form-control" min="8" name="MatKhauNV" required>
+    </div>
+
+    @*//Status*@
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Status: </span>
+        </div>
+        <input id="inputchoice1" class="form-control" style="display:none;" min="8" name="TrangThaiTKNV" required>
+        <select id="choice1" style="width:15%; border-radius:0px 5px 5px 0px;" required>
+            <option value="ACTIVE">ACTIVE</option>
+            <option value="BAN">BAN</option>
+            <option value="UNACTIVE">UNACTIVE</option>
+        </select>
+    </div>
+
+    @*//Type*@
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Type: </span>
+        </div>
+        <input id="inputchoice2" class="form-control" style="display:none;" min="8" name="LoaiNV" required>
+        <select id="choice2" style="width:20%; border-radius:0px 5px 5px 0px;" required>
+            @if (ViewBag.DSLNV != null)
+            {
+                foreach (var item in ViewBag.DSLNV)
+                {
+                    <option value="@item">@item</option>
+                }
+            }
+        </select>
+    </div>
+
+    @*button xác nhận*@
+    <button name="submit" class="btn btn-outline-info">Add</button>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("button[name='submit']").click(function (event) {
+
+            // Lấy giá trị của tất cả các input
+            var hoTenNV = $("input[name='HoTenNV']").val();
+            var email = $("input[name='Email']").val();
+            var matKhauNV = $("input[name='MatKhauNV']").val();
+            var trangThaiTKNV = $("#choice1").val();
+            var loaiNV = $("#choice2").val();
+
+            if (hoTenNV.length < 5) {
+                alert("Input Fail FullName!");
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                alert("Input Fail Email!");
+                return;
+            }
+
+            if (matKhauNV.length < 8) {
+                alert("Input Fail Pass!");
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("AddStaff", "Manager")',
+                type: 'POST',
+                data: {
+                    HoTenNV: hoTenNV,
+                    Email: email,
+                    MatKhauNV: matKhauNV,
+                    Status: trangThaiTKNV,
+                    Type: loaiNV
+                },
+                success: function (data) {
+                    // Xử lý kết quả từ action nếu cần
+                    // Ví dụ: hiển thị thông báo thành công, làm mới trang, chuyển hướng, vv.
+                    console.log('AddStaff action response:', data);
+                },
+                error: function () {
+                    alert('Error submitting form.');
+                }
+            });
+        });
+
+    });
+</script>
+
+<script>
+    //kiểm tra email
+    function isValidEmail(email) {
+        var emailRegex = /\S+\S+\.\S+/;
+        return emailRegex.test(email);
+    }
+</script>

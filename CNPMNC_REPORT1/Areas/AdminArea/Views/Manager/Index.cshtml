@@ -1,0 +1,103 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/AdminArea/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<link href="~/Areas/AdminArea/Content/customermanager_style.css" rel="stylesheet" />
+<nav class="header_nav">
+    <a class="top_content">STAFF MANAGER</a>
+</nav>
+<div class="container">
+
+    <br />
+    <p class="smaller_content" style="color:red;">@ViewBag.ThongBaoLuu</p>
+
+    <button class="btn btn-secondary" type="button" id="addnewphim" aria-expanded="false" style="margin-bottom:20px;">
+        Add Staff Account
+    </button>
+
+    <div id="popupContainer" style="display: none;"></div>
+
+
+
+    
+</div>
+
+@*script view partial form add*@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#addnewphim").click(function () {
+            $.ajax({
+                url: '@Url.Action("AddStaffForm", "Manager")',
+                type: 'GET',
+                success: function (data) {
+                    //hiển thị partial view trong popup container
+                    $("#popupContainer").html(data);
+                    $("#popupContainer").show();
+                },
+                error: function () {
+                    alert('Error loading partial view.');
+                }
+            });
+        });
+    });
+</script>
+
+
+<script type="text/javascript">
+    // Lấy tham chiếu đến button và thẻ cần ẩn/hiện
+    var toggleButton = document.getElementById("button_showlist");
+    var targetDiv = document.getElementById("list");
+
+    // Gán sự kiện click cho nút (button)
+    toggleButton.addEventListener("click", function () {
+        // Kiểm tra xem thẻ đang ẩn hay hiện
+        if (targetDiv.style.display === "none" || targetDiv.style.display === "") {
+            // Nếu thẻ đang ẩn hoặc không có style display, thì hiển thị thẻ
+            targetDiv.style.display = "table"; // Hoặc có thể sử dụng "inline" hoặc "inline-block" tùy vào loại thẻ
+            toggleButton.innerHTML = "Ẩn danh sách"
+        } else {
+            // Nếu thẻ đang hiện, thì ẩn thẻ
+            targetDiv.style.display = "none";
+            toggleButton.innerHTML = "Hiện danh sách"
+        }
+    });
+
+    // Lấy tham chiếu đến button và thẻ cần ẩn/hiện
+    var addbt = document.getElementById("addnewphim");
+    var form = document.getElementById("formaddnew");
+
+    // Gán sự kiện click cho nút (button)
+    addbt.addEventListener("click", function () {
+        // Kiểm tra xem thẻ đang ẩn hay hiện
+        if (form.style.display === "none" || form.style.display === "") {
+            // Nếu thẻ đang ẩn hoặc không có style display, thì hiển thị thẻ
+            form.style.display = "block"; // Hoặc có thể sử dụng "inline" hoặc "inline-block" tùy vào loại thẻ
+        } else {
+            // Nếu thẻ đang hiện, thì ẩn thẻ
+            form.style.display = "none";
+        }
+    });
+
+    var choice1 = document.getElementById("choice1");
+    var inputchoice1 = document.getElementById("inputchoice1");
+
+    choice1.onchange = function () {
+        var selectchoice = choice1.value;
+
+        inputchoice1.value = selectchoice;
+    };
+
+    var choice2 = document.getElementById("choice2");
+    var inputchoice2 = document.getElementById("inputchoice2");
+
+    choice2.onchange = function () {
+        var selectchoice = choice2.value;
+
+        inputchoice2.value = selectchoice;
+    };
+
+
+</script>

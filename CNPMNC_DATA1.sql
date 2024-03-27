@@ -159,6 +159,17 @@ CREATE TABLE CHITIETHD(
 	PRIMARY KEY (MaVe, MaHD)
 )
 go
+CREATE TABLE CAPBAC(
+	MaCB CHAR(10) PRIMARY KEY,
+	TenCB VARCHAR(50)
+)
+go
+CREATE TABLE PHANQUYENCB(
+	MaNV INT REFERENCES NHANVIEN(MaNV),
+	MaCB CHAR(10) REFERENCES CAPBAC(MaCB),
+	PRIMARY KEY (MaNV)
+)
+go
 INSERT INTO GIOIHANTUOI values ('P', N'Mọi lứa tuổi')
 INSERT INTO GIOIHANTUOI values ('P13', N'Trên 13 tuổi')
 INSERT INTO GIOIHANTUOI values ('P16', N'Trên 16 tuổi')
@@ -321,6 +332,10 @@ INSERT INTO PHANQUYENNV VALUES ('2', '1')
 INSERT INTO PHANQUYENNV VALUES ('4', '1')
 --INSERT INTO PHANQUYENNV VALUES ('6', '1')
 
+INSERT INTO CAPBAC VALUES ('TP', 'TruongPhong')
+INSERT INTO PHANQUYENCB VALUES ('1', 'TP')
+
+
 ----Truy xuất dữ liệu từ các bảng
 --SELECT* FROM HOADON
 --SELECT* FROM CHITIETHD
@@ -343,6 +358,8 @@ INSERT INTO PHANQUYENNV VALUES ('4', '1')
 --SELECT* FROM PHONGCHIEU
 --SELECT* FROM VEPHIM
 --SELECT* FROM VE_GHE
+--SELECT* FROM CAPBAC
+--SELECT* FROM PHANQUYENCB
 
 -- Cập nhật thông tin về lượt mua cho phim
 CREATE TRIGGER TRG_UPDATE_LUOTMUAP 
@@ -358,16 +375,3 @@ BEGIN
 		JOIN inserted i ON i.MaLC = lc.MaLC
 		)
 END;
-
-select * from binhluan;
-insert into binhluan values ('3', 'phuoc1', 'bnm', 'Active', GETDATE())
-insert into binhluan values ('3', 'phuoc1', 'bnm', 'Active', GETDATE())
-insert into binhluan values ('3', 'phuoc1', 'bnm', 'Active', GETDATE())
-insert into binhluan values ('3', 'phuoc1', 'bnm', 'Active', GETDATE())
-insert into binhluan values ('3', 'phuoc1', 'bnm', 'Active', GETDATE())
-insert into binhluan values ('3', 'phuoc1', 'bnm', 'Active', GETDATE())
-
-insert into binhluan values ('3', 'phuoc1', 'bnm', 'Active', GETDATE())
-
---Thêm LICHCHIEU vào ngày 20-10-2023, 'ENABLE', số vé là 0, Ca chiếu 2, Phòng 4(3D), Mã phim 1
-INSERT INTO LICHCHIEU VALUES(GETDATE(), 'ENABLE', 0, 3, 4, 3)

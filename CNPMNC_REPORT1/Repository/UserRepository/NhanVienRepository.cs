@@ -34,5 +34,15 @@ namespace CNPMNC_REPORT1.Repository.UserRepository
         {
             throw new NotImplementedException();
         }
+
+        public bool ThemNV(NhanVien nv, string tenLNV)
+        {
+            return sqlUser.ThemNV(nv, tenLNV);
+        }
+
+        public List<string> LayDSLNV()
+        {
+            return sqlUser.LayDSLoaiNhanVienTuMaNV(sqlUser.NV.MaNV);
+        }
     }
 }
